@@ -1,33 +1,51 @@
-version: "3.9"
-
+version: '3.9'
 services:
-   db:
-      image: mysql:8.0
-      container_name: appsDB
-      restart: always
-      ports:
-      - '6603:3306'
-      environment:
-         MYSQL_ROOT_PASSWORD: helloworld
-
-   phpmyadmin:
-      depends_on:
-      - db
-      image: phpmyadmin/phpmyadmin
-      container_name: phpmyadmin
-      restart: always
-      ports:
+  mysql:
+    image: mysql:8.0
+    container_name: manga-reader-db
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "manga-reader"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "root"
+    volumes:
+      - manga-reader-db-data:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: manga-reader-phpmyadmin
+    restart: always
+    ports:
       - '8080:80'
-      environment:
-         PMA_HOST: db
-   web:
-      build:
-         context: ./src/manga-reader-webapp
-         dockerfile: Dockerfile
-      ports:
-         - "3000:3000"
-      depends_on:
-         - redis
-         - db
-   redis:
-      image: "redis:alpine"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: user
+      PMA_PASSWORD: root
+  redis:
+    image: redis:6.0.9
+    container_name: manga-reader-redis
+    restart: always
+    ports:
+      - "6379:6379"
+  web:
+   build:
+      context: ./src/manga-reader-webapp
+      dockerfile: Dockerfile
+   container_name: manga-reader-web
+   restart: always
+   ports:
+      - "3000:3000"
+   environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=manga-reader
+   
+volumes:
+  manga-reader-db-data:
