@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Hello World! on the App 1`] = `
+<div
+  className=""
+>
+  <h1
+    className="text-3xl font-bold underline"
+  >
+    Hello world!
+  </h1>
+</div>
+`;
