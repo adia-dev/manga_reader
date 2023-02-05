@@ -29,6 +29,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: cd $WEB_APP_PATH && npm ci
-      - run: cd $WEB_APP_PATH && npm run build --if-present
-      - run: cd $WEB_APP_PATH && npm test
+      - run: npm ci
+        working-directory: ${{ env.WEB_APP_PATH }}
+      - run: npm run build --if-present
+        working-directory: ${{ env.WEB_APP_PATH }}
+      - run: npm test
+        working-directory: ${{ env.WEB_APP_PATH }}
