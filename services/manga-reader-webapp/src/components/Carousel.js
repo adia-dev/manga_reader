@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { BiChevronDown, BiChevronRight, BiChevronUp } from "react-icons/bi";
+import { BiCaretDown, BiChevronDown, BiChevronRight, BiChevronUp } from "react-icons/bi";
+import { BsArrowDown, BsArrowDownShort, BsArrowLeftShort, BsArrowRightShort, BsArrowUpShort, BsFillMouseFill } from "react-icons/bs";
 import MangaData from "../data/mangas.json";
 
 const Carousel = () => {
   const [current, setCurrent] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const [startMouseY, setStartMouseY] = useState(0);
+  const [startMouseX, setStartMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
+  const [mouseX, setMouseX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [mangas, setMangas] = useState(MangaData);
   const [canPlayTrailer, setCanPlayTrailer] = useState(false);
   const [canPlayTrailerTimeout, setCanPlayTrailerTimeout] = useState(null);
 
-
   // load manga videos with require
-
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,12 +29,19 @@ const Carousel = () => {
       });
     }, 5000);
 
-
     const handleKeyDown = (e) => {
       if (e.key === "ArrowUp") {
         setCurrent(Math.max(current - 1, 0));
       } else if (e.key === "ArrowDown") {
         setCurrent(Math.min(current + 1, mangas.length - 1));
+      }
+
+      if (e.key === "ArrowLeft") {
+        setCurrentPage(Math.max(currentPage - 1, 0));
+      } else if (e.key === "ArrowRight") {
+        setCurrentPage(
+          Math.min(currentPage + 1, mangas[current].page_count - 1)
+        );
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -41,12 +50,15 @@ const Carousel = () => {
       clearInterval(interval);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [mangas, current, isDragging]);
+  }, [mangas, current, isDragging, currentPage]);
 
   const SCROLL_TRESHOLD = 150;
 
-  const MouseDelta = () => mouseY - startMouseY;
-  const AbsMouseDelta = () => Math.abs(MouseDelta());
+  const MouseDeltaY = () => mouseY - startMouseY;
+  const MouseDeltaX = () => mouseX - startMouseX;
+
+  const AbsMouseDeltaY = () => Math.abs(MouseDeltaY());
+  const AbsMouseDeltaX = () => Math.abs(MouseDeltaX());
 
   function minmax(val, min, max) {
     return Math.min(Math.max(val, min), max);
@@ -56,7 +68,9 @@ const Carousel = () => {
   const OnMouseDown = (e) => {
     setIsDragging(true);
     setStartMouseY(e.clientY);
+    setStartMouseX(e.clientX);
     setMouseY(e.clientY);
+    setMouseX(e.clientX);
 
     if (canPlayTrailerTimeout) {
       clearTimeout(canPlayTrailerTimeout);
@@ -69,13 +83,13 @@ const Carousel = () => {
         setCanPlayTrailer(true);
       }, 1500)
     );
-
   };
 
   const OnMouseMove = (e) => {
     if (!isDragging) return;
 
     setMouseY(e.clientY);
+    setMouseX(e.clientX);
   };
 
   const OnMouseUpOrLeave = (e) => {
@@ -83,7 +97,9 @@ const Carousel = () => {
 
     setIsDragging(false);
     setMouseY(e.clientY);
+    setMouseX(e.clientX);
     setStartMouseY(e.clientY);
+    setStartMouseX(e.clientX);
 
     if (canPlayTrailerTimeout) {
       clearTimeout(canPlayTrailerTimeout);
@@ -91,11 +107,22 @@ const Carousel = () => {
     setCanPlayTrailerTimeout(null);
     setCanPlayTrailer(false);
 
-
     if (mouseY - startMouseY > SCROLL_TRESHOLD) {
       setCurrent(Math.max(current - 1, 0));
+      return;
     } else if (mouseY - startMouseY < -SCROLL_TRESHOLD) {
       setCurrent(Math.min(current + 1, mangas.length - 1));
+      return;
+    }
+
+    if (mouseX - startMouseX > SCROLL_TRESHOLD) {
+      setCurrentPage(Math.max(currentPage - 1, 0));
+      console.log("left");
+      return;
+    } else if (mouseX - startMouseX < -SCROLL_TRESHOLD) {
+      console.log("right");
+      setCurrentPage(Math.min(currentPage + 1, mangas[current].page_count - 1));
+      return;
     }
   };
 
@@ -105,13 +132,42 @@ const Carousel = () => {
       id="carousel"
     >
       <div className="w-screen h-screen overflow-hidden flex flex-col p-10 items-center justify-center absolute top-0 left-0 z-10 pointer-events-none">
+        <div className="absolute w-full top-0 left-0 flex justify-between px-6 py-14 transition duration-1000 delay-300 ease-in-out"
+          style={{
+            transform: `scale(${isDragging ? 0.9 : 1.5}, 1)`,
+          }}
+        >
+          <div className="flex flex-col items-center space-y-2">
+            <BsFillMouseFill className="" />
+            <div className="flex flex-col items-center text-black">
+              <div className="w-8 h-8 rounded-lg border bg-white grid place-items-center m-1">
+                <BsArrowUpShort className="" />
+              </div>
+              <div className="flex items-center">
+                <div className="w-8 h-8 rounded-lg border bg-white grid place-items-center m-1">
+                  <BsArrowLeftShort className="" />
+                </div>
+                <div className="w-8 h-8 rounded-lg border bg-white grid place-items-center m-1">
+                  <BsArrowDownShort className="" />
+                </div>
+                <div className="w-8 h-8 rounded-lg border bg-white grid place-items-center m-1">
+                  <BsArrowRightShort className="" />
+                </div>
+              </div>
+            </div>
+            <p className="text-xs text-gray-300">Mouse and Keyboard support</p>
+          </div>
+          <p className="text-xs text-gray-300">
+            {currentPage + 1}/{mangas[current].page_count}
+          </p>
+        </div>
         {current > 0 && (
           <div
             className="flex flex-col items-center absolute top-0 transition delay-200 ease-out duration-1000"
             style={{
               transform: `translateY(${isDragging ? 100 : -200
-                }%) scale(${minmax(MouseDelta() / 100, 0.8, 1)})`,
-              color: MouseDelta() > SCROLL_TRESHOLD ? "green" : "white",
+                }%) scale(${minmax(MouseDeltaY() / 100, 0.8, 1)})`,
+              color: MouseDeltaY() > SCROLL_TRESHOLD ? "green" : "white",
             }}
           >
             <div className="flex flex-col items-center animate-bounce">
@@ -124,9 +180,9 @@ const Carousel = () => {
           <div
             className="absolute bottom-0 transition delay-200 ease-out duration-1000"
             style={{
-              transform: `translateY(${isDragging ? -100 : 200}%) scale(${MouseDelta() ? 0.8 : minmax(MouseDelta() / 100, 0.8, 1)
+              transform: `translateY(${isDragging ? -100 : 200}%) scale(${MouseDeltaY() ? 0.8 : minmax(MouseDeltaY() / 100, 0.8, 1)
                 })`,
-              color: MouseDelta() < -SCROLL_TRESHOLD ? "green" : "white",
+              color: MouseDeltaY() < -SCROLL_TRESHOLD ? "green" : "white",
             }}
           >
             <div className="flex flex-col items-center animate-bounce">
@@ -139,8 +195,8 @@ const Carousel = () => {
           <div
             className="flex items-center justify-center absolute right-0 mb-10 mr-1 transition delay-200 ease-out duration-1000"
             style={{
-              transform: `translateX(${isDragging ? 0 : 200}%)`,
-              color: MouseDelta() < -SCROLL_TRESHOLD ? "green" : "white",
+              transform: `translateX(${isDragging ? -100 : 200}%)`,
+              color: MouseDeltaY() < -SCROLL_TRESHOLD ? "green" : "white",
             }}
           >
             <p className="text-xs mr-2">{mangas[current].page_count} pages</p>
@@ -151,27 +207,31 @@ const Carousel = () => {
       {mangas.map((manga, index) => {
         return (
           <div
-            className="flex flex-col items-center justify-center h-full relative transition duration-500 delay-100 ease-in-out transform cursor-pointer group"
+            className="flex flex-col overflow-hidden items-center justify-center h-full relative transition duration-500 delay-100 ease-in-out transform cursor-pointer group"
             onMouseDown={OnMouseDown}
             onMouseMove={OnMouseMove}
             onMouseUp={OnMouseUpOrLeave}
             onMouseLeave={OnMouseUpOrLeave}
             style={{
               transform: `${isDragging
-                ? `translateY(math(${current * -100}%) + ${MouseDelta()}px)`
-                : `translateY(${current * -100}%)`
+                ? `translate(
+                    ${currentPage * -100}%, 
+                    math(${current * -100}%) + ${MouseDeltaY()}px)`
+                : `translate(
+                    ${currentPage * -100}%,
+                    ${current * -100}%)`
                 }`,
               filter: `blur(${minmax(
-                AbsMouseDelta() / 50,
+                AbsMouseDeltaY() / 50,
                 0,
                 10
-              )}px) brightness(${1 - minmax(AbsMouseDelta() / 1000, 0, 0.5)})`,
+              )}px) brightness(${1 - minmax(AbsMouseDeltaY() / 1000, 0, 0.5)})`,
             }}
             key={manga.id}
             data-testid="manga"
           >
             <div className="w-full h-full overflow-hidden absolute top-0 left-0 z-0 group-active:brightness-50 rounded-3xl scale-105 group-active:scale-90 transition duration-500 ease-in-out delay-100">
-              <div className="absolute flex items-center justify-center w-full h-full">
+              <div className="absolute flex items-center justify-center w-full h-full ">
                 <img
                   src={manga.image}
                   alt="manga"
@@ -191,7 +251,8 @@ const Carousel = () => {
                   className="flex items-center justify-center w-full h-full object-cover absolute top-0 left-0 z-10"
                   autoPlay
                   loop
-                  src={require(`../assets/videos/trailers/${manga.trailerID}.mp4`)} ></video>
+                  src={require(`../assets/videos/trailers/${manga.trailerID}.mp4`)}
+                ></video>
               )}
             </div>
             <img
@@ -203,8 +264,6 @@ const Carousel = () => {
               }}
               draggable="false"
             />
-
-
           </div>
         );
       })}
