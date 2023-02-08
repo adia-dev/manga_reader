@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BiChevronDown, BiChevronUp } from "react-icons/bi";
+import { BiChevronDown, BiChevronRight, BiChevronUp } from "react-icons/bi";
 
 const Carousel = () => {
   const [current, setCurrent] = useState(0);
@@ -68,16 +68,12 @@ const Carousel = () => {
     setIsDragging(true);
     setStartMouseY(e.clientY);
     setMouseY(e.clientY);
-
-    console.log("mouseY: %s", mouseY);
   };
 
   const OnMouseMove = (e) => {
     if (!isDragging) return;
 
     setMouseY(e.clientY);
-
-    console.log("mouseY: %s", mouseY);
   };
 
   const OnMouseUpOrLeave = (e) => {
@@ -88,7 +84,6 @@ const Carousel = () => {
     setStartMouseY(e.clientY);
 
     if (mouseY - startMouseY > SCROLL_TRESHOLD) {
-      console.log("scroll down");
       setCurrent(Math.max(current - 1, 0));
     } else if (mouseY - startMouseY < -SCROLL_TRESHOLD) {
       setCurrent(Math.min(current + 1, mangas.length - 1));
@@ -111,13 +106,15 @@ const Carousel = () => {
               color: MouseDelta() > SCROLL_TRESHOLD ? "green" : "white",
             }}
           >
-            <BiChevronUp className="text-5xl" />
-            <p>{mangas[current - 1].title}</p>
+            <div className="flex flex-col items-center animate-bounce">
+              <BiChevronUp className="text-5xl" />
+              <p>{mangas[current - 1].title}</p>
+            </div>
           </div>
         )}
         {current < mangas.length - 1 && (
           <div
-            className="flex flex-col items-center absolute bottom-0 transition delay-200 ease-out duration-1000"
+            className="absolute bottom-0 transition delay-200 ease-out duration-1000"
             style={{
               transform: `translateY(${isDragging ? -100 : 200}%) scale(${
                 MouseDelta() ? 0.8 : minmax(MouseDelta() / 100, 0.8, 1)
@@ -125,8 +122,22 @@ const Carousel = () => {
               color: MouseDelta() < -SCROLL_TRESHOLD ? "green" : "white",
             }}
           >
-            <p>{mangas[current + 1].title}</p>
-            <BiChevronDown className="text-5xl" />
+            <div className="flex flex-col items-center animate-bounce">
+              <p>{mangas[current + 1].title}</p>
+              <BiChevronDown className="text-5xl" />
+            </div>
+          </div>
+        )}
+        {mangas[current].page_count > 1 && (
+          <div
+            className="flex items-center justify-center absolute right-0 mb-10 mr-1 transition delay-200 ease-out duration-1000"
+            style={{
+              transform: `translateX(${isDragging ? 0 : 200}%)`,
+              color: MouseDelta() < -SCROLL_TRESHOLD ? "green" : "white",
+            }}
+          >
+            <p className="text-xs mr-2">{mangas[current].page_count} pages</p>
+            <BiChevronRight className="text-2xl" />
           </div>
         )}
       </div>
@@ -155,7 +166,10 @@ const Carousel = () => {
             <img
               src={manga.image}
               alt="manga"
-              className="w-full h-full brightness-95 object-cover absolute top-0 left-0 z-0 group-active:brightness-50 group-active:scale-90 transition duration-500 ease-in-out delay-100"
+              className="w-full h-full brightness-95 object-cover absolute top-0 left-0 z-0 group-active:brightness-50 rounded-3xl scale-105 group-active:scale-90 transition duration-500 ease-in-out delay-100"
+              style={{
+                opacity: index === current ? 1 : 0,
+              }}
               draggable="false"
             />
             {/* 
