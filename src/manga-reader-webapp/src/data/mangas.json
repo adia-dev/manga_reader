@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "title": "Jujutsu Kaisen",
+    "image": "https://images5.alphacoders.com/114/1141137.jpg",
+    "page_count": 18,
+    "chapter": 1,
+    "trailerID": "jujutsu-kaisen"
+  },
+  {
+    "id": 2,
+    "title": "One Piece",
+    "image": "https://preview.redd.it/cujgnglafov81.png?width=640&crop=smart&auto=webp&s=bff4be0d66177d9fd3a8d75a8a02a21f00cfb950",
+    "page_count": 17,
+    "chapter": 1017,
+    "trailerID": "one-piece"
+  },
+  {
+    "id": 3,
+    "title": "Bleach",
+    "image": "https://c4.wallpaperflare.com/wallpaper/109/45/304/bleach-thousand-year-blood-war-arc-tite-kubo-gotei-13-4k-hd-wallpaper-preview.jpg",
+    "page_count": 16,
+    "chapter": 684,
+    "trailerID": "bleach"
+  },
+  {
+    "id": 4,
+    "title": "Hell's Paradise: Jigokuraku",
+    "image": "https://animeland.fr/wp-content/uploads/2021/01/hellp.jpg",
+    "page_count": 15,
+    "chapter": 56,
+    "trailerID": "hells-paradise-jigokuraku"
+  }
+]

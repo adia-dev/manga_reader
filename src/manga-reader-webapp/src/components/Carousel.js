@@ -1,43 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { BiChevronDown, BiChevronRight, BiChevronUp } from "react-icons/bi";
+import MangaData from "../data/mangas.json";
 
 const Carousel = () => {
   const [current, setCurrent] = useState(0);
   const [startMouseY, setStartMouseY] = useState(0);
   const [mouseY, setMouseY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const [mangas, setMangas] = useState([
-    {
-      id: 1,
-      title: "Jujutsu Kaisen",
-      image: "https://images5.alphacoders.com/114/1141137.jpg",
-      page_count: 18,
-      chapter: 1,
-    },
-    {
-      id: 2,
-      title: "One Piece",
-      image:
-        "https://preview.redd.it/cujgnglafov81.png?width=640&crop=smart&auto=webp&s=bff4be0d66177d9fd3a8d75a8a02a21f00cfb950",
-      page_count: 17,
-      chapter: 1017,
-    },
-    {
-      id: 3,
-      title: "Bleach",
-      image:
-        "https://c4.wallpaperflare.com/wallpaper/109/45/304/bleach-thousand-year-blood-war-arc-tite-kubo-gotei-13-4k-hd-wallpaper-preview.jpg",
-      page_count: 16,
-      chapter: 684,
-    },
-    {
-      id: 4,
-      title: "Hell's Paradise: Jigokuraku",
-      image: "https://animeland.fr/wp-content/uploads/2021/01/hellp.jpg",
-      page_count: 15,
-      chapter: 56,
-    },
-  ]);
+  const [mangas, setMangas] = useState(MangaData);
+  const [canPlayTrailer, setCanPlayTrailer] = useState(false);
+  const [canPlayTrailerTimeout, setCanPlayTrailerTimeout] = useState(null);
+
+
+  // load manga videos with require
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -50,6 +26,7 @@ const Carousel = () => {
         }
       });
     }, 5000);
+
 
     const handleKeyDown = (e) => {
       if (e.key === "ArrowUp") {
@@ -80,6 +57,19 @@ const Carousel = () => {
     setIsDragging(true);
     setStartMouseY(e.clientY);
     setMouseY(e.clientY);
+
+    if (canPlayTrailerTimeout) {
+      clearTimeout(canPlayTrailerTimeout);
+      setCanPlayTrailerTimeout(null);
+      setCanPlayTrailer(false);
+    }
+
+    setCanPlayTrailerTimeout(
+      setTimeout(() => {
+        setCanPlayTrailer(true);
+      }, 1500)
+    );
+
   };
 
   const OnMouseMove = (e) => {
@@ -94,6 +84,13 @@ const Carousel = () => {
     setIsDragging(false);
     setMouseY(e.clientY);
     setStartMouseY(e.clientY);
+
+    if (canPlayTrailerTimeout) {
+      clearTimeout(canPlayTrailerTimeout);
+    }
+    setCanPlayTrailerTimeout(null);
+    setCanPlayTrailer(false);
+
 
     if (mouseY - startMouseY > SCROLL_TRESHOLD) {
       setCurrent(Math.max(current - 1, 0));
@@ -112,9 +109,8 @@ const Carousel = () => {
           <div
             className="flex flex-col items-center absolute top-0 transition delay-200 ease-out duration-1000"
             style={{
-              transform: `translateY(${
-                isDragging ? 100 : -200
-              }%) scale(${minmax(MouseDelta() / 100, 0.8, 1)})`,
+              transform: `translateY(${isDragging ? 100 : -200
+                }%) scale(${minmax(MouseDelta() / 100, 0.8, 1)})`,
               color: MouseDelta() > SCROLL_TRESHOLD ? "green" : "white",
             }}
           >
@@ -128,9 +124,8 @@ const Carousel = () => {
           <div
             className="absolute bottom-0 transition delay-200 ease-out duration-1000"
             style={{
-              transform: `translateY(${isDragging ? -100 : 200}%) scale(${
-                MouseDelta() ? 0.8 : minmax(MouseDelta() / 100, 0.8, 1)
-              })`,
+              transform: `translateY(${isDragging ? -100 : 200}%) scale(${MouseDelta() ? 0.8 : minmax(MouseDelta() / 100, 0.8, 1)
+                })`,
               color: MouseDelta() < -SCROLL_TRESHOLD ? "green" : "white",
             }}
           >
@@ -162,11 +157,10 @@ const Carousel = () => {
             onMouseUp={OnMouseUpOrLeave}
             onMouseLeave={OnMouseUpOrLeave}
             style={{
-              transform: `${
-                isDragging
-                  ? `translateY(math(${current * -100}%) + ${MouseDelta()}px)`
-                  : `translateY(${current * -100}%)`
-              }`,
+              transform: `${isDragging
+                ? `translateY(math(${current * -100}%) + ${MouseDelta()}px)`
+                : `translateY(${current * -100}%)`
+                }`,
               filter: `blur(${minmax(
                 AbsMouseDelta() / 50,
                 0,
@@ -174,20 +168,32 @@ const Carousel = () => {
               )}px) brightness(${1 - minmax(AbsMouseDelta() / 1000, 0, 0.5)})`,
             }}
             key={manga.id}
+            data-testid="manga"
           >
-            <img
-              src={manga.image}
-              alt="manga"
-              className="w-full h-full brightness-95 object-cover absolute top-0 left-0 z-0 group-active:brightness-50 rounded-3xl scale-105 group-active:scale-90 transition duration-500 ease-in-out delay-100"
-              style={{
-                opacity: index === current ? 1 : 0,
-              }}
-              draggable="false"
-            />
-            {/* 
-                an other image on the background that is scaled up and blurred 
-            */}
-
+            <div className="w-full h-full overflow-hidden absolute top-0 left-0 z-0 group-active:brightness-50 rounded-3xl scale-105 group-active:scale-90 transition duration-500 ease-in-out delay-100">
+              <div className="absolute flex items-center justify-center w-full h-full">
+                <img
+                  src={manga.image}
+                  alt="manga"
+                  className="w-full h-full brightness-95 object-cover "
+                  style={{
+                    opacity: index === current ? 1 : 0,
+                  }}
+                  draggable="false"
+                />
+                <div className="flex flex-col items-center justify-center h-full z-10 not-selectable absolute">
+                  <h1 className="text-5xl font-bold">{manga.title}</h1>
+                  <p className="text-gray-100">Chapter: {manga.chapter}</p>
+                </div>
+              </div>
+              {current === index && isDragging && canPlayTrailer && (
+                <video
+                  className="flex items-center justify-center w-full h-full object-cover absolute top-0 left-0 z-10"
+                  autoPlay
+                  loop
+                  src={require(`../assets/videos/trailers/${manga.trailerID}.mp4`)} ></video>
+              )}
+            </div>
             <img
               src={manga.image}
               alt="manga"
@@ -198,10 +204,7 @@ const Carousel = () => {
               draggable="false"
             />
 
-            <div className="flex flex-col items-center justify-center h-full z-10 not-selectable">
-              <h1 className="text-5xl font-bold">{manga.title}</h1>
-              <p className="text-gray-100">Chapter: {manga.chapter}</p>
-            </div>
+
           </div>
         );
       })}
