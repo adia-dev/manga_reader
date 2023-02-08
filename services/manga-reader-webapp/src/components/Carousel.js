@@ -117,10 +117,8 @@ const Carousel = () => {
 
     if (mouseX - startMouseX > SCROLL_TRESHOLD) {
       setCurrentPage(Math.max(currentPage - 1, 0));
-      console.log("left");
       return;
     } else if (mouseX - startMouseX < -SCROLL_TRESHOLD) {
-      console.log("right");
       setCurrentPage(Math.min(currentPage + 1, mangas[current].page_count - 1));
       return;
     }
@@ -138,19 +136,19 @@ const Carousel = () => {
           }}
         >
           <div className="flex flex-col items-center space-y-2">
-            <BsFillMouseFill className="" />
+            <BsFillMouseFill className="text-2xl" />
             <div className="flex flex-col items-center text-black">
-              <div className="w-8 h-8 rounded-lg border bg-white grid place-items-center m-1">
+              <div className="w-6 h-6 rounded-md border bg-gray-200 grid place-items-center m-1">
                 <BsArrowUpShort className="" />
               </div>
               <div className="flex items-center">
-                <div className="w-8 h-8 rounded-lg border bg-white grid place-items-center m-1">
+                <div className="w-6 h-6 rounded-md border bg-gray-200 grid place-items-center m-1">
                   <BsArrowLeftShort className="" />
                 </div>
-                <div className="w-8 h-8 rounded-lg border bg-white grid place-items-center m-1">
+                <div className="w-6 h-6 rounded-md border bg-gray-200 grid place-items-center m-1">
                   <BsArrowDownShort className="" />
                 </div>
-                <div className="w-8 h-8 rounded-lg border bg-white grid place-items-center m-1">
+                <div className="w-6 h-6 rounded-md border bg-gray-200 grid place-items-center m-1">
                   <BsArrowRightShort className="" />
                 </div>
               </div>
@@ -230,12 +228,12 @@ const Carousel = () => {
             key={manga.id}
             data-testid="manga"
           >
-            <div className="w-full h-full overflow-hidden absolute top-0 left-0 z-0 group-active:brightness-50 rounded-3xl scale-105 group-active:scale-90 transition duration-500 ease-in-out delay-100">
+            <div className="w-full h-full overflow-hidden absolute top-0 left-0 z-0  rounded-3xl scale-105 cursor-pointer group-active:scale-90 transition duration-500 ease-in-out delay-100">
               <div className="absolute flex items-center justify-center w-full h-full ">
                 <img
                   src={manga.image}
                   alt="manga"
-                  className="w-full h-full brightness-95 object-cover "
+                  className="w-full h-full brightness-75 group-active:brightness-50 transition-all object-cover "
                   style={{
                     opacity: index === current ? 1 : 0,
                   }}
