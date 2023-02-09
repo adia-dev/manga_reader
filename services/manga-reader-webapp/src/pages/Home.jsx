@@ -1,10 +1,10 @@
 import React from "react";
 import Carousel from "../components/Carousel";
 
-const Home = () => {
+const Home = ({ setSearchBarOpened }) => {
   return (
     <div>
-      <Carousel />
+      <Carousel setSearchBarOpened={setSearchBarOpened} />
     </div>
   );
 };
