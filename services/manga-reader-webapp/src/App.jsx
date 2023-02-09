@@ -26,9 +26,8 @@ function App() {
   return (
     <div className="">
       <Home setSearchBarOpened={setSearchBarOpened} />
-      {
-        searchBarOpened && <Searchbar setSearchBarOpened={setSearchBarOpened} />
-      }
+      <Searchbar searchBarOpened={searchBarOpened} setSearchBarOpened={setSearchBarOpened} />
+
     </div>
   );
 }

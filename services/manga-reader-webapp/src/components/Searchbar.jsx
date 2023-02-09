@@ -3,7 +3,7 @@ import { BiSearch, BiStar, BiTrash } from 'react-icons/bi'
 import { BsBookmark, BsBookmarkDash, BsBookmarkDashFill, BsBookmarkFill, BsBookmarkPlus, BsBookmarkPlusFill, BsEyeFill } from 'react-icons/bs'
 import { IoCloseOutline } from 'react-icons/io5'
 
-const Searchbar = ({ setSearchBarOpened }) => {
+const Searchbar = ({ setSearchBarOpened, searchBarOpened }) => {
 
     const [query, setQuery] = useState('')
     const [results, setResults] = useState([
@@ -102,9 +102,18 @@ const Searchbar = ({ setSearchBarOpened }) => {
 
 
     return (
-        <div className='w-screen h-screen absolute top-0 left-0 z-40 bg-[#000000] bg-opacity-50  flex justify-center'>
+        <div className='w-screen h-screen absolute top-0 left-0 z-40 bg-[#000000] bg-opacity-50  flex justify-center' style={{ visibility: searchBarOpened ? 'visible' : 'hidden' }}>
             <div className="absolute top-0 left-0 w-full h-full bg-[#000000] bg-opacity-50 filter blur-3xl" id="searchbar-background"></div>
-            <div className="bg-white rounded-xl w-1/2 h-fit mt-28 shadow-md z-50 overflow-hidden" id="searchbar-content">
+            <div
+                id="searchbar-content"
+                className="bg-white rounded-xl w-1/2 h-fit mt-28 shadow-md z-50 overflow-hidden"
+                style={{
+                    visibility: searchBarOpened ? 'visible' : 'hidden',
+                    transition: 'all 0.3s 0.1s ease-out',
+                    transform: searchBarOpened ? 'scale(1) translateY(0%)' : 'scale(0.85) translateY(-20%)',
+                    opacity: searchBarOpened ? '1' : '0',
+                }}
+            >
                 <div className="flex justify-center items-center border-b px-5 space-x-2">
                     <BiSearch className="text-2xl text-gray-400" />
                     <input type="text" className="w-full outline-none py-3" placeholder='Search for a manga, an author, an artist...' />
