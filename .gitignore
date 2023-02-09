@@ -780,3 +780,4 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,visualstudio,intellij,sublimetext,react,redis,python,c++
+services/manga-reader-webapp/.firebaserc
