@@ -1,8 +1,8 @@
-import renderer from "react-test-renderer";
+import { render, screen } from "@testing-library/react";
 import App from "../App";
-const { MangaData } = require("../data/mangas.json");
 
 it("Check if the app renders", () => {
-  const tree = renderer.create(<App />).toJSON();
-  expect(tree).toMatchSnapshot();
+  render(<App />);
+  const app = screen.getByTestId("app");
+  expect(app).toBeInTheDocument();
 });

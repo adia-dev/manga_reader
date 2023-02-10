@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { BiCaretDown, BiChevronDown, BiChevronRight, BiChevronUp } from "react-icons/bi";
-import { BsArrowDown, BsArrowDownShort, BsArrowLeftShort, BsArrowRightShort, BsArrowUpShort, BsFillMouseFill } from "react-icons/bs";
+import {
+  BiCaretDown,
+  BiChevronDown,
+  BiChevronRight,
+  BiChevronUp,
+} from "react-icons/bi";
+import {
+  BsArrowDown,
+  BsArrowDownShort,
+  BsArrowLeftShort,
+  BsArrowRightShort,
+  BsArrowUpShort,
+  BsFillMouseFill,
+} from "react-icons/bs";
 import MangaData from "../data/mangas.json";
 
 const Carousel = () => {
@@ -72,6 +84,9 @@ const Carousel = () => {
     setMouseY(e.clientY);
     setMouseX(e.clientX);
 
+    // add the class grabbing to the carousel item
+    e.target.classList.add("grabbing");
+
     if (canPlayTrailerTimeout) {
       clearTimeout(canPlayTrailerTimeout);
       setCanPlayTrailerTimeout(null);
@@ -101,6 +116,9 @@ const Carousel = () => {
     setStartMouseY(e.clientY);
     setStartMouseX(e.clientX);
 
+    // remove the class grabbing from the carousel item
+    e.target.classList.remove("grabbing");
+
     if (canPlayTrailerTimeout) {
       clearTimeout(canPlayTrailerTimeout);
     }
@@ -128,9 +146,11 @@ const Carousel = () => {
     <div
       className="w-screen h-screen overflow-hidden bg-gray-900 text-white"
       id="carousel"
+      data-testid="carousel"
     >
       <div className="w-screen h-screen overflow-hidden flex flex-col p-10 items-center justify-center absolute top-0 left-0 z-10 pointer-events-none">
-        <div className="absolute w-full top-0 left-0 flex justify-between px-6 py-14 transition duration-1000 delay-300 ease-in-out"
+        <div
+          className="absolute w-full top-0 left-0 flex justify-between px-6 py-14 transition duration-1000 delay-300 ease-in-out"
           style={{
             transform: `scale(${isDragging ? 0.9 : 1.5}, 1)`,
           }}
@@ -163,8 +183,9 @@ const Carousel = () => {
           <div
             className="flex flex-col items-center absolute top-0 transition delay-200 ease-out duration-1000"
             style={{
-              transform: `translateY(${isDragging ? 100 : -200
-                }%) scale(${minmax(MouseDeltaY() / 100, 0.8, 1)})`,
+              transform: `translateY(${
+                isDragging ? 100 : -200
+              }%) scale(${minmax(MouseDeltaY() / 100, 0.8, 1)})`,
               color: MouseDeltaY() > SCROLL_TRESHOLD ? "green" : "white",
             }}
           >
@@ -178,8 +199,9 @@ const Carousel = () => {
           <div
             className="absolute bottom-0 transition delay-200 ease-out duration-1000"
             style={{
-              transform: `translateY(${isDragging ? -100 : 200}%) scale(${MouseDeltaY() ? 0.8 : minmax(MouseDeltaY() / 100, 0.8, 1)
-                })`,
+              transform: `translateY(${isDragging ? -100 : 200}%) scale(${
+                MouseDeltaY() ? 0.8 : minmax(MouseDeltaY() / 100, 0.8, 1)
+              })`,
               color: MouseDeltaY() < -SCROLL_TRESHOLD ? "green" : "white",
             }}
           >
@@ -205,20 +227,22 @@ const Carousel = () => {
       {mangas.map((manga, index) => {
         return (
           <div
+            data-testid="carousel-item"
             className="flex flex-col overflow-hidden items-center justify-center h-full relative transition duration-500 delay-100 ease-in-out transform cursor-pointer group"
             onMouseDown={OnMouseDown}
             onMouseMove={OnMouseMove}
             onMouseUp={OnMouseUpOrLeave}
             onMouseLeave={OnMouseUpOrLeave}
             style={{
-              transform: `${isDragging
-                ? `translate(
+              transform: `${
+                isDragging
+                  ? `translate(
                     ${currentPage * -100}%, 
                     math(${current * -100}%) + ${MouseDeltaY()}px)`
-                : `translate(
+                  : `translate(
                     ${currentPage * -100}%,
                     ${current * -100}%)`
-                }`,
+              }`,
               filter: `blur(${minmax(
                 AbsMouseDeltaY() / 50,
                 0,
@@ -226,7 +250,6 @@ const Carousel = () => {
               )}px) brightness(${1 - minmax(AbsMouseDeltaY() / 1000, 0, 0.5)})`,
             }}
             key={manga.id}
-            data-testid="manga"
           >
             <div className="w-full h-full overflow-hidden absolute top-0 left-0 z-0  rounded-3xl scale-105 cursor-pointer group-active:scale-90 transition duration-500 ease-in-out delay-100">
               <div className="absolute flex items-center justify-center w-full h-full ">
