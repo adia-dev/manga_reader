@@ -12,7 +12,8 @@ const Carousel = ({ setSearchBarOpened }) => {
   const [mouseY, setMouseY] = useState(0);
   const [mouseX, setMouseX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const [mangas, setMangas] = useState(MangaData);
+  // const [mangas, setMangas] = useState(MangaData);
+  const mangas = MangaData;
   const [canPlayTrailer, setCanPlayTrailer] = useState(false);
   const [canPlayTrailerTimeout, setCanPlayTrailerTimeout] = useState(null);
 
@@ -60,10 +61,10 @@ const Carousel = ({ setSearchBarOpened }) => {
   const SCROLL_TRESHOLD = 150;
 
   const MouseDeltaY = () => mouseY - startMouseY;
-  const MouseDeltaX = () => mouseX - startMouseX;
+  // const MouseDeltaX = () => mouseX - startMouseX;
 
   const AbsMouseDeltaY = () => Math.abs(MouseDeltaY());
-  const AbsMouseDeltaX = () => Math.abs(MouseDeltaX());
+  // const AbsMouseDeltaX = () => Math.abs(MouseDeltaX());
 
   function minmax(val, min, max) {
     return Math.min(Math.max(val, min), max);
