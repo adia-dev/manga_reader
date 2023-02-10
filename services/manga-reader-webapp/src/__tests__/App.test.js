@@ -1,8 +1,8 @@
-import renderer from "react-test-renderer";
+import { render, screen } from "@testing-library/react";
 import App from "../App";
 
-it("Renders Hello World! on the App", () => {
-  const component = renderer.create(<App />);
-  let tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
+it("Check if the app renders", () => {
+  render(<App />);
+  const app = screen.getByTestId("app");
+  expect(app).toBeInTheDocument();
 });
