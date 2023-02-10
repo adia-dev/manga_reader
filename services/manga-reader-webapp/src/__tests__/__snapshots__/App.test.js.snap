@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Renders Hello ! on the App 1`] = `
+<div
+  className=""
+>
+  <div>
+    Home
+  </div>
+</div>
+`;
+
+exports[`Renders Hello World ! on the App 1`] = `
+<div
+  className=""
+>
+  <div>
+    Home
+  </div>
+</div>
+`;
+
 exports[`Renders Hello World! on the App 1`] = `
 <div
   className=""
@@ -9,5 +29,25 @@ exports[`Renders Hello World! on the App 1`] = `
   >
     Hello world!
   </h1>
+</div>
+`;
+
+exports[`Renders Home on the App 1`] = `
+<div
+  className=""
+>
+  <div>
+    Home
+  </div>
+</div>
+`;
+
+exports[`Renders Homs on the App 1`] = `
+<div
+  className=""
+>
+  <div>
+    Home
+  </div>
 </div>
 `;
