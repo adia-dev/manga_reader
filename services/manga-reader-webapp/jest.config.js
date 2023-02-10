@@ -6,6 +6,7 @@ module.exports = {
   moduleNameMapper: {
     "\\.(css|less|scss|sss|styl)$": "identity-obj-proxy",
     "\\.(svg)$": "<rootDir>/__mocks__/svgTransform.js",
+    axios: "<rootDir>/__mocks__/axios.js",
   },
   moduleFileExtensions: ["js", "jsx"],
   transform: {
