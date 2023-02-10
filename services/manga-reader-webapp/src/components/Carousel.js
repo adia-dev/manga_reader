@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { BiCaretDown, BiChevronDown, BiChevronRight, BiChevronUp } from "react-icons/bi";
-import { BsArrowDown, BsArrowDownShort, BsArrowLeftShort, BsArrowRightShort, BsArrowUpShort, BsFillMouseFill } from "react-icons/bs";
+import {
+  BiCaretDown,
+  BiChevronDown,
+  BiChevronRight,
+  BiChevronUp,
+} from "react-icons/bi";
+import {
+  BsArrowDown,
+  BsArrowDownShort,
+  BsArrowLeftShort,
+  BsArrowRightShort,
+  BsArrowUpShort,
+  BsFillMouseFill,
+} from "react-icons/bs";
 import MangaData from "../data/mangas.json";
 
 const Carousel = () => {
@@ -130,7 +142,8 @@ const Carousel = () => {
       id="carousel"
     >
       <div className="w-screen h-screen overflow-hidden flex flex-col p-10 items-center justify-center absolute top-0 left-0 z-10 pointer-events-none">
-        <div className="absolute w-full top-0 left-0 flex justify-between px-6 py-14 transition duration-1000 delay-300 ease-in-out"
+        <div
+          className="absolute w-full top-0 left-0 flex justify-between px-6 py-14 transition duration-1000 delay-300 ease-in-out"
           style={{
             transform: `scale(${isDragging ? 0.9 : 1.5}, 1)`,
           }}
@@ -163,8 +176,9 @@ const Carousel = () => {
           <div
             className="flex flex-col items-center absolute top-0 transition delay-200 ease-out duration-1000"
             style={{
-              transform: `translateY(${isDragging ? 100 : -200
-                }%) scale(${minmax(MouseDeltaY() / 100, 0.8, 1)})`,
+              transform: `translateY(${
+                isDragging ? 100 : -200
+              }%) scale(${minmax(MouseDeltaY() / 100, 0.8, 1)})`,
               color: MouseDeltaY() > SCROLL_TRESHOLD ? "green" : "white",
             }}
           >
@@ -178,8 +192,9 @@ const Carousel = () => {
           <div
             className="absolute bottom-0 transition delay-200 ease-out duration-1000"
             style={{
-              transform: `translateY(${isDragging ? -100 : 200}%) scale(${MouseDeltaY() ? 0.8 : minmax(MouseDeltaY() / 100, 0.8, 1)
-                })`,
+              transform: `translateY(${isDragging ? -100 : 200}%) scale(${
+                MouseDeltaY() ? 0.8 : minmax(MouseDeltaY() / 100, 0.8, 1)
+              })`,
               color: MouseDeltaY() < -SCROLL_TRESHOLD ? "green" : "white",
             }}
           >
@@ -211,14 +226,15 @@ const Carousel = () => {
             onMouseUp={OnMouseUpOrLeave}
             onMouseLeave={OnMouseUpOrLeave}
             style={{
-              transform: `${isDragging
-                ? `translate(
+              transform: `${
+                isDragging
+                  ? `translate(
                     ${currentPage * -100}%, 
                     math(${current * -100}%) + ${MouseDeltaY()}px)`
-                : `translate(
+                  : `translate(
                     ${currentPage * -100}%,
                     ${current * -100}%)`
-                }`,
+              }`,
               filter: `blur(${minmax(
                 AbsMouseDeltaY() / 50,
                 0,
