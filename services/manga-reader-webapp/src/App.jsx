@@ -24,7 +24,7 @@ function App() {
 
 
   return (
-    <div className="">
+    <div className="" data-testid="app">
       <Home setSearchBarOpened={setSearchBarOpened} />
       <Searchbar searchBarOpened={searchBarOpened} setSearchBarOpened={setSearchBarOpened} />
 

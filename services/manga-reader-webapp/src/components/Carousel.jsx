@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { BiCaretDown, BiChevronDown, BiChevronLeft, BiChevronRight, BiChevronUp } from "react-icons/bi";
-import { BsArrowDown, BsArrowDownShort, BsArrowLeftShort, BsArrowRightShort, BsArrowUpShort, BsFillMouseFill, BsSearch } from "react-icons/bs";
+import { BiChevronDown, BiChevronRight, BiChevronUp } from "react-icons/bi";
+import { BsArrowDownShort, BsArrowLeftShort, BsArrowRightShort, BsArrowUpShort, BsFillMouseFill, BsSearch } from "react-icons/bs";
 import { FiCommand } from "react-icons/fi";
 import MangaData from "../data/mangas.json";
 
@@ -83,6 +83,9 @@ const Carousel = ({ setSearchBarOpened }) => {
       setCanPlayTrailer(false);
     }
 
+    // add the class grabbing to the body
+    e.target.classList.add("grabbing");
+
     setCanPlayTrailerTimeout(
       setTimeout(() => {
         setCanPlayTrailer(true);
@@ -105,6 +108,9 @@ const Carousel = ({ setSearchBarOpened }) => {
     setMouseX(e.clientX);
     setStartMouseY(e.clientY);
     setStartMouseX(e.clientX);
+
+    // remove the class grabbing to the body
+    e.target.classList.remove("grabbing");
 
     if (canPlayTrailerTimeout) {
       clearTimeout(canPlayTrailerTimeout);
@@ -137,6 +143,7 @@ const Carousel = ({ setSearchBarOpened }) => {
     <div
       className="w-screen h-screen overflow-hidden bg-gray-900 text-white"
       id="carousel"
+      data-testid="carousel"
     >
       <div className="w-screen h-screen overflow-hidden flex flex-col p-10 items-center justify-center absolute top-0 left-0 z-10 pointer-events-none">
         <div className="absolute w-full top-0 left-0 flex justify-between px-6 py-14 transition duration-1000 delay-300 ease-in-out"
@@ -265,7 +272,7 @@ const Carousel = ({ setSearchBarOpened }) => {
               )}px) brightness(${1 - minmax(AbsMouseDeltaY() / 1000, 0, 0.5)})`,
             }}
             key={manga.id}
-            data-testid="manga"
+            data-testid="carousel-item"
           >
             <div className="w-full h-full overflow-hidden absolute top-0 left-0 z-0  rounded-3xl scale-105 cursor-pointer group-active:scale-90 transition duration-500 ease-in-out delay-100">
               <div className="absolute flex items-center justify-center w-full h-full ">

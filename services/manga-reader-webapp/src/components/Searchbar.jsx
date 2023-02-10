@@ -1,8 +1,8 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { BiSearch, BiStar, BiTrash } from 'react-icons/bi'
-import { BsBookmark, BsBookmarkDash, BsBookmarkDashFill, BsBookmarkFill, BsBookmarkPlus, BsBookmarkPlusFill, BsEyeFill } from 'react-icons/bs'
+import { BsBookmark, BsBookmarkDashFill, BsBookmarkFill, BsBookmarkPlus, BsEyeFill } from 'react-icons/bs'
 import { IoCloseOutline } from 'react-icons/io5'
-import axios from 'axios'
 
 const Searchbar = ({ setSearchBarOpened, searchBarOpened }) => {
 
