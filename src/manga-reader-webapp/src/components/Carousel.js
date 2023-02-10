@@ -51,7 +51,19 @@ const Carousel = () => {
       });
     }, 5000);
 
-    return () => clearInterval(interval);
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowUp") {
+        setCurrent(Math.max(current - 1, 0));
+      } else if (e.key === "ArrowDown") {
+        setCurrent(Math.min(current + 1, mangas.length - 1));
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [mangas, current, isDragging]);
 
   const SCROLL_TRESHOLD = 150;
