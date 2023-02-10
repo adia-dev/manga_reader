@@ -4,13 +4,13 @@
 name: '[CI] build and test the project'
 
 env:
-  WEB_APP_PATH: src/manga-reader-webapp
+  WEB_APP_PATH: services/manga-reader-webapp
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master", "develop"]
   pull_request:
-    branches: ["master"]
+    branches: ["master", "develop"]
   workflow_dispatch:
 
 jobs:
