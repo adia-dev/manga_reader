@@ -1,53 +1,298 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renders Hello ! on the App 1`] = `
+exports[`Check if the app renders 1`] = `
 <div
   className=""
 >
   <div>
-    Home
-  </div>
-</div>
-`;
-
-exports[`Renders Hello World ! on the App 1`] = `
-<div
-  className=""
->
-  <div>
-    Home
-  </div>
-</div>
-`;
-
-exports[`Renders Hello World! on the App 1`] = `
-<div
-  className=""
->
-  <h1
-    className="text-3xl font-bold underline"
-  >
-    Hello world!
-  </h1>
-</div>
-`;
-
-exports[`Renders Home on the App 1`] = `
-<div
-  className=""
->
-  <div>
-    Home
-  </div>
-</div>
-`;
-
-exports[`Renders Homs on the App 1`] = `
-<div
-  className=""
->
-  <div>
-    Home
+    <div
+      className="w-screen h-screen overflow-hidden bg-gray-900 text-white"
+      id="carousel"
+    >
+      <div
+        className="w-screen h-screen overflow-hidden flex flex-col p-10 items-center justify-center absolute top-0 left-0 z-10 pointer-events-none"
+      >
+        <div
+          className="absolute bottom-0 transition delay-200 ease-out duration-1000"
+          style={
+            Object {
+              "color": "white",
+              "transform": "translateY(200%) scale(0.8)",
+            }
+          }
+        >
+          <div
+            className="flex flex-col items-center animate-bounce"
+          >
+            <p>
+              One Piece
+            </p>
+            <svg
+              className="text-5xl"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              strokeWidth="0"
+              style={
+                Object {
+                  "color": undefined,
+                }
+              }
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          className="flex items-center justify-center absolute right-0 mb-10 mr-1 transition delay-200 ease-out duration-1000"
+          style={
+            Object {
+              "color": "white",
+              "transform": "translateX(200%)",
+            }
+          }
+        >
+          <p
+            className="text-xs mr-2"
+          >
+            18
+             pages
+          </p>
+          <svg
+            className="text-2xl"
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            strokeWidth="0"
+            style={
+              Object {
+                "color": undefined,
+              }
+            }
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"
+            />
+          </svg>
+        </div>
+      </div>
+      <div
+        className="flex flex-col items-center justify-center h-full relative transition duration-500 delay-100 ease-in-out transform cursor-pointer group"
+        data-testid="manga"
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseMove={[Function]}
+        onMouseUp={[Function]}
+        style={
+          Object {
+            "filter": "blur(0px) brightness(1)",
+            "transform": "translateY(0%)",
+          }
+        }
+      >
+        <img
+          alt="manga"
+          className="w-full h-full brightness-95 object-cover absolute top-0 left-0 z-0 group-active:brightness-50 rounded-3xl scale-105 group-active:scale-90 transition duration-500 ease-in-out delay-100"
+          draggable="false"
+          src="https://images5.alphacoders.com/114/1141137.jpg"
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        />
+        <img
+          alt="manga"
+          className="w-full h-full brightness-95 object-cover absolute overflow-hidden top-0 left-0 -z-10 blur-3xl scale-150 transition duration-500 ease-in-out delay-100"
+          draggable="false"
+          src="https://images5.alphacoders.com/114/1141137.jpg"
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        />
+        <div
+          className="flex flex-col items-center justify-center h-full z-10 not-selectable"
+        >
+          <h1
+            className="text-5xl font-bold"
+          >
+            Jujutsu Kaisen
+          </h1>
+          <p
+            className="text-gray-100"
+          >
+            Chapter: 
+            1
+          </p>
+        </div>
+      </div>
+      <div
+        className="flex flex-col items-center justify-center h-full relative transition duration-500 delay-100 ease-in-out transform cursor-pointer group"
+        data-testid="manga"
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseMove={[Function]}
+        onMouseUp={[Function]}
+        style={
+          Object {
+            "filter": "blur(0px) brightness(1)",
+            "transform": "translateY(0%)",
+          }
+        }
+      >
+        <img
+          alt="manga"
+          className="w-full h-full brightness-95 object-cover absolute top-0 left-0 z-0 group-active:brightness-50 rounded-3xl scale-105 group-active:scale-90 transition duration-500 ease-in-out delay-100"
+          draggable="false"
+          src="https://preview.redd.it/cujgnglafov81.png?width=640&crop=smart&auto=webp&s=bff4be0d66177d9fd3a8d75a8a02a21f00cfb950"
+          style={
+            Object {
+              "opacity": 0,
+            }
+          }
+        />
+        <img
+          alt="manga"
+          className="w-full h-full brightness-95 object-cover absolute overflow-hidden top-0 left-0 -z-10 blur-3xl scale-150 transition duration-500 ease-in-out delay-100"
+          draggable="false"
+          src="https://preview.redd.it/cujgnglafov81.png?width=640&crop=smart&auto=webp&s=bff4be0d66177d9fd3a8d75a8a02a21f00cfb950"
+          style={
+            Object {
+              "opacity": 0,
+            }
+          }
+        />
+        <div
+          className="flex flex-col items-center justify-center h-full z-10 not-selectable"
+        >
+          <h1
+            className="text-5xl font-bold"
+          >
+            One Piece
+          </h1>
+          <p
+            className="text-gray-100"
+          >
+            Chapter: 
+            1017
+          </p>
+        </div>
+      </div>
+      <div
+        className="flex flex-col items-center justify-center h-full relative transition duration-500 delay-100 ease-in-out transform cursor-pointer group"
+        data-testid="manga"
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseMove={[Function]}
+        onMouseUp={[Function]}
+        style={
+          Object {
+            "filter": "blur(0px) brightness(1)",
+            "transform": "translateY(0%)",
+          }
+        }
+      >
+        <img
+          alt="manga"
+          className="w-full h-full brightness-95 object-cover absolute top-0 left-0 z-0 group-active:brightness-50 rounded-3xl scale-105 group-active:scale-90 transition duration-500 ease-in-out delay-100"
+          draggable="false"
+          src="https://c4.wallpaperflare.com/wallpaper/109/45/304/bleach-thousand-year-blood-war-arc-tite-kubo-gotei-13-4k-hd-wallpaper-preview.jpg"
+          style={
+            Object {
+              "opacity": 0,
+            }
+          }
+        />
+        <img
+          alt="manga"
+          className="w-full h-full brightness-95 object-cover absolute overflow-hidden top-0 left-0 -z-10 blur-3xl scale-150 transition duration-500 ease-in-out delay-100"
+          draggable="false"
+          src="https://c4.wallpaperflare.com/wallpaper/109/45/304/bleach-thousand-year-blood-war-arc-tite-kubo-gotei-13-4k-hd-wallpaper-preview.jpg"
+          style={
+            Object {
+              "opacity": 0,
+            }
+          }
+        />
+        <div
+          className="flex flex-col items-center justify-center h-full z-10 not-selectable"
+        >
+          <h1
+            className="text-5xl font-bold"
+          >
+            Bleach
+          </h1>
+          <p
+            className="text-gray-100"
+          >
+            Chapter: 
+            684
+          </p>
+        </div>
+      </div>
+      <div
+        className="flex flex-col items-center justify-center h-full relative transition duration-500 delay-100 ease-in-out transform cursor-pointer group"
+        data-testid="manga"
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseMove={[Function]}
+        onMouseUp={[Function]}
+        style={
+          Object {
+            "filter": "blur(0px) brightness(1)",
+            "transform": "translateY(0%)",
+          }
+        }
+      >
+        <img
+          alt="manga"
+          className="w-full h-full brightness-95 object-cover absolute top-0 left-0 z-0 group-active:brightness-50 rounded-3xl scale-105 group-active:scale-90 transition duration-500 ease-in-out delay-100"
+          draggable="false"
+          src="https://animeland.fr/wp-content/uploads/2021/01/hellp.jpg"
+          style={
+            Object {
+              "opacity": 0,
+            }
+          }
+        />
+        <img
+          alt="manga"
+          className="w-full h-full brightness-95 object-cover absolute overflow-hidden top-0 left-0 -z-10 blur-3xl scale-150 transition duration-500 ease-in-out delay-100"
+          draggable="false"
+          src="https://animeland.fr/wp-content/uploads/2021/01/hellp.jpg"
+          style={
+            Object {
+              "opacity": 0,
+            }
+          }
+        />
+        <div
+          className="flex flex-col items-center justify-center h-full z-10 not-selectable"
+        >
+          <h1
+            className="text-5xl font-bold"
+          >
+            Hell's Paradise: Jigokuraku
+          </h1>
+          <p
+            className="text-gray-100"
+          >
+            Chapter: 
+            56
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

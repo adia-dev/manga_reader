@@ -1,8 +1,8 @@
 import renderer from "react-test-renderer";
 import App from "../App";
+const { MangaData } = require("../data/mangas.json");
 
-it("Renders Home on the App", () => {
-  const component = renderer.create(<App />);
-  let tree = component.toJSON();
+it("Check if the app renders", () => {
+  const tree = renderer.create(<App />).toJSON();
   expect(tree).toMatchSnapshot();
 });
