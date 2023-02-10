@@ -4,7 +4,7 @@
 name: '[CI] build and test the project'
 
 env:
-  WEB_APP_PATH: src/manga-reader-webapp
+  WEB_APP_PATH: services/manga-reader-webapp
 
 on:
   push:
