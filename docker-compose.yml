@@ -33,10 +33,28 @@ services:
    build:
       context: ./services/manga-reader-webapp
       dockerfile: Dockerfile
-   container_name: manga-reader-web
+   container_name: web
    restart: always
    ports:
       - "3000:3000"
+   environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=manga-reader
+
+  app:
+   build:
+      context: ./services/app
+      dockerfile: Dockerfile
+   container_name: app
+   restart: always
+   ports:
+      - "5173:5173"
    environment:
       - NODE_ENV=development
       - REDIS_HOST=redis
