@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import { useAppDispatch, useAppSelector } from './app/hooks'
+import { incremented } from './features/counter/counterSlice'
+import CountViewer from './components/CountViewer'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const count = useAppSelector(state => state.counter.value)
+  const dispatch = useAppDispatch()
 
   return (
     <div className="App">
@@ -16,8 +21,9 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
+      <CountViewer />
       <div className="card p-3 border border-red-400">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={() => dispatch(incremented())}>
           count is {count}
         </button>
         <p>
