@@ -3,45 +3,38 @@ import React, { useEffect, useState } from 'react'
 import { BiSearch, BiStar, BiTrash } from 'react-icons/bi'
 import { BsBookmark, BsBookmarkDashFill, BsBookmarkFill, BsBookmarkPlus, BsEyeFill } from 'react-icons/bs'
 import { IoCloseOutline } from 'react-icons/io5'
+import mangas from '../data/mangas.json'
 
 const Searchbar = ({ setSearchBarOpened, searchBarOpened }) => {
 
     const [query, setQuery] = useState('')
     const [recents, setRecents] = useState([
         {
-            id: 1,
-            title: 'One Piece',
-            cover: 'https://webservice-livre.tmic-ellipses.com/couverture/9782344013229.jpg',
-            rating: 9.76,
+            manga_id: 1,
             saved: true,
-            saved_count: 1000,
-            read_count: 293_392_000,
-            status: 'ongoing',
-            path: '/manga/1'
+            favorite: true,
+            manga: mangas[0]
         },
         // jujutsu kaisen
         {
-            id: 2,
-            title: 'Jujutsu Kaisen',
-            cover: 'https://m.media-amazon.com/images/I/81Ae3hI5SbL.jpg',
-            rating: 9.12,
+            manga_id: 2,
             saved: false,
-            saved_count: 1000,
-            read_count: 18_292_391,
-            status: 'ongoing',
-            path: '/manga/2'
+            favorite: false,
+            manga: mangas[1]
+        },
+        // Bleach
+        {
+            manga_id: 3,
+            saved: true,
+            favorite: false,
+            manga: mangas[2]
         },
         // Hell's Paradise: Jigokuraku
         {
-            id: 3,
-            title: "Hell's Paradise: Jigokuraku",
-            cover: 'https://kbimages1-a.akamaihd.net/e2aa6530-dc46-42fe-b680-a451cea32ddc/1200/1200/False/hell-s-paradise-jigokuraku-vol-1.jpg',
-            rating: 9.92,
+            manga_id: 4,
             saved: true,
-            saved_count: 1000,
-            read_count: 1_000_000,
-            status: 'completed',
-            path: '/manga/3'
+            favorite: false,
+            manga: mangas[3]
         }
     ])
 
@@ -146,8 +139,8 @@ const Searchbar = ({ setSearchBarOpened, searchBarOpened }) => {
 
 
     return (
-        <div className='w-screen h-screen absolute top-0 left-0 z-40 bg-[#000000] bg-opacity-50  flex justify-center' style={{ visibility: searchBarOpened ? 'visible' : 'hidden' }}>
-            <div className="absolute top-0 left-0 w-full h-full bg-[#000000] bg-opacity-50 filter blur-3xl" id="searchbar-background"></div>
+        <div className='w-screen h-screen fixed top-0 left-0 z-40 bg-[#000000] bg-opacity-50  flex justify-center' style={{ visibility: searchBarOpened ? 'visible' : 'hidden' }}>
+            <div className="fixed top-0 left-0 w-full h-full bg-[#000000] bg-opacity-50 " id="searchbar-background"></div>
             <div
                 id="searchbar-content"
                 className="bg-white rounded-xl w-1/2 h-fit mt-28 shadow-md z-50 overflow-hidden"
@@ -181,16 +174,16 @@ const Searchbar = ({ setSearchBarOpened, searchBarOpened }) => {
                     {
                         results.length === 0 && recents.map((recent) => (
                             <div
-                                key={`recent-${recent.id}`}
+                                key={`recent-${recent.manga_id}`}
                                 className="flex items-center justify-between px-5 py-3 border-b hover:bg-gray-100 transition duration-200 cursor-pointer">
                                 <div className="flex items-start space-x-2">
-                                    <img src={recent.cover} alt="" className="w-12 aspect-[1/1.5] brightness-75 hover:brightness-105 transition-all duration-500 delay-200 cursor-pointer hover:w-16 object-cover rounded-md border border-black" />
+                                    <img src={recent.manga.cover} alt="" className="w-12 aspect-[1/1.5] brightness-75 hover:brightness-105 transition-all duration-500 delay-200 cursor-pointer hover:w-16 object-cover rounded-md border border-black" />
                                     <div className="flex flex-col">
-                                        <p className="font-semibold text-xl">{recent.title}</p>
+                                        <p className="font-semibold text-xl">{recent.manga.title}</p>
                                         <div className="flex items-center space-x-2">
                                             <div className="flex items-center text-orange-400 text-xs cursor-pointer">
                                                 <BiStar className="" />
-                                                <p>{recent.rating}</p>
+                                                <p>{recent.manga.rating}</p>
                                             </div>
                                             <div className="flex items-center text-gray-600 text-xs cursor-pointer">
                                                 {
@@ -199,16 +192,16 @@ const Searchbar = ({ setSearchBarOpened, searchBarOpened }) => {
                                                         :
                                                         <BsBookmark className="" />
                                                 }
-                                                <p>{recent.saved_count}</p>
+                                                <p>{recent.manga.saved_count}</p>
                                             </div>
                                             <div className="flex items-center space-x-1 text-gray-600 text-xs cursor-pointer">
                                                 <BsEyeFill className="" />
-                                                <p>{BeautifiedReadCount(recent.read_count)}</p>
+                                                <p>{BeautifiedReadCount(recent.manga.read_count)}</p>
                                             </div>
                                         </div>
                                         <div className="my-1 flex items-center w-fit space-x-2 bg-gray-900 text-gray-200 p-1 text-xs rounded-md">
-                                            <div className={`h-2 w-2 bg-${MangaStatusColor(recent.status)}-500 rounded-full`}></div>
-                                            <span>{BeautifiedMangaStatus(recent.status)}</span>
+                                            <div className={`h-2 w-2 bg-${MangaStatusColor(recent.manga.status)}-500 rounded-full`}></div>
+                                            <span>{BeautifiedMangaStatus(recent.manga.status)}</span>
                                         </div>
                                     </div>
                                 </div>

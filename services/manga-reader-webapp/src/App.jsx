@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Searchbar from "./components/Searchbar";
 import Home from "./pages/Home";
+import Manga from "./pages/Manga";
+import mangas from "./data/mangas.json";
+import Header from "./components/Header";
 
 function App() {
 
@@ -24,8 +27,10 @@ function App() {
 
 
   return (
-    <div className="" data-testid="app">
+    <div className="h-screen" data-testid="app">
       <Home setSearchBarOpened={setSearchBarOpened} />
+      <Header setSearchBarOpened={setSearchBarOpened} />
+      <Manga manga={mangas[0]} />
       <Searchbar searchBarOpened={searchBarOpened} setSearchBarOpened={setSearchBarOpened} />
 
     </div>

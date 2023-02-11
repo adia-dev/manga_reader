@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BiChevronDown, BiChevronRight, BiChevronUp } from "react-icons/bi";
 import { BsArrowDownShort, BsArrowLeftShort, BsArrowRightShort, BsArrowUpShort, BsFillMouseFill, BsSearch } from "react-icons/bs";
 import { FiCommand } from "react-icons/fi";
-import MangaData from "../data/mangas.json";
+import mangas from "../data/mangas.json";
 
 const Carousel = ({ setSearchBarOpened }) => {
   const [current, setCurrent] = useState(0);
@@ -12,8 +12,7 @@ const Carousel = ({ setSearchBarOpened }) => {
   const [mouseY, setMouseY] = useState(0);
   const [mouseX, setMouseX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  // const [mangas, setMangas] = useState(MangaData);
-  const mangas = MangaData;
+  // const [mangas, setMangas] = useState(mangas);
   const [canPlayTrailer, setCanPlayTrailer] = useState(false);
   const [canPlayTrailerTimeout, setCanPlayTrailerTimeout] = useState(null);
 
