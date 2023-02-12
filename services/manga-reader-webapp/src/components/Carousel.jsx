@@ -33,7 +33,12 @@ const Carousel = ({ setSearchBarOpened }) => {
 
     const handleKeyDown = (e) => {
       if (e.key === "ArrowUp") {
-        setCurrent(Math.max(current - 1, 0));
+        if (currentPage === 0 && current === 0){
+          // TODO: Ajouter du code ici afficher ou non la barAccount 
+          console.log("ajouter ici")
+        }else{
+          setCurrent(Math.max(current - 1, 0));
+        }
       } else if (e.key === "ArrowDown") {
         setCurrent(Math.min(current + 1, mangas.length - 1));
       }
