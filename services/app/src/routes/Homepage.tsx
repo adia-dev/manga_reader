@@ -1,12 +1,13 @@
 import React from 'react'
 import Header from '../components/Header'
+import FeaturedMangas from '../components/FeaturedMangas'
 
 type Props = {}
 
 const Homepage = (props: Props) => {
     return (
-        <div className='w-screen h-screen bg-red-600'>
-            <p>Hello From the homepage</p>
+        <div className='w-full h-full pt-[90px]'>
+            <FeaturedMangas />
         </div>
     )
 }
