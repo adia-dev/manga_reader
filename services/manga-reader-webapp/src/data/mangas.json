@@ -5,14 +5,26 @@
     "image": "https://images5.alphacoders.com/114/1141137.jpg",
     "page_count": 18,
     "chapter": 1,
-    "trailerID": "jujutsu-kaisen"
+    "trailerID": "jujutsu-kaisen",
+    "cover": "https://m.media-amazon.com/images/I/81Ae3hI5SbL.jpg",
+    "rating": 9.12,
+    "saved_count": 1000,
+    "read_count": 18292391,
+    "status": "ongoing",
+    "path": "/manga/2"
   },
   {
     "id": 2,
     "title": "One Piece",
     "image": "https://preview.redd.it/cujgnglafov81.png?width=640&crop=smart&auto=webp&s=bff4be0d66177d9fd3a8d75a8a02a21f00cfb950",
+    "cover": "https://webservice-livre.tmic-ellipses.com/couverture/9782344013229.jpg",
     "page_count": 17,
     "chapter": 1017,
+    "rating": 9.76,
+    "read_count": 293392000,
+    "saved_count": 1000,
+    "status": "ongoing",
+    "path": "/manga/1",
     "trailerID": "one-piece"
   },
   {
@@ -21,7 +33,13 @@
     "image": "https://c4.wallpaperflare.com/wallpaper/109/45/304/bleach-thousand-year-blood-war-arc-tite-kubo-gotei-13-4k-hd-wallpaper-preview.jpg",
     "page_count": 16,
     "chapter": 684,
-    "trailerID": "bleach"
+    "trailerID": "bleach",
+    "cover": "https://i.pinimg.com/originals/63/ce/96/63ce96136111625932f2f2c7829c77b1.png",
+    "rating": 8.76,
+    "saved_count": 1000,
+    "read_count": 293392000,
+    "status": "completed",
+    "path": "/manga/3"
   },
   {
     "id": 4,
@@ -29,6 +47,12 @@
     "image": "https://animeland.fr/wp-content/uploads/2021/01/hellp.jpg",
     "page_count": 15,
     "chapter": 56,
-    "trailerID": "hells-paradise-jigokuraku"
+    "trailerID": "hells-paradise-jigokuraku",
+    "cover": "https://kbimages1-a.akamaihd.net/e2aa6530-dc46-42fe-b680-a451cea32ddc/1200/1200/False/hell-s-paradise-jigokuraku-vol-1.jpg",
+    "rating": 9.92,
+    "saved_count": 1000,
+    "read_count": 293392000,
+    "status": "completed",
+    "path": "/manga/4"
   }
 ]
