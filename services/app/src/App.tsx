@@ -7,6 +7,7 @@ import CountViewer from './components/CountViewer'
 import Header from './components/Header'
 import { Outlet } from 'react-router-dom'
 import Debug from './components/Debug'
+import { AuthProvider } from './providers/AuthProvider'
 
 
 function App() {

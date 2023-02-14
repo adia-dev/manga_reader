@@ -1,22 +1,42 @@
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { UserAuth } from '../context/AuthContext'
+import { auth } from '../firebase'
 
 
+type SigninProps = {
+    accountSectionOpened: boolean,
+    setAccountSectionOpened: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-const Signin = ({ accountSectionOpened, setAccountSectionOpened }) => {
+
+const Signin = ({ accountSectionOpened, setAccountSectionOpened }: SigninProps) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
-    const { signIn } = UserAuth()
 
-    const handleSubmit = async (e) => {
+
+
+    const signIn = async (email: string, password: string) => {
+        try {
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setError('')
         try {
             await signIn(email, password)
             // Changé la redirection en reaffichage 
-        } catch (e) {
+        } catch (e: any) {
             setError(e.message)
         }
     }

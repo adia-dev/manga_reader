@@ -6,13 +6,16 @@ import { Provider } from 'react-redux'
 import { store } from './app/store'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import router from './router'
+import { AuthProvider } from './providers/AuthProvider'
 
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </Provider>
   </React.StrictMode>,
 )

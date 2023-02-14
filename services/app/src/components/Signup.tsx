@@ -1,20 +1,38 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { UserAuth } from '../context/AuthContext'
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+} from 'firebase/auth'
+import { auth } from '../firebase'
 
 const Signup = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
-    const { createUser } = UserAuth()
 
-    const handleSubmit = async (e) => {
+
+    const createUser = async (email: string, password: string) => {
+        try {
+            await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setError('')
         try {
             await createUser(email, password)
-        } catch (e) {
+        } catch (e: any) {
             setError(e.message)
             console.log(e.message)
         }
