@@ -60,7 +60,7 @@ const Signin = ({ accountSectionOpened, setAccountSectionOpened }: SigninProps) 
             </form>
             <p className='py-2'>
                 {/* TODO: Ne pas faire de redirection mais faire une popup */}
-                Dont have an account yet ? <Link to='/' className='underline'>Sign up</Link>
+                Dont have an account yet ? <Link to='/signup' className='underline'>Sign up</Link>
             </p>
         </div>
     )

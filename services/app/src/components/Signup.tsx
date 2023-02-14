@@ -43,7 +43,7 @@ const Signup = () => {
             <div>
                 <h1 className='text-2xl font-bold py-2'>Sign in to your account</h1>
                 <p className='py-2'>
-                    Already have an account yet ? <Link to='/signin' className='underline'>Sign in</Link>
+                    Already have an account yet ? <Link to='/login' className='underline'>Sign in</Link>
                 </p>
             </div>
             <form onSubmit={handleSubmit}>
