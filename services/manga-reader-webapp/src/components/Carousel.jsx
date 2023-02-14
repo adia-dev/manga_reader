@@ -199,6 +199,21 @@ const Carousel = ({ setSearchBarOpened }) => {
             </p>
           </div>
         </div>
+        {current === 0 && (
+          <div
+            className="flex flex-col items-center absolute top-0 transition delay-200 ease-out duration-1000"
+            style={{
+              transform: `translateY(${isDragging ? 100 : -200
+                }%) scale(${minmax(MouseDeltaY() / 100, 0.8, 1)})`,
+              color: MouseDeltaY() > SCROLL_TRESHOLD ? "green" : "white",
+            }}
+          >
+            <div className="flex flex-col items-center animate-bounce">
+              <BiChevronUp className="text-5xl" />
+              <p>Account</p>
+            </div>
+          </div>
+        )}
         {current > 0 && (
           <div
             className="flex flex-col items-center absolute top-0 transition delay-200 ease-out duration-1000"
