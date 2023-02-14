@@ -6,7 +6,9 @@ type Props = {}
 
 const Homepage = (props: Props) => {
     return (
-        <div className='w-full h-full pt-[90px]'>
+        <div className='w-full h-full pt-[90px]'
+            data-testid='homepage'
+        >
             <FeaturedMangas />
         </div>
     )

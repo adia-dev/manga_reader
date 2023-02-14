@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import mangas from '../data/mangas.json'
 import { BiChevronLeft } from 'react-icons/bi'
 
@@ -7,6 +7,19 @@ type Props = {}
 const FeaturedMangas = (props: Props) => {
 
     const [currentMangaIndex, setCurrentMangaIndex] = React.useState(0)
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (currentMangaIndex === mangas.length - 1) {
+                setCurrentMangaIndex(0)
+            } else {
+                setCurrentMangaIndex(currentMangaIndex + 1)
+            }
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [currentMangaIndex]);
+
     const tags = [
         {
             name: 'Action',
@@ -63,7 +76,7 @@ const FeaturedMangas = (props: Props) => {
                     backgroundSize: 'cover',
                     backgroundPosition: '20% 20%',
                     backgroundRepeat: 'no-repeat',
-                    filter: 'blur(5px) brightness(0.6)'
+                    filter: 'blur(2px) brightness(0.6)'
                 }}></div>
             <div className='absolute p-10'>
                 <p className='text-gray-300'>Chapter: {mangas[currentMangaIndex].chapter} | [EN]</p>
@@ -100,9 +113,7 @@ const FeaturedMangas = (props: Props) => {
                         )
                     }
                 </div>
-
-                {/* 3d Book skewed */}
-                <div className="absolute right-10 top-10 w-40 h-60 hover:transform hover:-skew-y-3 hover:scale-110 transition-all duration-500 cursor-pointer">
+                <div draggable="true" className="absolute right-10 top-10 w-40 h-60 hover:animate-pulse hover:transform hover:-skew-y-3 hover:scale-110 transition-all duration-500 cursor-pointer">
                     <div className="absolute top-2 left-2 w-[170px] h-60 bg-gray-100 rounded-xl shadow-2xl "></div>
                     <div className="absolute top-1 left-1 w-[170px] h-60 bg-gray-100 rounded-xl shadow-2xl "></div>
                     <div className="absolute top-0 left-0 w-40 h-60 bg-gray-100 rounded-xl shadow-2xl  overflow-hidden">
