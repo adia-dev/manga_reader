@@ -10,7 +10,7 @@ export default createBrowserRouter([
         errorElement: <ErrorGeneric />,
         children: [
             {
-                path: "/homepage",
+                path: "/",
                 element: <Homepage />,
             },
         ],
