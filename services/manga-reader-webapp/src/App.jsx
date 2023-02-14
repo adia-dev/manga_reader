@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import AccountBar from "./components/AccountBar";
 import Searchbar from "./components/Searchbar";
+import { AuthContextProvider } from "./context/AuthContext";
 import Home from "./pages/Home";
 
 function App() {
 
   const [searchBarOpened, setSearchBarOpened] = useState(false);
+  const [accountBarOpened, setaccountBarOpened] = useState(false);
 
   useEffect(() => {
     // when I press cmd + k, the search bar should open
@@ -22,12 +25,13 @@ function App() {
     window.addEventListener("keydown", handleKeyDown);
   }, [searchBarOpened]);
 
-
   return (
     <div className="" data-testid="app">
-      <Home setSearchBarOpened={setSearchBarOpened} />
-      <Searchbar searchBarOpened={searchBarOpened} setSearchBarOpened={setSearchBarOpened} />
-
+      <AuthContextProvider>
+        <AccountBar accountBarOpened={accountBarOpened} setaccountBarOpened={setaccountBarOpened} />
+        <Home setSearchBarOpened={setSearchBarOpened} />
+        <Searchbar searchBarOpened={searchBarOpened} setSearchBarOpened={setSearchBarOpened} />
+      </AuthContextProvider>
     </div>
   );
 }
