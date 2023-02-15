@@ -15,7 +15,7 @@ function App() {
   const dispatch = useAppDispatch()
 
   return (
-    <div className="bg-dark-primary w-screen h-screen relative" id="app" data-testid="app">
+    <div className="bg-dark-primary w-screen relative" id="app" data-testid="app">
       <Header />
       <Outlet />
       {/* <Debug /> */}

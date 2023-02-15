@@ -6,11 +6,41 @@ import { Link } from 'react-router-dom'
 type Props = {}
 
 const Header = (props: Props) => {
+
+    // if the scrollY is greater than 100, then add the shadow class to the header
+    const [headerClass, setHeaderClass] = React.useState(false)
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 100) {
+                setHeaderClass(true)
+            } else {
+                setHeaderClass(false)
+            }
+
+            console.log(window.scrollY > 100)
+
+        }
+
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
+
     return (
         <div
             id="Header"
-            className='flex justify-center fixed top-0 left-0 z-50 w-screen'>
-            <div className="mt-5 flex items-center justify-between px-5 w-2/3 text-gray-500 h-12">
+            className='flex justify-center fixed top-0 left-0 z-50 w-screen z-[100]'>
+            <div className="mt-5 flex items-center justify-between px-5 w-2/3 text-gray-500 h-12 bg-opacity-70 trnasition-all duration-300 "
+                style={{
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    boxShadow: `${headerClass ? '0 0 10px 0 rgba(0,0,0,0.5)' : 'none'}`,
+                    borderRadius: `${headerClass ? '9999px' : 'none'}`,
+                    backgroundColor: `${headerClass ? 'rgba(0,0,0,0.5)' : 'none'}`
+
+                }}
+            >
                 <div className="flex items-center space-x-2">
                     <div className="group flex items-center space-x-2 cursor-pointer brightness-75 hover:brightness-100 transition delay-300">
                         <div className="w-6 h-6 rounded-full bg-dark-tertiary"></div>
