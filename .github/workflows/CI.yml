@@ -4,7 +4,7 @@
 name: '[CI] build and test the project'
 
 env:
-  WEB_APP_PATH: services/manga-reader-webapp
+  APP_PATH: services/app
 
 on:
   push:
@@ -29,10 +29,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-          cache-dependency-path: ${{ env.WEB_APP_PATH }}/package-lock.json
+          cache-dependency-path: ${{ env.APP_PATH }}/package-lock.json
       - run: npm ci
-        working-directory: ${{ env.WEB_APP_PATH }}
+        working-directory: ${{ env.APP_PATH }}
       - run: npm run build --if-present
-        working-directory: ${{ env.WEB_APP_PATH }}
+        working-directory: ${{ env.APP_PATH }}
       - run: npm test
-        working-directory: ${{ env.WEB_APP_PATH }}
+        working-directory: ${{ env.APP_PATH }}

@@ -20,7 +20,7 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
   const [isDragging, setIsDragging] = useState(false);
   // const [mangas, setMangas] = useState(mangas);
   const [canPlayTrailer, setCanPlayTrailer] = useState(false);
-  const [canPlayTrailerTimeout, setCanPlayTrailerTimeout]: any = useState(null);
+  const [playTrailerTimeout, setPlayTrailerTimeout] = useState(null);
   const [showContextMenu, setShowContextMenu] = useState(false);
 
   // load manga videos with require
@@ -148,9 +148,9 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
     setMouseY(e.clientY);
     setMouseX(e.clientX);
 
-    if (canPlayTrailerTimeout) {
-      clearTimeout(canPlayTrailerTimeout);
-      setCanPlayTrailerTimeout(null);
+    if (playTrailerTimeout) {
+      clearTimeout(playTrailerTimeout);
+      setPlayTrailerTimeout(null);
       setCanPlayTrailer(false);
     }
 
@@ -158,7 +158,7 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
     if (e.target instanceof HTMLElement)
       e.target.classList.add("grabbing");
 
-    setCanPlayTrailerTimeout(
+    setPlayTrailerTimeout(
       setTimeout(() => {
         setCanPlayTrailer(true);
       }, 1500) as any
@@ -185,10 +185,10 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
     if (e.target instanceof HTMLElement)
       e.target.classList.remove("grabbing");
 
-    if (canPlayTrailerTimeout) {
-      clearTimeout(canPlayTrailerTimeout);
+    if (playTrailerTimeout) {
+      clearTimeout(playTrailerTimeout);
     }
-    setCanPlayTrailerTimeout(null);
+    setPlayTrailerTimeout(null);
     setCanPlayTrailer(false);
 
     if (mouseY - startMouseY > SCROLL_TRESHOLD) {
