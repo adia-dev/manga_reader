@@ -43,6 +43,41 @@ const Signin = ({ accountSectionOpened, setAccountSectionOpened }: SigninProps) 
 
 
     return (
+        <div  className='w-screen p-6 bg-dark-primary'>
+            <div className='flex h-screen bg-gray-100  border rounded-xl border-dark-primary'>
+                <div className=' w-1/2 my-auto bg-gray-100 '>
+                    <p className='text-red-600 '>{error}</p>
+                    {/* La partie gauche */}
+                    <form action="" className='bg-gray-100 max-w-md mx-auto'>
+                        <h2 className='text-black text-4xl decoration-4'>Welcome back</h2>
+                        <p className='text-gray-400 mt-2'>Welcome back! Please enter your details.</p>
+                        <div className='flex flex-col mt-5'>
+                            <label htmlFor="">Email</label>
+                            <input placeholder='Enter your email' onChange={(e) => setEmail(e.target.value)} className='border-gray-300 rounded-md border-2 p-3 bg-gray-100 mt-2' type="emial" />
+                        </div>
+                        <div className='flex flex-col mt-5'>
+                            <label htmlFor="">Password</label>
+                            <input placeholder='Enter your password' onChange={(e) => setPassword(e.target.value)} className='border-gray-300 rounded-md border-2 p-3 bg-gray-100 mt-2' type="password" />
+                        </div>
+                        <div className='flex flex-col'>
+                            <button className='mp-auto my-4 py-3 rounded-md bg-dark-tertiary text-gray-100'>Sign In</button>
+                        </div>
+                        <p className='pt-3 text-center text-gray-500'>Don't have an account ? <Link to='/signup' className='underline text-dark-tertiary'>Sign up</Link></p>
+                    </form>
+                </div>
+                <image className='flex-auto w-1/2 bg-yellow-400' 
+                    style={{
+                    backgroundImage: 'url(https://preview.redd.it/z6btu437zgi91.jpg?auto=webp&s=e633b3c45ce542ab88661d0e23db201d00a1b803)', 
+                    backgroundSize: 'cover',
+                    backgroundPosition: '45% 20%',
+                    backgroundRepeat: 'no-repeat'}}/>
+            </div>
+        </div>
+        
+    )
+
+
+    return (
         <div className='max-w-[700px] mx-auto my-3 p-4'>
             <p className='text-red-600 '>{error}</p>
             <form onSubmit={handleSubmit}>
