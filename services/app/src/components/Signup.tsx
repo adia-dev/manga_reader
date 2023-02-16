@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
+    createUserWithEmailAndPassword
 } from 'firebase/auth'
+import React, { useContext, useState } from 'react'
+import { Link, Navigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 import { auth } from '../firebase'
 
 const Signup = () => {
@@ -13,6 +11,11 @@ const Signup = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
+
+    const alreadySignedIn = useContext(AuthContext) !== null
+    if (alreadySignedIn) {
+        return <Navigate to='/' />
+    }
 
 
     const createUser = async (email: string, password: string) => {

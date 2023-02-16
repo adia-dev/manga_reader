@@ -1,5 +1,4 @@
 import React from 'react'
-import { BiMenuAltLeft } from 'react-icons/bi'
 import { BsSearch } from 'react-icons/bs'
 import { FiCommand } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
