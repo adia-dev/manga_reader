@@ -1,21 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { useContext } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
 import './App.css'
-import { useAppDispatch, useAppSelector } from './app/hooks'
-import { incremented } from './features/counter/counterSlice'
-import CountViewer from './components/CountViewer'
 import Header from './components/Header'
-import { Outlet } from 'react-router-dom'
-import Debug from './components/Debug'
-import { AuthProvider } from './providers/AuthProvider'
+import { AuthContext } from './context/AuthContext'
 
 
 function App() {
-  const count = useAppSelector(state => state.counter.value)
-  const dispatch = useAppDispatch()
+  const user = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  if (!user) {
+    navigate('/login')
+  }
 
   return (
-    <div className="bg-dark-primary w-screen relative" id="app" data-testid="app">
+    <div className="bg-dark-primary w-screen relative overflow-hidden" id="app" data-testid="app">
       <Header />
       <Outlet />
       {/* <Debug /> */}

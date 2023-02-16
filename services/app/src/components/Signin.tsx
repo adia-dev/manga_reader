@@ -1,6 +1,7 @@
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 import { auth } from '../firebase'
 
 
@@ -15,6 +16,12 @@ const Signin = ({ accountSectionOpened, setAccountSectionOpened }: SigninProps) 
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
 
+    const navigate = useNavigate()
+
+    const alreadySignedIn = useContext(AuthContext) !== null
+    if (alreadySignedIn) {
+        return <Navigate to='/' />
+    }
 
 
     const signIn = async (email: string, password: string) => {
@@ -36,6 +43,7 @@ const Signin = ({ accountSectionOpened, setAccountSectionOpened }: SigninProps) 
         try {
             await signIn(email, password)
             // Changé la redirection en reaffichage 
+            navigate('/')
         } catch (e: any) {
             setError(e.message)
         }

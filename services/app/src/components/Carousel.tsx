@@ -21,6 +21,7 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
   // const [mangas, setMangas] = useState(mangas);
   const [canPlayTrailer, setCanPlayTrailer] = useState(false);
   const [canPlayTrailerTimeout, setCanPlayTrailerTimeout]: any = useState(null);
+  const [showContextMenu, setShowContextMenu] = useState(false);
 
   // load manga videos with require
 
@@ -55,7 +56,71 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
         );
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("mousedown", (e: any) => {
+
+      const contextMenu = document.getElementById('context-menu');
+      if (contextMenu && !contextMenu.contains(e.target as Node)) {
+        contextMenu.remove();
+      }
+
+      // if right click
+      if (e.which === 3) {
+        e.preventDefault();
+        setSearchBarOpened(true);
+      }
+
+      window.document.oncontextmenu = (e) => {
+        e.preventDefault();
+
+        if (document.getElementById("context-menu")) {
+          document.getElementById("context-menu")!.remove();
+        }
+
+        const carousel = document.getElementById("carousel");
+        const div = document.createElement("div");
+        div.id = "context-menu";
+        div.style.position = "absolute";
+
+        // handle the position of the context menu so it doesn't go out of the screen
+        const { clientX, clientY } = e;
+        const { innerWidth, innerHeight } = window;
+        const { offsetWidth, offsetHeight } = div;
+
+        const x = clientX + offsetWidth > innerWidth ? innerWidth - offsetWidth : clientX;
+        const y = clientY + offsetHeight > innerHeight ? innerHeight - offsetHeight : clientY;
+
+        div.style.left = `${x}px`;
+        div.style.top = `${y}px`;
+
+        div.style.width = "200px";
+        div.style.height = "100px";
+
+
+        div.style.backgroundColor = "red";
+        div.style.zIndex = "99999";
+        div.style.borderRadius = "10px";
+        div.style.display = "flex";
+        div.style.justifyContent = "center";
+        div.style.alignItems = "center";
+        div.style.color = "white";
+        div.style.fontSize = "2em";
+        div.style.userSelect = "none";
+        div.style.cursor = "pointer";
+        div.innerText = "Overidden context menu";
+
+
+        if (carousel) {
+          carousel.appendChild(div);
+        } else {
+          document.body.appendChild(div);
+        }
+        setShowContextMenu(true);
+        return false;
+      }
+    });
+
 
     return () => {
       clearInterval(interval);
@@ -146,6 +211,13 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
       return;
     }
   };
+  const handleRightClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    console.log("right click");
+  };
+
+
+
 
   return (
     <div
