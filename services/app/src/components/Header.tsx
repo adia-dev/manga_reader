@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { BsSearch } from 'react-icons/bs'
 import { FiCommand } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 type Props = {
     triggerHeaderClass?: boolean
 }
+import { auth } from '../firebase'
 
 const Header = (props: Props) => {
 
     // if the scrollY is greater than 100, then add the shadow class to the header
-    const [triggerHeaderClass, setTriggerHeaderClass] = React.useState(props.triggerHeaderClass || false)
+    const [triggerHeaderClass, setTriggerHeaderClass] = useState(false)
+    const user = useContext(AuthContext)
+    const navigate = useNavigate()
 
     React.useEffect(() => {
 
@@ -30,6 +34,29 @@ const Header = (props: Props) => {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
+
+
+    function SignOptions() {
+        return (
+            <div className="flex items-center space-x-2 px-5">
+                <Link to="/signup">
+                    <p className='text-sm hover:bg-dark-tertiary hover:text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Sign Up</p>
+                </Link>
+                <Link to="/login">
+                    <p className='text-sm bg-dark-tertiary text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Login</p>
+                </Link>
+            </div>
+        )
+    }
+
+    const handleSignOut = async () => {
+        try {
+            await auth.signOut()
+            navigate('/login')
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return (
         <div
@@ -84,15 +111,21 @@ const Header = (props: Props) => {
                         </div>
                     </div>
                 </div>
-                <div className="flex items-center space-x-2 px-5">
-                    <Link to="/signup">
-                        <p className='text-sm hover:bg-dark-tertiary hover:text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Sign Up</p>
-                    </Link>
-                    <Link to="/login">
-                        <p className='text-sm bg-dark-tertiary text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Login</p>
-                    </Link>
+                {
+                    user ? (
+                        <div className="flex items-center space-x-2">
+                            <p>{user.email}</p>
+                            <div className="flex items-center space-x-2 px-5"
+                                onClick={handleSignOut}>
+                                <p className='text-sm hover:bg-dark-tertiary hover:text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Log out</p>
+                            </div>
+                        </div>
 
-                </div>
+                    ) : (
+                        <SignOptions />
+                    )
+                }
+
             </div>
         </div>
     )
