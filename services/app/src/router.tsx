@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import ErrorGeneric from "./routes/errors/ErrorGeneric";
-import Homepage from "./routes/Homepage";
+import Carousel from "./components/Carousel";
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
+import ErrorGeneric from "./pages/errors/ErrorGeneric";
+import Homepage from "./pages/Homepage";
 
 export default createBrowserRouter([
     {
@@ -14,6 +15,10 @@ export default createBrowserRouter([
             {
                 path: "/",
                 element: <Homepage />,
+            },
+            {
+                path: "/carousel",
+                element: <Carousel setSearchBarOpened={() => { }} />,
             },
         ],
     },
