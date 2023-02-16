@@ -3,10 +3,10 @@ import { BsSearch } from 'react-icons/bs'
 import { FiCommand } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
+import { auth } from '../firebase'
 type Props = {
     triggerHeaderClass?: boolean
 }
-import { auth } from '../firebase'
 
 const Header = (props: Props) => {
 
@@ -57,6 +57,8 @@ const Header = (props: Props) => {
             console.error(error)
         }
     }
+
+
 
     return (
         <div
@@ -125,7 +127,6 @@ const Header = (props: Props) => {
                         <SignOptions />
                     )
                 }
-
             </div>
         </div>
     )
