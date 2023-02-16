@@ -147,6 +147,11 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
     }
   };
 
+  function getVideoUrl(trailer: string) {
+    return new URL(`../assets/videos/trailers/${trailer}.mp4`, import.meta.url).href
+  }
+
+
   return (
     <div
       className="w-screen h-screen overflow-hidden bg-gray-900 text-white"
@@ -303,7 +308,7 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
                   className="flex items-center justify-center w-full h-full object-cover absolute top-0 left-0 z-10"
                   autoPlay
                   loop
-                  src={require(`../assets/videos/trailers/${manga.trailerID}.mp4`)}
+                  src={getVideoUrl(manga.trailerID as string)}
                 ></video>
               )}
             </div>

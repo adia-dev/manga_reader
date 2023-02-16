@@ -8,6 +8,7 @@ import Header from './components/Header'
 import { Outlet } from 'react-router-dom'
 import Debug from './components/Debug'
 import { AuthProvider } from './providers/AuthProvider'
+import HelpBox from './components/HelpBox'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
     <div className="bg-dark-primary w-screen relative" id="app" data-testid="app">
       <Header />
       <Outlet />
+      <HelpBox />
       {/* <Debug /> */}
     </div>
   )

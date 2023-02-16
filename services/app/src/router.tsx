@@ -4,6 +4,7 @@ import ErrorGeneric from "./pages/errors/ErrorGeneric";
 import Homepage from "./pages/Homepage";
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
+import Carousel from "./components/Carousel";
 
 export default createBrowserRouter([
     {
@@ -14,6 +15,10 @@ export default createBrowserRouter([
             {
                 path: "/",
                 element: <Homepage />,
+            },
+            {
+                path: "/carousel",
+                element: <Carousel setSearchBarOpened={() => { }} />,
             },
         ],
     },

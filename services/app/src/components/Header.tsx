@@ -3,22 +3,27 @@ import { BiMenuAltLeft } from 'react-icons/bi'
 import { BsSearch } from 'react-icons/bs'
 import { FiCommand } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
-type Props = {}
+type Props = {
+    triggerHeaderClass?: boolean
+}
 
 const Header = (props: Props) => {
 
     // if the scrollY is greater than 100, then add the shadow class to the header
-    const [headerClass, setHeaderClass] = React.useState(false)
+    const [triggerHeaderClass, setTriggerHeaderClass] = React.useState(props.triggerHeaderClass || false)
 
     React.useEffect(() => {
+
+        // check if it is possible to even scroll the page
+        const isScrollable = document.documentElement.scrollHeight > window.innerHeight
+        setTriggerHeaderClass(!isScrollable)
+
         const handleScroll = () => {
             if (window.scrollY > 100) {
-                setHeaderClass(true)
+                setTriggerHeaderClass(true)
             } else {
-                setHeaderClass(false)
+                setTriggerHeaderClass(false)
             }
-
-            console.log(window.scrollY > 100)
 
         }
 
@@ -30,25 +35,33 @@ const Header = (props: Props) => {
     return (
         <div
             id="Header"
-            className='flex justify-center fixed top-0 left-0 z-50 w-screen z-[100]'>
+            className='flex justify-center fixed top-0 left-0 w-screen z-[100]'>
+            <a href="/carousel" className="absolute right-5 h-12 text-white mt-5 p-5 top-0 flex items-center space-x-2 cursor-pointer">
+                <p className="text-gray-400 hover:text-white transition-all duration-500 text-xs">
+                    Carousel
+                </p>
+                <div className="bg-dark-secondary bg-opacity-20 px-2 rounded-full flex items-center justify-center py-1">
+                    <span className="text-white text-xs bg-gradient-to-r from-[#FF6363] to-[#FFBD69] bg-clip-text text-transparent animate-pulse">beta</span>
+                </div>
+            </a>
             <div className="mt-5 flex items-center justify-between px-5 w-2/3 text-gray-500 h-12 bg-opacity-70 trnasition-all duration-300 "
                 style={{
                     backdropFilter: 'blur(10px)',
                     WebkitBackdropFilter: 'blur(10px)',
-                    boxShadow: `${headerClass ? '0 0 10px 0 rgba(0,0,0,0.5)' : 'none'}`,
-                    borderRadius: `${headerClass ? '9999px' : 'none'}`,
-                    backgroundColor: `${headerClass ? 'rgba(0,0,0,0.5)' : 'none'}`
+                    boxShadow: `${triggerHeaderClass ? '0 0 10px 0 rgba(0,0,0,0.5)' : 'none'}`,
+                    borderRadius: `${triggerHeaderClass ? '9999px' : 'none'}`,
+                    backgroundColor: `${triggerHeaderClass ? 'rgba(0,0,0,0.5)' : 'none'}`
 
                 }}
             >
                 <div className="flex items-center space-x-2">
-                    <div className="group flex items-center space-x-2 cursor-pointer brightness-75 hover:brightness-100 transition delay-300">
+                    <Link to="/" className="group flex items-center space-x-2 cursor-pointer brightness-75 hover:brightness-100 transition delay-300">
                         <div className="w-6 h-6 rounded-full bg-dark-tertiary"></div>
                         <p className="text-dark-tertiary text-sm w-3 group-hover:w-[100px] transition-all delay-300 overflow-hidden whitespace-nowrap">Manga Reader</p>
-                    </div>
+                    </Link>
                     <div className="w-px h-5 bg-dark-tertiary rounded-full"></div>
                     <nav className="flex items-center space-x-2 text-sm pl-5">
-                        <p className="hover:text-white transition">Home</p>
+                        <Link to="/" className="hover:text-white transition">Home</Link>
                         <p className="hover:text-white transition">Library</p>
                         <p className="hover:text-white transition">Settings</p>
                     </nav>
