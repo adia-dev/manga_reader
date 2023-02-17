@@ -10,6 +10,7 @@ body{
     .scrollbar::-webkit-scrollbar {
       width: 20px;
       height: 7px;
+      left: 100px;
     }
   
     .scrollbar::-webkit-scrollbar-track {
@@ -18,6 +19,7 @@ body{
     }
   
     .scrollbar::-webkit-scrollbar-thumb {
+        
       background: #868686;
       border-radius: 100vh;
 
