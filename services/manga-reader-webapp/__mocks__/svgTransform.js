@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   process() {
     return { code: "module.exports = {};" };
   },
@@ -7,3 +7,5 @@ module.exports = {
     return "svgTransform";
   },
 };
+
+export default config;

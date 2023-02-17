@@ -29,14 +29,14 @@ services:
     restart: always
     ports:
       - "6379:6379"
-  web:
+  app:
    build:
-      context: ./src/manga-reader-webapp
+      context: ./services/app
       dockerfile: Dockerfile
-   container_name: manga-reader-web
+   container_name: app
    restart: always
    ports:
-      - "3000:3000"
+      - "5173:5173"
    environment:
       - NODE_ENV=development
       - REDIS_HOST=redis
