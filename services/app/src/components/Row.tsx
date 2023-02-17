@@ -13,7 +13,7 @@ const Row = (props: Props) => {
         <section className='w-full p-3'>
             <h1 className='text-white'>{props.name || "Manga Row"}</h1>
             <div className='w-full flex items-center'>
-                <div className="overflow-x-scroll flex items-center">
+                <div className="overflow-x-scroll flex items-center scrollbar">
 
                     {
                         [...Array(20)].map((_, i) => (
