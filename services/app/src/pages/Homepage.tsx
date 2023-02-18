@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import FeaturedMangas from '../components/FeaturedMangas'
 import Row from '../components/Row'
+import MangaFetch from '../components/MangaFetch'
 import { AuthContext } from '../context/AuthContext'
 
 type Props = {}
@@ -15,6 +16,7 @@ const Homepage = (props: Props) => {
         <div className='w-full h-full pt-[90px]'
             data-testid='homepage'
         >
+            <MangaFetch />
             <FeaturedMangas />
             <Row name="Featured Mangas" />
             <Row name="Trending Mangas" />
