@@ -9,8 +9,6 @@ const Homepage = (props: Props) => {
 
     const user = useContext(AuthContext)
 
-    console.log(user)
-
     return (
         <div className='w-full h-full pt-[90px]'
             data-testid='homepage'

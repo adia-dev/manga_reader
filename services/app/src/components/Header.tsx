@@ -4,6 +4,8 @@ import { FiCommand } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import { auth } from '../firebase'
+import { activated } from '../features/quickSearch/quickSearchSlice'
+import { useAppDispatch } from '../app/hooks'
 type Props = {
     triggerHeaderClass?: boolean
 }
@@ -14,6 +16,7 @@ const Header = (props: Props) => {
     const [triggerHeaderClass, setTriggerHeaderClass] = useState(false)
     const user = useContext(AuthContext)
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
 
     React.useEffect(() => {
 
@@ -36,7 +39,7 @@ const Header = (props: Props) => {
 
 
 
-    function SignOptions() {
+    const SignOptions = () => {
         return (
             <div className="flex items-center space-x-2 px-5">
                 <Link to="/signup">
@@ -96,6 +99,7 @@ const Header = (props: Props) => {
                 </div>
                 <div className="flex items-center space-x-2 w-1/4 whitespace-nowrap">
                     <div
+                        onClick={() => dispatch(activated())}
                         className="flex items-center cursor-pointer w-full hover:brightness-95 transition justify-between hover:text-white text-gray-400 bg-gray-400 border border-gray-600 border-opacity-30 px-3 py-2 rounded-full bg-opacity-30">
                         <BsSearch className="" />
                         <p className="text-xs">Quick Search</p>
