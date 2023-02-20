@@ -7,6 +7,7 @@ import mangas from '../data/mangas.json'
 import { MouseEvent, MouseEventHandler } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { deactivated } from '../features/quickSearch/quickSearchSlice'
+import { Link } from 'react-router-dom'
 
 const Searchbar = () => {
 
@@ -88,14 +89,7 @@ const Searchbar = () => {
     }
     async function getMangaStatistics(id:any) {
         const resp = await axios.get(`https://api.mangadex.org/statistics/manga/${id}`)
-    
         const { rating, follows } = resp.data.statistics[id];
-    
-        console.log(
-            'Mean Rating:', rating.average, '\n' +
-            'Bayesian Rating:', rating.bayesian, '\n' +
-            'Follows:', follows
-        );
     
         return { rating, follows };
     }
@@ -133,7 +127,7 @@ const Searchbar = () => {
                             cover = 'https://uploads.mangadex.org/covers/504cb09b-6f5d-4a2c-a363-6de16f8d96cc/51ebaf79-7c48-4b70-8303-a4d7a40e7887.jpg'
                         }
 
-                        const mangaStats = await getMangaStatistics(manga.id); // can't add await/async on this function !
+                        const mangaStats = await getMangaStatistics(manga.id); 
 
                         return {
                             id: manga.id,
@@ -257,7 +251,7 @@ const Searchbar = () => {
 
                             
                             
-
+                            <Link to={`/manga/${result.id}`}>
                             <div
                                 key={`result-${result.id}`}
                                 className="flex items-center justify-between px-5 py-3 border-b hover:bg-gray-100 transition duration-200 cursor-pointer">
@@ -305,6 +299,7 @@ const Searchbar = () => {
                                     <IoCloseOutline className="text-gray-400 hover:text-red-500 cursor-pointer transition duration-200" />
                                 </div>
                             </div>
+                            </Link>
                         ))
                     }
                 </div>

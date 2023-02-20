@@ -1,10 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Carousel from "./components/Carousel";
+import Manga from "./components/Manga";
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import ErrorGeneric from "./pages/errors/ErrorGeneric";
 import Homepage from "./pages/Homepage";
+
 
 export default createBrowserRouter([
     {
@@ -29,5 +31,9 @@ export default createBrowserRouter([
     {
         path: "/signup",
         element: <Signup />,
+    },
+    {
+        path: "/manga/:id",
+        element: <Manga/>,
     },
 ])
