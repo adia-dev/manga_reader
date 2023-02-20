@@ -86,10 +86,25 @@ const Searchbar = () => {
                 return 'gray';
         }
     }
+    async function getMangaStatistics(id:any) {
+        const resp = await axios.get(`https://api.mangadex.org/statistics/manga/${id}`)
+    
+        const { rating, follows } = resp.data.statistics[id];
+    
+        console.log(
+            'Mean Rating:', rating.average, '\n' +
+            'Bayesian Rating:', rating.bayesian, '\n' +
+            'Follows:', follows
+        );
+    
+        return { rating, follows };
+    }
 
 
-
-
+// useEffect( ()=>{
+//     let mangaStats = getMangaStatistics("504cb09b-6f5d-4a2c-a363-6de16f8d96cc");
+//     console.log(mangaStats)
+// })
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent<HTMLElement>) => {
             if ((event.target as HTMLElement).id === 'searchbar-background') {
@@ -105,28 +120,34 @@ const Searchbar = () => {
 
         const debounce = setTimeout(async () => {
             if (query.length > 0) {
-                const results = await axios.get(`https://api.mangadex.org/manga?title=${encodeURI(query)}&limit=5&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&includes[]=cover_art&order[relevance]=desc`)
-                const mappedResults = results.data.data.map((manga: any) => {
-                    let cover = manga.relationships.find((rel: any) => rel.type === 'cover_art')
-                    if (cover) {
-                        cover = `https://uploads.mangadex.org/covers/${manga.id}/${cover.attributes.fileName}.256.jpg`
-                    } else {
-                        cover = 'https://mangadex.org/images/manga/0.jpg'
-                    }
+                const results = await axios.get(`https://api.mangadex.org/manga?title=${encodeURI(query)}&limit=5&contentRating[]=safe&includes[]=cover_art&order[relevance]=desc`)
+                
+                
+                const mappedResults = await Promise.all(results.data.data.map( async(manga: any) => {
+                
 
-                    return {
-                        id: manga.id,
-                        title: manga.attributes.title.en,
-                        cover,
-                        rating: manga.attributes.contentRating,
-                        saved: false,
-                        saved_count: 1000,
-                        read_count: 1_000_000,
-                        status: manga.attributes.status,
-                        path: `/manga/${manga.id}`
-                    }
-                })
+                        let cover = manga.relationships.find((rel: any) => rel.type === 'cover_art')
+                        if (cover) {
+                            cover = `https://uploads.mangadex.org/covers/${manga.id}/${cover.attributes.fileName}.256.jpg`
+                        } else {
+                            cover = 'https://uploads.mangadex.org/covers/504cb09b-6f5d-4a2c-a363-6de16f8d96cc/51ebaf79-7c48-4b70-8303-a4d7a40e7887.jpg'
+                        }
 
+                        const mangaStats = await getMangaStatistics(manga.id); // can't add await/async on this function !
+
+                        return {
+                            id: manga.id,
+                            title: manga.attributes.title.en,
+                            cover,
+                            rating: Math.round(( mangaStats.rating.bayesian + Number.EPSILON) * 100) / 100,
+                            saved: false,
+                            saved_count: mangaStats.follows,
+                            read_count: 1_000_000,
+                            status: manga.attributes.status,
+                            path: `/manga/${manga.id}`
+                        };
+                    
+                }));
                 setResults(mappedResults)
 
                 console.log(mappedResults)
@@ -233,6 +254,10 @@ const Searchbar = () => {
                     }
                     {
                         results.map((result: any) => (
+
+                            
+                            
+
                             <div
                                 key={`result-${result.id}`}
                                 className="flex items-center justify-between px-5 py-3 border-b hover:bg-gray-100 transition duration-200 cursor-pointer">
