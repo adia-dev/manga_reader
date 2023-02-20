@@ -17,7 +17,7 @@ const getMangaList = async (url: string): Promise<Manga[]> => {
   };
 
 const Row = (props: Props) => {
-    const [mangaList, setMangaList] = useState(mangas.data);
+    const [mangaList, setMangaList] = useState();
 
     useEffect(() => {
         const fetchMangaList = async () => {
@@ -36,7 +36,7 @@ const Row = (props: Props) => {
                 <div className="overflow-x-scroll flex items-center scrollbar">
 
                     {
-                            mangaList.map((manga) => (
+                            mangaList && mangaList.map((manga) => (
                             <div className='relative h-[250px] aspect-[0.7] brightness-75 bg-[#222] shadow-xl rounded-sm m-2 cursor-pointer hover:scale-105 group transition-all duration-300 hover:z-50 hover:border-[#fff] hover:border-2 hover:shadow-2xl hover:brightness-100 m-4'
                                 key={manga.id}
                             >   
