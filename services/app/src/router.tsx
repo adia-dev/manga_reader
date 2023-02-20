@@ -18,7 +18,7 @@ export default createBrowserRouter([
             },
             {
                 path: "/carousel",
-                element: <Carousel setSearchBarOpened={() => { }} />,
+                element: <Carousel />,
             },
         ],
     },

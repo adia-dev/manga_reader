@@ -4,13 +4,15 @@ import { BsArrowDownShort, BsArrowLeftShort, BsArrowRightShort, BsArrowUpShort, 
 import { FiCommand } from "react-icons/fi";
 import { MouseEvent, MouseEventHandler } from 'react';
 import mangas from "../data/mangas.json";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { activated } from "../features/quickSearch/quickSearchSlice";
 
 type Props = {
-  setSearchBarOpened: (opened: boolean) => void;
+  setQuickSearchBarOpened?: (opened: boolean) => void;
 };
 
 
-const Carousel = ({ setSearchBarOpened }: Props) => {
+const Carousel = () => {
   const [current, setCurrent] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [startMouseY, setStartMouseY] = useState(0);
@@ -22,6 +24,9 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
   const [canPlayTrailer, setCanPlayTrailer] = useState(false);
   const [playTrailerTimeout, setPlayTrailerTimeout] = useState(null);
   const [showContextMenu, setShowContextMenu] = useState(false);
+
+  const quickSearchBarOpened = useAppSelector(state => state.quickSearch.active)
+  const dispatch = useAppDispatch()
 
   // load manga videos with require
 
@@ -46,7 +51,7 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
 
       if (e.key === "ArrowLeft") {
         if (currentPage === 0) {
-          setSearchBarOpened(true);
+          dispatch(activated())
         } else {
           setCurrentPage(Math.max(currentPage - 1, 0));
         }
@@ -68,7 +73,8 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
       // if right click
       if (e.which === 3) {
         e.preventDefault();
-        setSearchBarOpened(true);
+        dispatch(activated())
+
       }
 
       window.document.oncontextmenu = (e) => {
@@ -126,7 +132,7 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
       clearInterval(interval);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [mangas, current, isDragging, currentPage, setSearchBarOpened]);
+  }, [mangas, current, isDragging, currentPage]);
 
   const SCROLL_TRESHOLD = 150;
 
@@ -201,7 +207,7 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
 
     if (mouseX - startMouseX > SCROLL_TRESHOLD) {
       if (currentPage === 0) {
-        setSearchBarOpened(true);
+        dispatch(activated())
         return;
       }
       setCurrentPage(Math.max(currentPage - 1, 0));
@@ -257,7 +263,9 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
             <p className="text-xs text-gray-300">Mouse and Keyboard support</p>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 bg-gray-700 border border-gray-600 border-opacity-30 px-3 py-2 rounded-xl bg-opacity-30">
+            <div
+              onClick={() => dispatch(activated())}
+              className="flex items-center space-x-2 bg-gray-700 border border-gray-600 border-opacity-30 px-3 py-2 rounded-xl bg-opacity-30">
               <BsSearch className="" />
               <p className="text-xs text-gray-300">Quick Search</p>
               <div className="flex items-center text-xs space-x-1">
