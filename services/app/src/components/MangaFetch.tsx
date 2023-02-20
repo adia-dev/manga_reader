@@ -11,8 +11,6 @@ const getMangaList = async (url: string): Promise<Manga[]> => {
 };
 
     const MangaFetch: React.FC = (props: Props) => {
-
- 
     const [mangaList, setMangaList] = useState(mangas.data);
 
 
@@ -30,12 +28,11 @@ const getMangaList = async (url: string): Promise<Manga[]> => {
           <ul>
             {mangaList.map((manga) => (
               <li className='text-white' key={manga.id}>
-                <img className='text-white' src={`https://uploads.mangadex.org/covers/${manga.id}/${manga.relationships.find((rel)=>rel.type==="cover_art")?.attributes?.fileName}`} alt="title" />
-                <p>{manga.attributes.altTitles.find((lang:object)=>lang.hasOwnProperty('ja'))?.ja}</p>
+                <img className='h-14' src={`https://uploads.mangadex.org/covers/${manga.id}/${manga.relationships.find((rel)=>rel.type==="cover_art")?.attributes?.fileName}`} alt="title" />
+                <p>{manga.attributes.title.en}</p>
               </li>
             ))}
           </ul>
-
       </>
     );
   };
