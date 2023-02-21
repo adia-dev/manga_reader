@@ -69,7 +69,7 @@ const FeaturedMangas = (props: Props) => {
 
 
     return (
-        <div className='w-10/12 mx-auto z-10 h-[400px] overflow-hidden relative rounded-xl'>
+        <div className='w-10/12 mx-auto z-10 h-[400px] overflow-hidden relative rounded-xl mb-8'>
             <div className="w-full h-full scale-105 absolute left-0 top-0 -z-10"
                 style={{
                     backgroundImage: `url(${mangas[currentMangaIndex].cover})`,
