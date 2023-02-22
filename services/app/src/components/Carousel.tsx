@@ -4,13 +4,15 @@ import { BsArrowDownShort, BsArrowLeftShort, BsArrowRightShort, BsArrowUpShort, 
 import { FiCommand } from "react-icons/fi";
 import { MouseEvent, MouseEventHandler } from 'react';
 import mangas from "../data/mangas.json";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { activated } from "../features/quickSearch/quickSearchSlice";
 
 type Props = {
-  setSearchBarOpened: (opened: boolean) => void;
+  setQuickSearchBarOpened?: (opened: boolean) => void;
 };
 
 
-const Carousel = ({ setSearchBarOpened }: Props) => {
+const Carousel = () => {
   const [current, setCurrent] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [startMouseY, setStartMouseY] = useState(0);
@@ -21,6 +23,10 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
   // const [mangas, setMangas] = useState(mangas);
   const [canPlayTrailer, setCanPlayTrailer] = useState(false);
   const [playTrailerTimeout, setPlayTrailerTimeout] = useState(null);
+  const [showContextMenu, setShowContextMenu] = useState(false);
+
+  const quickSearchBarOpened = useAppSelector(state => state.quickSearch.active)
+  const dispatch = useAppDispatch()
 
   // load manga videos with require
 
@@ -45,7 +51,7 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
 
       if (e.key === "ArrowLeft") {
         if (currentPage === 0) {
-          setSearchBarOpened(true);
+          dispatch(activated())
         } else {
           setCurrentPage(Math.max(currentPage - 1, 0));
         }
@@ -55,13 +61,78 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
         );
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("mousedown", (e: any) => {
+
+      const contextMenu = document.getElementById('context-menu');
+      if (contextMenu && !contextMenu.contains(e.target as Node)) {
+        contextMenu.remove();
+      }
+
+      // if right click
+      if (e.which === 3) {
+        e.preventDefault();
+        dispatch(activated())
+
+      }
+
+      window.document.oncontextmenu = (e) => {
+        e.preventDefault();
+
+        if (document.getElementById("context-menu")) {
+          document.getElementById("context-menu")!.remove();
+        }
+
+        const carousel = document.getElementById("carousel");
+        const div = document.createElement("div");
+        div.id = "context-menu";
+        div.style.position = "absolute";
+
+        // handle the position of the context menu so it doesn't go out of the screen
+        const { clientX, clientY } = e;
+        const { innerWidth, innerHeight } = window;
+        const { offsetWidth, offsetHeight } = div;
+
+        const x = clientX + offsetWidth > innerWidth ? innerWidth - offsetWidth : clientX;
+        const y = clientY + offsetHeight > innerHeight ? innerHeight - offsetHeight : clientY;
+
+        div.style.left = `${x}px`;
+        div.style.top = `${y}px`;
+
+        div.style.width = "200px";
+        div.style.height = "100px";
+
+
+        div.style.backgroundColor = "red";
+        div.style.zIndex = "99999";
+        div.style.borderRadius = "10px";
+        div.style.display = "flex";
+        div.style.justifyContent = "center";
+        div.style.alignItems = "center";
+        div.style.color = "white";
+        div.style.fontSize = "2em";
+        div.style.userSelect = "none";
+        div.style.cursor = "pointer";
+        div.innerText = "Overidden context menu";
+
+
+        if (carousel) {
+          carousel.appendChild(div);
+        } else {
+          document.body.appendChild(div);
+        }
+        setShowContextMenu(true);
+        return false;
+      }
+    });
+
 
     return () => {
       clearInterval(interval);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [mangas, current, isDragging, currentPage, setSearchBarOpened]);
+  }, [mangas, current, isDragging, currentPage]);
 
   const SCROLL_TRESHOLD = 150;
 
@@ -136,7 +207,7 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
 
     if (mouseX - startMouseX > SCROLL_TRESHOLD) {
       if (currentPage === 0) {
-        setSearchBarOpened(true);
+        dispatch(activated())
         return;
       }
       setCurrentPage(Math.max(currentPage - 1, 0));
@@ -146,6 +217,18 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
       return;
     }
   };
+  const handleRightClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    console.log("right click");
+  };
+
+
+
+
+  function getVideoUrl(trailer: string) {
+    return new URL(`../assets/videos/trailers/${trailer}.mp4`, import.meta.url).href
+  }
+
 
   return (
     <div
@@ -180,7 +263,9 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
             <p className="text-xs text-gray-300">Mouse and Keyboard support</p>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 bg-gray-700 border border-gray-600 border-opacity-30 px-3 py-2 rounded-xl bg-opacity-30">
+            <div
+              onClick={() => dispatch(activated())}
+              className="flex items-center space-x-2 bg-gray-700 border border-gray-600 border-opacity-30 px-3 py-2 rounded-xl bg-opacity-30">
               <BsSearch className="" />
               <p className="text-xs text-gray-300">Quick Search</p>
               <div className="flex items-center text-xs space-x-1">
@@ -303,7 +388,7 @@ const Carousel = ({ setSearchBarOpened }: Props) => {
                   className="flex items-center justify-center w-full h-full object-cover absolute top-0 left-0 z-10"
                   autoPlay
                   loop
-                  src={require(`../assets/videos/trailers/${manga.trailerID}.mp4`)}
+                  src={getVideoUrl(manga.trailerID as string)}
                 ></video>
               )}
             </div>

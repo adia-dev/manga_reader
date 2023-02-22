@@ -1,6 +1,7 @@
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 import { auth } from '../firebase'
 
 
@@ -16,6 +17,11 @@ const Signin = ({ accountSectionOpened, setAccountSectionOpened }: SigninProps) 
     const [error, setError] = useState('')
     const navigate = useNavigate();
 
+
+    const alreadySignedIn = useContext(AuthContext) !== null
+    if (alreadySignedIn) {
+        return <Navigate to='/' />
+    }
 
 
     const signIn = async (email: string, password: string) => {
@@ -33,20 +39,20 @@ const Signin = ({ accountSectionOpened, setAccountSectionOpened }: SigninProps) 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setError('')
-        if (password !== '' && email !== ''){
+        if (password !== '' && email !== '') {
             try {
-                await signIn(email, password) ? navigate('/') : null
+                await signIn(email, password) ? navigate('/') : setError("An error has occurred while attempting to sign in")
             } catch (error: any) {
                 null
             }
-        }else{
+        } else {
             setError('The information entered is not correct ')
         }
     }
 
 
     return (
-        <div  className='w-screen p-6 bg-dark-primary'>
+        <div className='w-screen p-6 bg-dark-primary'>
             <div className='flex h-screen bg-gray-100  border rounded-xl border-dark-primary'>
                 <div className=' w-1/2 my-auto bg-gray-100 '>
                     <form onSubmit={handleSubmit} className='bg-gray-100 max-w-md mx-auto'>
@@ -67,12 +73,13 @@ const Signin = ({ accountSectionOpened, setAccountSectionOpened }: SigninProps) 
                         <p className='pt-3 text-center text-gray-500'>Don't have an account ? <Link to='/signup' className='underline text-dark-tertiary'>Sign up</Link></p>
                     </form>
                 </div>
-                <div className='flex-auto w-1/2 bg-yellow-400' 
+                <div className='flex-auto w-1/2 bg-yellow-400'
                     style={{
-                    backgroundImage: 'url(https://preview.redd.it/z6btu437zgi91.jpg?auto=webp&s=e633b3c45ce542ab88661d0e23db201d00a1b803)', 
-                    backgroundSize: 'cover',
-                    backgroundPosition: '45% 20%',
-                    backgroundRepeat: 'no-repeat'}}/>
+                        backgroundImage: 'url(https://preview.redd.it/z6btu437zgi91.jpg?auto=webp&s=e633b3c45ce542ab88661d0e23db201d00a1b803)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: '45% 20%',
+                        backgroundRepeat: 'no-repeat'
+                    }} />
             </div>
         </div>
     )

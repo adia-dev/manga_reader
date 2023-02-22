@@ -5,13 +5,13 @@ import { BsBookmark, BsBookmarkDashFill, BsBookmarkFill, BsBookmarkPlus, BsEyeFi
 import { IoCloseOutline } from 'react-icons/io5'
 import mangas from '../data/mangas.json'
 import { MouseEvent, MouseEventHandler } from 'react';
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { deactivated } from '../features/quickSearch/quickSearchSlice'
+import { Link } from 'react-router-dom'
 
-type Props = {
-    setSearchBarOpened: (value: boolean) => void,
-    searchBarOpened: boolean
-}
+const Searchbar = () => {
 
-const Searchbar = ({ setSearchBarOpened, searchBarOpened }: Props) => {
+    const dispatch = useAppDispatch()
 
     const [query, setQuery] = useState('')
     const [recents, setRecents] = useState([
@@ -45,6 +45,7 @@ const Searchbar = ({ setSearchBarOpened, searchBarOpened }: Props) => {
     ])
 
     const [results, setResults] = useState([])
+    const quickSearchBarOpened = useAppSelector(state => state.quickSearch.active)
 
 
     const BeautifiedMangaStatus = (status: string) => {
@@ -86,42 +87,61 @@ const Searchbar = ({ setSearchBarOpened, searchBarOpened }: Props) => {
                 return 'gray';
         }
     }
+    async function getMangaStatistics(id:any) {
+        const resp = await axios.get(`https://api.mangadex.org/statistics/manga/${id}`)
+        const { rating, follows } = resp.data.statistics[id];
+    
+        return { rating, follows };
+    }
 
 
-
-
+// useEffect( ()=>{
+//     let mangaStats = getMangaStatistics("504cb09b-6f5d-4a2c-a363-6de16f8d96cc");
+//     console.log(mangaStats)
+// })
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent<HTMLElement>) => {
             if ((event.target as HTMLElement).id === 'searchbar-background') {
-                setSearchBarOpened(false)
+                dispatch(deactivated())
             }
+        }
+
+        const handleCloseWithEscapeKey = (event: KeyboardEvent) => {
+            if (quickSearchBarOpened && event.key === 'Escape')
+                dispatch(deactivated())
         }
 
 
         const debounce = setTimeout(async () => {
             if (query.length > 0) {
-                const results = await axios.get(`https://api.mangadex.org/manga?title=${encodeURI(query)}&limit=5&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&includes[]=cover_art&order[relevance]=desc`)
-                const mappedResults = results.data.data.map((manga: any) => {
-                    let cover = manga.relationships.find((rel: any) => rel.type === 'cover_art')
-                    if (cover) {
-                        cover = `https://uploads.mangadex.org/covers/${manga.id}/${cover.attributes.fileName}.256.jpg`
-                    } else {
-                        cover = 'https://mangadex.org/images/manga/0.jpg'
-                    }
+                const results = await axios.get(`https://api.mangadex.org/manga?title=${encodeURI(query)}&limit=5&contentRating[]=safe&includes[]=cover_art&order[relevance]=desc`)
+                
+                
+                const mappedResults = await Promise.all(results.data.data.map( async(manga: any) => {
+                
 
-                    return {
-                        id: manga.id,
-                        title: manga.attributes.title.en,
-                        cover,
-                        rating: manga.attributes.contentRating,
-                        saved: false,
-                        saved_count: 1000,
-                        read_count: 1_000_000,
-                        status: manga.attributes.status,
-                        path: `/manga/${manga.id}`
-                    }
-                })
+                        let cover = manga.relationships.find((rel: any) => rel.type === 'cover_art')
+                        if (cover) {
+                            cover = `https://uploads.mangadex.org/covers/${manga.id}/${cover.attributes.fileName}.256.jpg`
+                        } else {
+                            cover = 'https://uploads.mangadex.org/covers/504cb09b-6f5d-4a2c-a363-6de16f8d96cc/51ebaf79-7c48-4b70-8303-a4d7a40e7887.jpg'
+                        }
 
+                        const mangaStats = await getMangaStatistics(manga.id); 
+
+                        return {
+                            id: manga.id,
+                            title: manga.attributes.title.en,
+                            cover,
+                            rating: Math.round(( mangaStats.rating.bayesian + Number.EPSILON) * 100) / 100,
+                            saved: false,
+                            saved_count: mangaStats.follows,
+                            read_count: 1_000_000,
+                            status: manga.attributes.status,
+                            path: `/manga/${manga.id}`
+                        };
+                    
+                }));
                 setResults(mappedResults)
 
                 console.log(mappedResults)
@@ -131,11 +151,13 @@ const Searchbar = ({ setSearchBarOpened, searchBarOpened }: Props) => {
         }, 500)
 
         window.addEventListener('click', handleClickOutside as any)
+        window.addEventListener('keydown', handleCloseWithEscapeKey as any)
         return () => {
             window.removeEventListener('click', handleClickOutside as any)
+            window.removeEventListener('keydown', handleCloseWithEscapeKey as any)
             clearTimeout(debounce)
         }
-    }, [query, setSearchBarOpened])
+    }, [query])
 
 
     const OnInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,16 +167,16 @@ const Searchbar = ({ setSearchBarOpened, searchBarOpened }: Props) => {
 
 
     return (
-        <div className='w-screen h-screen fixed top-0 left-0 z-40 bg-[#000000] bg-opacity-50  flex justify-center' style={{ visibility: searchBarOpened ? 'visible' : 'hidden' }}>
+        <div className='w-screen h-screen fixed top-0 left-0 z-40 bg-[#000000] bg-opacity-50  flex justify-center' style={{ visibility: quickSearchBarOpened ? 'visible' : 'hidden' }}>
             <div className="fixed top-0 left-0 w-full h-full bg-[#000000] bg-opacity-50 " id="searchbar-background"></div>
             <div
                 id="searchbar-content"
                 className="bg-white rounded-xl w-1/2 h-fit mt-28 shadow-md z-50 overflow-hidden"
                 style={{
-                    visibility: searchBarOpened ? 'visible' : 'hidden',
+                    visibility: quickSearchBarOpened ? 'visible' : 'hidden',
                     transition: 'all 0.3s 0.1s ease-out',
-                    transform: searchBarOpened ? 'scale(1) translateY(0%)' : 'scale(0.85) translateY(-20%)',
-                    opacity: searchBarOpened ? '1' : '0',
+                    transform: quickSearchBarOpened ? 'scale(1) translateY(0%)' : 'scale(0.85) translateY(-20%)',
+                    opacity: quickSearchBarOpened ? '1' : '0',
                 }}
             >
                 <div className="flex justify-center items-center border-b px-5 space-x-2">
@@ -166,7 +188,7 @@ const Searchbar = ({ setSearchBarOpened, searchBarOpened }: Props) => {
                         className="w-full outline-none py-3" placeholder='Search for a manga, an author, an artist...' />
                     <div
                         className="flex items-center text-xs cursor-pointer hover:scale-105 transition-all duration-200"
-                        onClick={() => { setSearchBarOpened(false) }}>
+                        onClick={() => { dispatch(deactivated()) }}>
                         <span className='bg-gray-400 text-gray-100 p-1 rounded-lg'>esc</span>
                         <IoCloseOutline className="text-2xl text-gray-400" />
                     </div>
@@ -226,6 +248,10 @@ const Searchbar = ({ setSearchBarOpened, searchBarOpened }: Props) => {
                     }
                     {
                         results.map((result: any) => (
+
+                            
+                            
+                            <Link to={`/manga/${result.id}`}>
                             <div
                                 key={`result-${result.id}`}
                                 className="flex items-center justify-between px-5 py-3 border-b hover:bg-gray-100 transition duration-200 cursor-pointer">
@@ -273,6 +299,7 @@ const Searchbar = ({ setSearchBarOpened, searchBarOpened }: Props) => {
                                     <IoCloseOutline className="text-gray-400 hover:text-red-500 cursor-pointer transition duration-200" />
                                 </div>
                             </div>
+                            </Link>
                         ))
                     }
                 </div>
