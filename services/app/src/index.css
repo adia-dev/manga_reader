@@ -30,3 +30,11 @@ body{
     }
   }
   
+.background-image{
+  background-repeat: no-repeat;
+  background-size: 100%;
+  opacity: 0.6;
+  /* filter: blur(8px); */
+
+  background-position: center 25%;
+}
