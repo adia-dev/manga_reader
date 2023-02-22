@@ -6,7 +6,7 @@ use actix_web::{
 };
 use futures_util::future::LocalBoxFuture;
 
-use crate::models::app_data::ApplicationData;
+use crate::{cache, models::app_data::ApplicationData};
 
 // There are two steps in middleware processing.
 // 1. Middleware initialization, middleware factory gets called with
@@ -54,8 +54,10 @@ where
     fn call(&self, req: ServiceRequest) -> Self::Future {
         {
             let app_data = req.app_data::<web::Data<ApplicationData>>().unwrap();
+
             let mut request_count = app_data.request_count.lock().unwrap();
             *request_count += 1;
+            cache::redis_cache::set_value("request_count", *request_count).unwrap();
         }
 
         let fut = self.service.call(req);
