@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import FeaturedMangas from '../components/FeaturedMangas'
 import Row from '../components/Row'
-import MangaFetch from '../components/MangaFetch'
+
 import { AuthContext } from '../context/AuthContext'
 
 type Props = {}
