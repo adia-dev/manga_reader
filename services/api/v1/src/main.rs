@@ -31,7 +31,14 @@ async fn main() -> std::io::Result<()> {
             )
             .service(services::ping)
             .service(services::app_data)
-            .service(web::scope("/manga").service(services::manga::get_manga_by_title))
+            .service(
+                web::scope("/manga")
+                    .service(services::manga::get_manga_by_title)
+                    .service(services::manga::get_manga_by_id)
+                    .service(services::manga::get_manga_stats_by_id)
+                    .service(services::manga::get_manga_stats_by_title)
+                    .service(services::manga::get_manga_by_order),
+            )
     })
     .bind(dotenv::var("API_BIND_ADDR").unwrap())?
     .run();
