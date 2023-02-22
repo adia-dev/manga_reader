@@ -1,5 +1,5 @@
 use std::sync::Mutex;
 
 pub struct ApplicationData {
-    pub count: Mutex<i32>,
+    pub request_count: Mutex<i32>,
 }
