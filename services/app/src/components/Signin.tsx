@@ -30,15 +30,15 @@ const Signin = ({ accountSectionOpened, setAccountSectionOpened }: SigninProps) 
         }
     };
 
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setError('')
         try {
             await signIn(email, password)
+            console.log("passe par la aussi ")
             navigate("/")
-        } catch (e: any) {
-            setError(e.message)
+        } catch (error: any) {
+            setError(error.message)
         }
     }
 
@@ -53,7 +53,7 @@ const Signin = ({ accountSectionOpened, setAccountSectionOpened }: SigninProps) 
                         <p className='text-red-600 mt-2'>{error}</p>
                         <div className='flex flex-col mt-5'>
                             <label htmlFor="">Email</label>
-                            <input placeholder='Enter your email' onChange={(e) => setEmail(e.target.value)} className='border-gray-300 rounded-md border-2 p-3 bg-gray-100 mt-2' type="emial" />
+                            <input placeholder='Enter your email' onChange={(e) => setEmail(e.target.value)} className='border-gray-300 rounded-md border-2 p-3 bg-gray-100 mt-2' type="email" />
                         </div>
                         <div className='flex flex-col mt-5'>
                             <label htmlFor="">Password</label>
