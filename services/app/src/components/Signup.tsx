@@ -29,22 +29,18 @@ const Signup = () => {
                 password
             );
         } catch (error: any) {
-            console.error(error)
-            setError(error.message)
+            setError("Your email or password is incorrect")
         }
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setError('')
-        if (email !== '' || password !== '' && password === confPassword){
+        if (password === confPassword && email !== '' && password !== '' ){
             try {
-                console.log(password, email)
-                console.log("le truc", await createUser(email, password))
-                // navigate('/')
+                await createUser(email, password) ? navigate('/') : null
             } catch (error: any) {
-                console.log("C'ets normalement pas bon")
-
+                null
             }
         }else{
             setError('The information entered is not correct ')

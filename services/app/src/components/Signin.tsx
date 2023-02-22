@@ -20,7 +20,7 @@ const Signin = ({ accountSectionOpened, setAccountSectionOpened }: SigninProps) 
 
     const signIn = async (email: string, password: string) => {
         try {
-            await signInWithEmailAndPassword(
+            return await signInWithEmailAndPassword(
                 auth,
                 email,
                 password
@@ -33,12 +33,14 @@ const Signin = ({ accountSectionOpened, setAccountSectionOpened }: SigninProps) 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setError('')
-        try {
-            await signIn(email, password)
-            console.log("passe par la aussi ")
-            navigate("/")
-        } catch (error: any) {
-            setError(error.message)
+        if (password !== '' && email !== ''){
+            try {
+                await signIn(email, password) ? navigate('/') : null
+            } catch (error: any) {
+                null
+            }
+        }else{
+            setError('The information entered is not correct ')
         }
     }
 
