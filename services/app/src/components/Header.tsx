@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react'
 import { BsSearch } from 'react-icons/bs'
 import { FiCommand } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
-import { AuthContext } from '../context/AuthContext'
-import { auth } from '../firebase'
-import { activated } from '../features/quickSearch/quickSearchSlice'
 import { useAppDispatch } from '../app/hooks'
+import { AuthContext } from '../context/AuthContext'
+import { activated } from '../features/quickSearch/quickSearchSlice'
+import { auth } from '../firebase'
 type Props = {
     triggerHeaderClass?: boolean
 }
@@ -63,6 +63,7 @@ const Header = (props: Props) => {
 
 
 
+
     return (
         <div
             id="Header"
@@ -117,18 +118,27 @@ const Header = (props: Props) => {
                         </div>
                     </div>
                 </div>
+
                 {
                     user ? (
-                        <div className="flex items-center space-x-2">
-                            <p>{user.email}</p>
-                            <div className="flex items-center space-x-2 px-5"
-                                onClick={handleSignOut}>
-                                <p className='text-sm hover:bg-dark-tertiary hover:text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Log out</p>
-                            </div>
+                        <div className="flex items-center space-x-2 px-5">
+                            <Link to="/profile">
+                                <p className='text-sm hover:bg-dark-tertiary hover:text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Profile</p>
+                            </Link>
+                            <Link to="/logout">
+                                <p className='text-sm bg-dark-tertiary text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Logout</p>
+                            </Link>
                         </div>
-
                     ) : (
-                        <SignOptions />
+                        <div className="flex items-center space-x-2 px-5">
+                            <Link to="/signup">
+                                <p className='text-sm hover:bg-dark-tertiary hover:text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Sign Up</p>
+                            </Link>
+                            <Link to="/login">
+                                <p className='text-sm bg-dark-tertiary text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Login</p>
+                            </Link>
+
+                        </div>
                     )
                 }
             </div>
