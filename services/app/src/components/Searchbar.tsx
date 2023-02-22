@@ -88,7 +88,7 @@ const Searchbar = () => {
         }
     }
     async function getMangaStatistics(id: any) {
-        const resp = await axios.get(`https://api.mangadex.org/statistics/manga/${id}`)
+        const resp = await axios.get(`http://localhost:8080/manga/id/${id}/stats`)
         const { rating, follows } = resp.data.statistics[id];
 
         return { rating, follows };
@@ -124,7 +124,7 @@ const Searchbar = () => {
                     if (cover) {
                         cover = `https://uploads.mangadex.org/covers/${manga.id}/${cover.attributes.fileName}.256.jpg`
                     } else {
-                        cover = 'https://uploads.mangadex.org/covers/504cb09b-6f5d-4a2c-a363-6de16f8d96cc/51ebaf79-7c48-4b70-8303-a4d7a40e7887.jpg'
+                        cover = 'https://via.placeholder.com/256'
                     }
 
                     const mangaStats = await getMangaStatistics(manga.id);
