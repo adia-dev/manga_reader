@@ -24,7 +24,7 @@ async function getMangaInformation(id:any) {
     const mangaRatingAndFollows = await getMangaRatingAndFollows(data.id); 
 
     let cover = data.relationships.find((rel: any) => rel.type === 'cover_art')
-                    ? `https://uploads.mangadex.org/covers/${id}/${data.relationships.find((rel: any) => rel.type === 'cover_art').attributes.fileName}.256.jpg`
+                    ? `https://uploads.mangadex.org/covers/${id}/${data.relationships.find((rel: any) => rel.type === 'cover_art').attributes.fileName}`
                     : 'https://uploads.mangadex.org/covers/504cb09b-6f5d-4a2c-a363-6de16f8d96cc/51ebaf79-7c48-4b70-8303-a4d7a40e7887.jpg';
 
     // console.log("title en : ", data.attributes.title.en);
@@ -58,9 +58,12 @@ const MangaPage = (props: Props) => {
     },[])
 
   return (
-    <div className='w-full h-full pt-[90px]'
+    <div className="w-full h-full  pt-[90px] "
     data-testid='mangaDetails'
 >   
+<div className="h-96 blur-xl w-full background-image bg-[url('https://uploads.mangadex.org/covers/32d76d19-8a05-4db0-9fc2-e0b0648fe9d0/4d709522-25f5-4ac0-9b6c-3798a223c7ae.jpg')]">
+
+</div>
 
     
     
