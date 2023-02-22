@@ -1,19 +1,12 @@
-use chrono::offset::{FixedOffset, Utc};
-use chrono::DateTime;
-use serde::{Deserialize, Serialize};
-
-use actix_web::{body, get, post, web, App, HttpRequest, HttpResponse, HttpServer, Responder};
-use std::sync::{Arc, Mutex};
-
-use crate::handlers;
 use crate::models::manga::MangaResponse;
-use crate::{cache, models::app_data::ApplicationData};
+use actix_web::{get, web, HttpResponse};
+use serde::{Deserialize, Serialize};
 
 // manga related services inside of a /manga scope
 #[get("/{title}")]
 pub async fn get_manga_by_title(
     title: web::Path<String>,
-    params: web::Query<MangaQueryParams>,
+    _params: web::Query<MangaQueryParams>,
 ) -> HttpResponse {
     let url = format!("{}/manga?title={}&limit=3&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&includes[]=cover_art&order[relevance]=desc", get_mangadex_base_url(), title);
     let response = reqwest::get(&url).await.unwrap().text().await.unwrap();

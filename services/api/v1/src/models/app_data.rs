@@ -1,8 +1,5 @@
-use std::sync::Mutex;
-
-use chrono::offset::{FixedOffset, Utc};
-use chrono::DateTime;
 use serde::{Deserialize, Serialize};
+use std::sync::Mutex;
 
 #[derive(Serialize, Debug, Deserialize)]
 pub struct ApplicationData {

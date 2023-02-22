@@ -1,13 +1,10 @@
-use chrono::offset::{FixedOffset, Utc};
-use chrono::DateTime;
-use serde::{Deserialize, Serialize};
+use chrono::offset::Utc;
 
-use actix_web::{body, get, post, web, App, HttpRequest, HttpResponse, HttpServer, Responder};
-use std::sync::{Arc, Mutex};
+use actix_web::{get, web, HttpResponse, Responder};
+use std::sync::Mutex;
 
 pub mod manga;
 
-use crate::handlers;
 use crate::{cache, models::app_data::ApplicationData};
 
 pub fn recover_previous_session() -> ApplicationData {

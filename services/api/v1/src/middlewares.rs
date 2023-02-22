@@ -1,12 +1,10 @@
-use std::future::{ready, Ready};
-
+use crate::{cache, models::app_data::ApplicationData};
 use actix_web::{
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
     web, Error,
 };
 use futures_util::future::LocalBoxFuture;
-
-use crate::{cache, models::app_data::ApplicationData};
+use std::future::{ready, Ready};
 
 // There are two steps in middleware processing.
 // 1. Middleware initialization, middleware factory gets called with

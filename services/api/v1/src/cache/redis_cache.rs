@@ -2,12 +2,6 @@ extern crate redis;
 use dotenv;
 use redis::{Commands, Connection};
 
-// fn build_con() -> Connection {
-//     let client = redis::Client::open(dotenv::var("REDIS_URL").unwrap()).unwrap();
-//     client.get_connection().unwrap()
-// }
-
-// same as above but safer, handles errors
 fn build_con() -> Result<Connection, redis::RedisError> {
     let client = redis::Client::open(dotenv::var("REDIS_ADDR").unwrap())?;
     client.get_connection()

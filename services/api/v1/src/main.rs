@@ -1,8 +1,5 @@
-use crate::models::app_data::ApplicationData;
 use actix_cors::Cors;
 use actix_web::{middleware::Logger, web, App, HttpServer};
-use cache::redis_cache;
-use std::sync::{Arc, Mutex};
 
 mod cache;
 mod handlers;
