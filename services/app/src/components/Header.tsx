@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { BiMenuAltLeft } from 'react-icons/bi'
 import { BsSearch } from 'react-icons/bs'
 import { FiCommand } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 type Props = {}
 
 const Header = (props: Props) => {
+
+    const user = useContext(AuthContext)
     return (
         <div
             id="Header"
@@ -42,15 +45,29 @@ const Header = (props: Props) => {
                         </div>
                     </div>
                 </div>
-                <div className="flex items-center space-x-2 px-5">
-                    <Link to="/signup">
-                        <p className='text-sm hover:bg-dark-tertiary hover:text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Sign Up</p>
-                    </Link>
-                    <Link to="/login">
-                        <p className='text-sm bg-dark-tertiary text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Login</p>
-                    </Link>
 
-                </div>
+                {
+                    user ? (
+                        <div className="flex items-center space-x-2 px-5">
+                            <Link to="/profile">
+                                <p className='text-sm hover:bg-dark-tertiary hover:text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Profile</p>
+                            </Link>
+                            <Link to="/logout">
+                                <p className='text-sm bg-dark-tertiary text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Logout</p>
+                            </Link>
+                        </div>
+                    ) : (
+                        <div className="flex items-center space-x-2 px-5">
+                            <Link to="/signup">
+                                <p className='text-sm hover:bg-dark-tertiary hover:text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Sign Up</p>
+                            </Link>
+                            <Link to="/login">
+                                <p className='text-sm bg-dark-tertiary text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Login</p>
+                            </Link>
+
+                        </div>
+                    )
+                }
             </div>
         </div>
     )
