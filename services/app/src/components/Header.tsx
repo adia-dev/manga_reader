@@ -125,9 +125,9 @@ const Header = (props: Props) => {
                             <Link to="/profile">
                                 <p className='text-sm hover:bg-dark-tertiary hover:text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Profile</p>
                             </Link>
-                            <Link to="/logout">
+                            <div onClick={handleSignOut}>
                                 <p className='text-sm bg-dark-tertiary text-white px-2 py-1 transition rounded-2xl cursor-pointer'>Logout</p>
-                            </Link>
+                            </div>
                         </div>
                     ) : (
                         <div className="flex items-center space-x-2 px-5">
