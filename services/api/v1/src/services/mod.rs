@@ -5,6 +5,9 @@ use serde::{Deserialize, Serialize};
 use actix_web::{body, get, post, web, App, HttpRequest, HttpResponse, HttpServer, Responder};
 use std::sync::{Arc, Mutex};
 
+pub mod manga;
+
+use crate::handlers;
 use crate::{cache, models::app_data::ApplicationData};
 
 pub fn recover_previous_session() -> ApplicationData {
