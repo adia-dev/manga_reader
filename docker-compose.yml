@@ -2,7 +2,7 @@ version: '3.9'
 services:
   mysql:
     image: mysql:8.0
-    container_name: manga-reader-db
+    container_name: mysql
     restart: always
     ports:
       - '3306:3306'
@@ -12,23 +12,38 @@ services:
       MYSQL_USER: "user"
       MYSQL_PASSWORD: "root"
     volumes:
-      - manga-reader-db-data:/var/lib/mysql
+      - db-data:/var/lib/mysql
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: manga-reader-phpmyadmin
+    container_name: phpmyadmin
     restart: always
     ports:
-      - '8080:80'
+      - '5171:80'
     environment:
       PMA_HOST: mysql
       PMA_USER: user
       PMA_PASSWORD: root
   redis:
     image: redis:6.0.9
-    container_name: manga-reader-redis
+    container_name: redis
     restart: always
     ports:
       - "6379:6379"
+  api_v1:
+    build:
+      context: ./services/api/v1
+      dockerfile: Dockerfile
+    container_name: api_v1
+    restart: always
+    ports:
+      - "5172:5172"
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - MANGADEX_API_BASE_URL=https://api.mangadex.org
+      - REDIS_ADDR=http://redis:6379
+      - PORT=5172
   app:
    build:
       context: ./services/app
@@ -48,4 +63,4 @@ services:
       - MYSQL_DATABASE=manga-reader
    
 volumes:
-  manga-reader-db-data:
+  db-data:

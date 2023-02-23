@@ -55,7 +55,14 @@ where
 
             let mut request_count = app_data.request_count.lock().unwrap();
             *request_count += 1;
-            cache::redis_cache::set_value("request_count", *request_count).unwrap();
+
+            match cache::redis_cache::set_value(
+                "request_count",
+                *app_data.request_count.lock().unwrap(),
+            ) {
+                Ok(_) => (),
+                Err(e) => println!("Error setting request_count in redis: {:?}", e),
+            }
         }
 
         let fut = self.service.call(req);

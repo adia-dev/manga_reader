@@ -3,7 +3,22 @@ use dotenv;
 use redis::{Commands, Connection};
 
 fn build_con() -> Result<Connection, redis::RedisError> {
-    let client = redis::Client::open(dotenv::var("REDIS_ADDR").unwrap())?;
+    println!("REDIS_ADDR: {:?}", dotenv::var("REDIS_ADDR"));
+    let redis_addr = match dotenv::var("REDIS_ADDR") {
+        Ok(addr) => addr,
+        Err(e) => {
+            println!("REDIS_ADDR not found: {:?}", e);
+            return Err(redis::RedisError::from((
+                redis::ErrorKind::ClientError,
+                "REDIS_ADDR not found",
+            )));
+        }
+    };
+
+    let client = match redis::Client::open(redis_addr) {
+        Ok(client) => client,
+        Err(e) => return Err(e),
+    };
     client.get_connection()
 }
 

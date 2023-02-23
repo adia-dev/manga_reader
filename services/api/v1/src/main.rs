@@ -1,5 +1,10 @@
 use actix_cors::Cors;
-use actix_web::{middleware::Logger, web, App, HttpServer};
+use actix_web::{
+    middleware::Logger,
+    web::{self, get},
+    App, HttpServer,
+};
+use dotenv::dotenv;
 
 mod cache;
 mod handlers;
@@ -13,6 +18,10 @@ async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
     let app_data = web::Data::new(services::recover_previous_session());
+    let port: u16 = dotenv::var("PORT")
+        .unwrap_or_else(|_| "5172".to_string())
+        .parse()
+        .unwrap();
 
     let server = HttpServer::new(move || {
         App::new()
@@ -21,7 +30,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(middlewares::AppData)
             .wrap(
                 Cors::default()
-                    .allowed_origin("http://localhost:5173")
+                    .allow_any_origin()
                     .allowed_methods(vec!["POST"])
                     .allowed_headers(vec![
                         http::header::AUTHORIZATION,
@@ -40,8 +49,10 @@ async fn main() -> std::io::Result<()> {
                     .service(services::manga::get_manga_by_order),
             )
     })
-    .bind(dotenv::var("API_BIND_ADDR").unwrap())?
+    .bind(("0.0.0.0", port))?
     .run();
+
+    println!("Server running on port {}", port);
 
     server.await
 }
