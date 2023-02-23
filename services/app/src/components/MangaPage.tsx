@@ -61,13 +61,25 @@ const MangaPage = (props: Props) => {
     <div className="w-full h-full  pt-[90px] "
     data-testid='mangaDetails'
 >   
-<div className="h-96 blur-xl w-full background-image bg-[url('https://uploads.mangadex.org/covers/32d76d19-8a05-4db0-9fc2-e0b0648fe9d0/4d709522-25f5-4ac0-9b6c-3798a223c7ae.jpg')]">
-
+{/* <div className="h-96 blur-xl w-full background-image bg-[url('https://uploads.mangadex.org/covers/32d76d19-8a05-4db0-9fc2-e0b0648fe9d0/4d709522-25f5-4ac0-9b6c-3798a223c7ae.jpg')]"> */}
+<div className="container">
+      <div className="titles-author">
+        <div className="main-title"><p>main-title</p></div>
+        <div className="alt-title"><p>alt-title</p></div>
+        <div className="author-name"><p>author-name</p></div>
+      </div>
+      <div className="buttons"></div>
+      <div className="theme-chips"></div>
+      <div className="manga-cover"></div>
+      <div className="stats"></div>
+      <div className="resume">test</div>
+      <div className="chapter-list"></div>
+    </div>
 </div>
 
     
     
-</div>
+// </div>
 )
 };
 

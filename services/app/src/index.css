@@ -38,3 +38,70 @@ body{
 
   background-position: center 25%;
 }
+
+.container {
+  margin: auto;
+  display: grid;
+  grid-template-columns:  0.1fr 0.8fr 3fr 0.1fr; 
+  grid-template-rows: 8fr 0.5fr 0.2fr 0.3fr 0fr 0.9fr 3.4fr;
+  gap: 1em 1em;
+  grid-auto-flow: row;
+  align-items: start;
+
+  grid-template-areas:
+    ". manga-cover titles-author ."
+    ". manga-cover buttons ."
+    ". . theme-chips ."
+    ". . stats ."
+    ". . . ."
+    ". resume resume ."
+    ". chapter-list chapter-list .";
+}
+
+.titles-author {
+  display: flex;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    ". . ."
+    ". . ."
+    ". . .";
+  justify-self: stretch;
+  align-self: stretch;
+  flex-direction: column;
+  grid-area: titles-author;
+}
+
+.buttons {
+  justify-self: stretch;
+  grid-area: buttons;
+}
+
+.theme-chips {
+  grid-area: theme-chips;
+}
+
+.manga-cover {
+  grid-area: manga-cover;
+}
+
+.stats {
+  grid-area: stats;
+}
+
+.resume {
+  grid-area: resume;
+}
+
+.chapter-list {
+  grid-area: chapter-list;
+}
+
+/* For presentation only, no need to copy the code below */
+
+.container * {
+  border: 1px solid red;
+  position: relative;
+}
