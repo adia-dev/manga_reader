@@ -88,7 +88,7 @@ const Searchbar = () => {
         }
     }
     async function getMangaStatistics(id: any) {
-        const resp = await axios.get(`${import.meta.env.VITE_APP_RUST_API_BASE_URL}/manga/id/${id}/stats`)
+        const resp = await axios.get(`http://localhost:5172/manga/id/${id}/stats`)
         const { rating, follows } = resp.data.statistics[id];
 
         return { rating, follows };
@@ -114,7 +114,7 @@ const Searchbar = () => {
 
         const debounce = setTimeout(async () => {
             if (query.length > 0) {
-                const results = await axios.get(`${import.meta.env.VITE_APP_RUST_API_BASE_URL}/manga/${encodeURI(query)}`)
+                const results = await axios.get(`http://localhost:5172/manga/${encodeURI(query)}`)
 
 
                 const mappedResults = await Promise.all(results.data.data.map(async (manga: any) => {

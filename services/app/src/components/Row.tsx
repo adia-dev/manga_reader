@@ -10,7 +10,7 @@ type Props = {
 }
 
 const getMangaList = async (path: string): Promise<Manga[]> => {
-    const response = await axios.get(`${import.meta.env.VITE_APP_RUST_API_BASE_URL}${path}`);
+    const response = await axios.get(`http://localhost:5172${path}`);
     return response.data.data;
 };
 
