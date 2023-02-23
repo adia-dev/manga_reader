@@ -27,7 +27,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(app_data.clone())
             .wrap(Logger::default())
-            .wrap(middlewares::AppData)
+            // .wrap(middlewares::AppData)
             .wrap(
                 Cors::default()
                     .allow_any_origin()
