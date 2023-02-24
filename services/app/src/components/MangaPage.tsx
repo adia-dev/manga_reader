@@ -126,7 +126,7 @@ const MangaPage = (props: Props) => {
         </div> */}
         <div className="manga-cover">
           <img
-            src="https://uploads.mangadex.org/covers/32d76d19-8a05-4db0-9fc2-e0b0648fe9d0/4d709522-25f5-4ac0-9b6c-3798a223c7ae.jpg"
+            src={results.cover}
             alt=""
           />
         </div>

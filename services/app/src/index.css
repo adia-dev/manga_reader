@@ -100,6 +100,7 @@ body{
   grid-area: manga-cover;
   margin-left: 3em;
   margin-right: 2.5em;
+
 }
 
 .stats {
@@ -135,5 +136,6 @@ body{
 }
 
 .manga-cover img{
-  max-width: 269px;
+  max-width: 270px;
+  max-height: 385px;
 }
