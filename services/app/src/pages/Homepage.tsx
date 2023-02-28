@@ -19,7 +19,7 @@ const Homepage = (props: Props) => {
             <Row name="Most Viewed Mangas" fetchUrl='https://api.mangadex.org/manga?order[followedCount]=desc&limit=20&includes[]=cover_art&contentRating[]=safe&hasAvailableChapters=true'/>
             <Row name="Recently Created Mangas" fetchUrl='https://api.mangadex.org/manga?order[createdAt]=desc&limit=20&includes[]=cover_art&contentRating[]=safe&hasAvailableChapters=true'/>
             <Row name="Recently Updated Mangas" fetchUrl='https://api.mangadex.org/manga?order[updatedAt]=desc&limit=20&includes[]=cover_art&contentRating[]=safe&hasAvailableChapters=true'/>
-            <Row name="Recently Published Mangas" fetchUrl='https://api.mangadex.org/manga?order[publishAt]=desc&limit=20&includes[]=cover_art&contentRating[]=safe&hasAvailableChapters=true'/>
+            {/* <Row name="Recently Published Mangas" fetchUrl='https://api.mangadex.org/manga?order[publishAt]=desc&limit=20&includes[]=cover_art&contentRating[]=safe&hasAvailableChapters=true'/> */}
         </div>
     )
 }
