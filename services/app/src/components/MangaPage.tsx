@@ -73,7 +73,7 @@ async function getMangaInformation(id: any) {
     const mangaRatingAndFollows = await getMangaRatingAndFollows(data.id);
 
   
-  const description=removeStringAfterDelimiter(data.attributes.description.en ?? getRandomProperty(data.attributes.description), "**Links:**")
+  const description=removeStringAfterDelimiter(data.attributes.description.en ?? getRandomProperty(data.attributes.description)?? '', "**Links:**")
   // console.log(description);
   // console.log("title en : ", data.attributes.title.en);
   // console.log("title random : ", data.attributes.altTitles[randomIndex]);
