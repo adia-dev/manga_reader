@@ -33,15 +33,34 @@ function removeLinksFromDescription(input:string) {
     return str;
   }
   
+  function getRandomProperty<T>(obj: T): [ T[keyof T]] | undefined {
+    const keys = Object.keys(obj) as Array<keyof T>;
+    if (keys.length === 0) {
+      return undefined;
+    }
+    const randomIndex = Math.floor(Math.random() * keys.length);
+    const randomKey = keys[randomIndex];
+    const randomValue = obj[randomKey];
+    return [randomValue];
+  }
+
+
 async function getMangaInformation(id: any) {
   const resp = await axios.get(
     `https://api.mangadex.org/manga/${id}?includes[]=cover_art&includes[]=author&includes[]=artist`
   );
   const data = resp.data.data;
-  const randomIndex = Math.floor(
-    Math.random() * data.attributes.altTitles.length
-  );
-  const mangaRatingAndFollows = await getMangaRatingAndFollows(data.id);
+  const randomIdxAltTitles = randomIndex(data.attributes.altTitles)
+  const test = getRandomProperty(data.attributes.description);
+
+
+  function randomIndex(array:any){
+    return Math.floor(
+      Math.random() * array.length
+    );
+  }
+
+
 
   let cover = data.relationships.find((rel: any) => rel.type === "cover_art")
     ? `https://uploads.mangadex.org/covers/${id}/${
@@ -50,14 +69,17 @@ async function getMangaInformation(id: any) {
       }`
     : "https://uploads.mangadex.org/covers/504cb09b-6f5d-4a2c-a363-6de16f8d96cc/51ebaf79-7c48-4b70-8303-a4d7a40e7887.jpg";
 
-  const altTitle=Object.values(data.attributes.altTitles[randomIndex])
-  const description=removeStringAfterDelimiter(data.attributes.description.en, "**Links:**")
-  console.log(description);
+    const altTitle = Object.values(data.attributes.altTitles?.[randomIdxAltTitles] ?? {});
+    const mangaRatingAndFollows = await getMangaRatingAndFollows(data.id);
+
+  
+  const description=removeStringAfterDelimiter(data.attributes.description.en ?? getRandomProperty(data.attributes.description), "**Links:**")
+  // console.log(description);
   // console.log("title en : ", data.attributes.title.en);
   // console.log("title random : ", data.attributes.altTitles[randomIndex]);
   // console.log("author : ", data.relationships[0].attributes.name);
   // console.log("artist : ", data.relationships[1].attributes.name);
-  console.log("Category : ", data.attributes.publicationDemographic);
+  // console.log("Category : ", data.attributes.publicationDemographic);
   // console.log("cover : ", cover);
   //  console.log("rating : ", Math.round(( mangaRatingAndFollows.rating.bayesian + Number.EPSILON) * 100) / 100);
   return {
@@ -139,9 +161,11 @@ const MangaPage = (props: Props) => {
 
         </div>
         <div className="resume">
-          <p className="" >
-            {results.description}
-          </p>
+        {results.description ? (
+  <p className="">
+    {results.description}
+  </p>
+) : null}
         </div>
         <div className="chapter-list"></div>
       </div>
