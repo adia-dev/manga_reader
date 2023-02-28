@@ -1,14 +1,29 @@
-import { useContext } from 'react'
 import FeaturedMangas from '../components/FeaturedMangas'
 import Row from '../components/Row'
-import MangaFetch from '../components/MangaFetch'
-import { AuthContext } from '../context/AuthContext'
 
 type Props = {}
 
 const Homepage = (props: Props) => {
 
-    const user = useContext(AuthContext)
+    const rows = [
+        {
+            name: "Most Viewed Mangas",
+            order: 'followedCount'
+        },
+        {
+            name: "Recently Created Mangas",
+            order: 'createdAt'
+        },
+        {
+            name: "Recently Updated Mangas",
+            order: 'updatedAt'
+        },
+        {
+            name: "Recently Published Mangas",
+            order: 'publishAt'
+        }
+    ]
+
 
     return (
         <div className='w-full h-full pt-[90px]'
@@ -16,10 +31,15 @@ const Homepage = (props: Props) => {
         >
 
             <FeaturedMangas />
-            <Row name="Most Viewed Mangas" fetchUrl='https://api.mangadex.org/manga?order[followedCount]=desc&limit=20&includes[]=cover_art&contentRating[]=safe&hasAvailableChapters=true'/>
-            <Row name="Recently Created Mangas" fetchUrl='https://api.mangadex.org/manga?order[createdAt]=desc&limit=20&includes[]=cover_art&contentRating[]=safe&hasAvailableChapters=true'/>
-            <Row name="Recently Updated Mangas" fetchUrl='https://api.mangadex.org/manga?order[updatedAt]=desc&limit=20&includes[]=cover_art&contentRating[]=safe&hasAvailableChapters=true'/>
-            <Row name="Recently Published Mangas" fetchUrl='https://api.mangadex.org/manga?order[publishAt]=desc&limit=20&includes[]=cover_art&contentRating[]=safe&hasAvailableChapters=true'/>
+            {
+                rows.map((row) => (
+                    <Row
+                        key={row.name}
+                        name={row.name}
+                        order={row.order}
+                    />
+                ))
+            }
         </div>
     )
 }
