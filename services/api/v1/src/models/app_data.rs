@@ -48,7 +48,7 @@ impl ApplicationData {
         *last_response_time = response_time;
     }
 
-    pub fn set_session_start_time(&self, session_start_time: String) {
+    pub fn set_session_start_time(&self, _session_start_time: String) {
         let mut session_start_time = self.session_start_time.lock().unwrap();
         *session_start_time = session_start_time.to_string();
     }

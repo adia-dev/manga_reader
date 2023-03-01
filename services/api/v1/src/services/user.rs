@@ -1,11 +1,5 @@
-use crate::{
-    adapters,
-    models::{app_data::ApplicationData, user::User},
-};
-use ::mysql::{
-    prelude::{FromValue, Queryable},
-    Row,
-};
+use crate::{adapters, models::user::User};
+use ::mysql::prelude::Queryable;
 use actix_web::{get, post, web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
 
