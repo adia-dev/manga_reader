@@ -1,11 +1,7 @@
 use actix_cors::Cors;
-use actix_web::{
-    middleware::Logger,
-    web::{self, get},
-    App, HttpServer,
-};
-use dotenv::dotenv;
+use actix_web::{middleware::Logger, web, App, HttpServer};
 
+mod adapters;
 mod cache;
 mod handlers;
 mod middlewares;
@@ -48,6 +44,7 @@ async fn main() -> std::io::Result<()> {
                     .service(services::manga::get_manga_stats_by_title)
                     .service(services::manga::get_manga_by_order),
             )
+            .service(web::scope("/users").service(services::user::get_users))
     })
     .bind(("0.0.0.0", port))?
     .run();

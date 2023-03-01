@@ -1,10 +1,9 @@
-use chrono::offset::Utc;
+pub mod manga;
+pub mod user;
 
+use chrono::offset::Utc;
 use actix_web::{get, web, HttpResponse, Responder};
 use std::sync::Mutex;
-
-pub mod manga;
-
 use crate::{cache, models::app_data::ApplicationData};
 
 pub fn recover_previous_session() -> ApplicationData {
