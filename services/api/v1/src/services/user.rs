@@ -1,13 +1,23 @@
 use crate::{
-    adapters::mysql,
+    adapters,
     models::{app_data::ApplicationData, user::User},
 };
-use ::mysql::prelude::Queryable;
-use actix_web::{get, web, HttpResponse, Responder};
+use ::mysql::{
+    prelude::{FromValue, Queryable},
+    Row,
+};
+use actix_web::{get, post, web, HttpResponse, Responder};
+use serde::{Deserialize, Serialize};
 
-#[get("/")]
-pub async fn get_users(_data: web::Data<ApplicationData>) -> impl Responder {
-    match mysql::get_conn() {
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NewUser {
+    pub firebase_id: String,
+    pub email: String,
+}
+
+#[get("/list")]
+pub async fn get_users() -> impl Responder {
+    match adapters::mysql::get_conn() {
         Ok(mut conn) => {
             let users = conn
                 .query_map(
@@ -16,7 +26,25 @@ pub async fn get_users(_data: web::Data<ApplicationData>) -> impl Responder {
                 )
                 .unwrap();
             println!("{:#?}", users);
-            HttpResponse::Ok().body("user: SIKE !")
+            HttpResponse::Ok().json(users)
+        }
+        Err(_) => HttpResponse::InternalServerError().body("Could not connect to the database."),
+    }
+}
+
+#[post("/new")]
+pub async fn create_user(body: web::Json<NewUser>) -> impl Responder {
+    match adapters::mysql::get_conn() {
+        Ok(mut conn) => {
+            let user = body.into_inner();
+            let result = conn.exec_drop(
+                "INSERT INTO users (firebase_id, email) VALUES (?, ?)",
+                (user.firebase_id, user.email),
+            );
+            match result {
+                Ok(_) => HttpResponse::Ok().body("User created successfully."),
+                Err(_) => HttpResponse::InternalServerError().body("Could not create user."),
+            }
         }
         Err(_) => HttpResponse::InternalServerError().body("Could not connect to the database."),
     }

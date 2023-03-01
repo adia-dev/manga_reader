@@ -51,11 +51,13 @@ where
 
     fn call(&self, req: ServiceRequest) -> Self::Future {
         {
-            let app_data = req.app_data::<web::Data<ApplicationData>>().unwrap();
+            let app_data = req
+                .app_data::<web::Data<ApplicationData>>()
+                .expect("Failed to get app data");
 
-            let mut request_count = app_data.request_count.lock().unwrap();
-            *request_count += 1;
-            cache::redis_cache::set_value("request_count", *request_count).unwrap();
+            app_data.increment_request_count();
+            cache::redis_cache::set_value("request_count", app_data.get_request_count())
+                .expect("Failed to set request count in redis");
         }
 
         let fut = self.service.call(req);

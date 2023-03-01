@@ -23,7 +23,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(app_data.clone())
             .wrap(Logger::default())
-            // .wrap(middlewares::AppData)
+            .wrap(middlewares::AppData)
             .wrap(
                 Cors::default()
                     .allow_any_origin()
@@ -44,7 +44,11 @@ async fn main() -> std::io::Result<()> {
                     .service(services::manga::get_manga_stats_by_title)
                     .service(services::manga::get_manga_by_order),
             )
-            .service(web::scope("/users").service(services::user::get_users))
+            .service(
+                web::scope("/users")
+                    .service(services::user::get_users)
+                    .service(services::user::create_user),
+            )
     })
     .bind(("0.0.0.0", port))?
     .run();
