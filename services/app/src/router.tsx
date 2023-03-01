@@ -4,6 +4,7 @@ import Carousel from "./components/Carousel";
 import Manga from "./components/Manga";
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
+import Profile from "./components/Profile";
 import ErrorGeneric from "./pages/errors/ErrorGeneric";
 import Homepage from "./pages/Homepage";
 
@@ -21,6 +22,10 @@ export default createBrowserRouter([
             {
                 path: "/carousel",
                 element: <Carousel />,
+            },
+            {
+                path: "/profile",
+                element: <Profile />,
             },
         ],
     },
