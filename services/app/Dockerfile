@@ -1,20 +1,16 @@
-FROM node:16-alpine AS development
-ENV NODE_ENV=development
+FROM node:18-alpine
 
-# Setup the working directory to /app
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files
-COPY package*.json ./
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Install dependencies
-RUN npm install
+ADD . .
 
-# Copy the rest of the files
-COPY . .
+RUN npm ci
 
-# Expose the port
 EXPOSE 5173
 
-# Start the app
+ENTRYPOINT ["/entrypoint.sh"]
+
 CMD ["npm", "run", "dev"]
