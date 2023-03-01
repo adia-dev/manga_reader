@@ -1,13 +1,12 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { MouseEvent, useEffect, useState } from 'react'
 import { BiSearch, BiStar, BiTrash } from 'react-icons/bi'
 import { BsBookmark, BsBookmarkDashFill, BsBookmarkFill, BsBookmarkPlus, BsEyeFill } from 'react-icons/bs'
 import { IoCloseOutline } from 'react-icons/io5'
-import mangas from '../data/mangas.json'
-import { MouseEvent, MouseEventHandler } from 'react';
-import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { deactivated } from '../features/quickSearch/quickSearchSlice'
 import { Link } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import mangas from '../data/mangas.json'
+import { deactivated } from '../features/quickSearch/quickSearchSlice'
 
 const Searchbar = () => {
 
@@ -44,7 +43,7 @@ const Searchbar = () => {
         }
     ])
 
-    const [results, setResults] = useState([])
+    const [results, setResults] = useState<any[]>([])
     const quickSearchBarOpened = useAppSelector(state => state.quickSearch.active)
 
 

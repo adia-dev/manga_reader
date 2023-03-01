@@ -45,11 +45,11 @@ const Row = (props: Props) => {
                         ))
                     }
                     {
-                        mangaList && mangaList.map((manga) => (
+                        mangaList && mangaList.map((manga: any) => (
                             <div className='relative h-[250px] aspect-[0.7] brightness-75 bg-[#222] shadow-xl rounded-sm m-2 cursor-pointer hover:scale-105 group transition-all duration-300 hover:z-50 hover:border-[#fff] hover:border-2 hover:shadow-2xl hover:brightness-100 m-4'
                                 key={manga.id}
                             >
-                                <img src={`https://uploads.mangadex.org/covers/${manga.id}/${manga.relationships.find((rel) => rel.type === "cover_art")?.attributes?.fileName}`} alt='manga' className='w-full h-full object-cover' />
+                                <img src={`https://uploads.mangadex.org/covers/${manga.id}/${manga.relationships.find((rel: any) => rel.type === "cover_art")?.attributes?.fileName}`} alt='manga' className='w-full h-full object-cover' />
                                 <p className='absolute bottom-5 left-2 p-2 transition-all duration-300 delay-300 text-white group-hover:z-50'>{manga.attributes.title.en}</p>
 
                                 <div className='absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#222] to-transparent'></div>
