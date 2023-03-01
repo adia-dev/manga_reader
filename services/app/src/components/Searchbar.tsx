@@ -248,12 +248,9 @@ const Searchbar = () => {
                     }
                     {
                         results.map((result: any) => (
-
-
-
-                            <Link to={`/manga/${result.id}`}>
+                            <Link to={`/manga/${result.id}`}
+                                key={`result-${result.id}`}>
                                 <div
-                                    key={`result-${result.id}`}
                                     className="flex items-center justify-between px-5 py-3 border-b hover:bg-gray-100 transition duration-200 cursor-pointer">
                                     <div className="flex items-start space-x-2">
                                         <img src={result.cover} alt="" className="w-12 aspect-[1/1.5] brightness-75 hover:brightness-105 transition-all duration-500 delay-200 cursor-pointer hover:w-16 object-cover rounded-md border border-black" />
