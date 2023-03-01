@@ -1,16 +1,12 @@
 use crate::{
     adapters::mysql,
-    cache,
     models::{app_data::ApplicationData, user::User},
 };
 use ::mysql::prelude::Queryable;
 use actix_web::{get, web, HttpResponse, Responder};
-use chrono::offset::Utc;
-use serde::{Deserialize, Serialize};
-use std::sync::Mutex;
 
 #[get("/")]
-pub async fn get_users(data: web::Data<ApplicationData>) -> impl Responder {
+pub async fn get_users(_data: web::Data<ApplicationData>) -> impl Responder {
     match mysql::get_conn() {
         Ok(mut conn) => {
             let users = conn

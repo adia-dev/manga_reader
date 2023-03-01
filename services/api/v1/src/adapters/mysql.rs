@@ -18,5 +18,3 @@ pub fn get_conn() -> std::result::Result<PooledConn, Box<dyn std::error::Error>>
 
     Ok(conn)
 }
-
-
