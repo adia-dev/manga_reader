@@ -43,3 +43,20 @@ pub async fn create_user(body: web::Json<NewUser>) -> impl Responder {
         Err(_) => HttpResponse::InternalServerError().body("Could not connect to the database."),
     }
 }
+
+#[get("/{firebase_id}")]
+pub async fn get_user(firebase_id: web::Path<String>) -> impl Responder {
+    match adapters::mysql::get_conn() {
+        Ok(mut conn) => {
+            let user: Option<(String, String)> = conn
+                .exec_first(
+                    "SELECT firebase_id, email from users WHERE firebase_id = ?",
+                    (firebase_id.into_inner(),),
+                )
+                .unwrap();
+            println!("{:#?}", user);
+            HttpResponse::Ok().json(user)
+        }
+        Err(_) => HttpResponse::InternalServerError().body("Could not connect to the database."),
+    }
+}

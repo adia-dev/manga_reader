@@ -47,7 +47,8 @@ async fn main() -> std::io::Result<()> {
             .service(
                 web::scope("/users")
                     .service(services::user::get_users)
-                    .service(services::user::create_user),
+                    .service(services::user::create_user)
+                    .service(services::user::get_user),
             )
     })
     .bind(("0.0.0.0", port))?
