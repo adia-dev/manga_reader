@@ -72,7 +72,12 @@ async function getMangaInformation(id: any) {
     const altTitle = Object.values(data.attributes.altTitles?.[randomIdxAltTitles] ?? {});
     const mangaRatingAndFollows = await getMangaRatingAndFollows(data.id);
 
-  
+    const themes= data.attributes.tags
+    .filter((tag:any) => tag.attributes.group === "theme")
+    .map((tag:any) => tag.attributes.name.en);
+
+
+
   const description=removeStringAfterDelimiter(data.attributes.description.en ?? getRandomProperty(data.attributes.description)?? '', "**Links:**")
   // console.log(description);
   // console.log("title en : ", data.attributes.title.en);
@@ -80,6 +85,8 @@ async function getMangaInformation(id: any) {
   // console.log("author : ", data.relationships[0].attributes.name);
   // console.log("artist : ", data.relationships[1].attributes.name);
   // console.log("Category : ", data.attributes.publicationDemographic);
+  // console.log("tags", data.attributes.tags);
+  console.log("themes", themes); 
   // console.log("cover : ", cover);
   //  console.log("rating : ", Math.round(( mangaRatingAndFollows.rating.bayesian + Number.EPSILON) * 100) / 100);
   return {
@@ -87,6 +94,7 @@ async function getMangaInformation(id: any) {
     altTitle: altTitle,
     cover,
     description: description,
+    themes: themes,
     rating:
       Math.round(
         (mangaRatingAndFollows.rating.bayesian + Number.EPSILON) * 100
@@ -140,12 +148,23 @@ const MangaPage = (props: Props) => {
             Download
           </button>
         </div>
-        {/* <div className="theme-chips">
-          <span>theme 1</span>
-          <span>theme 2</span>
-          <span>theme 3</span>
-          <span>theme 4</span>
-        </div> */}
+        <div className="theme-chips flex items-center space-x-2 py-3">
+        {
+                            results.themes && results.themes.map((manga) => (
+                              <div  className="flex items-center space-x-2 px-2 py-1
+                              bg-black bg-opacity-40 rounded-full
+                              hover:scale-105 transition-all duration-200
+                              cursor-pointer hover:bg-dark-quaternary hover:text-dark-primary text-gray-300 text-xs">
+                                      <div className="w-2 h-2 rounded-full"
+                                          style={{ backgroundColor: "orange" }}
+                                      ></div>
+                                      <p className=''>{manga}</p>  
+                            </div>
+                        ))
+                    }
+
+
+        </div>
         <div className="manga-cover">
           <img
             src={results.cover}
