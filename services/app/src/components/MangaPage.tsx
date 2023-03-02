@@ -9,8 +9,9 @@ import FeaturedMangas from "./FeaturedMangas";
 import Row from "./Row";
 import { BiStar } from 'react-icons/bi'
 import { BsBookmark } from 'react-icons/bs'
-
+import { ThemesColor } from "../data/chipsColor";
 type Props = {};
+
 
 async function getMangaRatingAndFollows(id: any) {
   const resp = await axios.get(
@@ -156,7 +157,7 @@ const MangaPage = (props: Props) => {
                               hover:scale-105 transition-all duration-200
                               cursor-pointer hover:bg-dark-quaternary hover:text-dark-primary text-gray-300 text-xs">
                                       <div className="w-2 h-2 rounded-full"
-                                          style={{ backgroundColor: "orange" }}
+                                          style={{ backgroundColor: ThemesColor[manga] || "gray"}}
                                       ></div>
                                       <p className=''>{manga}</p>  
                             </div>
