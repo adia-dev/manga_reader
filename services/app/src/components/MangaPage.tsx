@@ -13,6 +13,16 @@ import { ThemesColor } from "../data/chipsColor";
 type Props = {};
 
 
+const BeautifiedCount = (count: number) => {
+  if (count >= 1_000_000) {
+      return `${(count / 1_000_000).toFixed(1)}M`
+  } else if (count >= 1_000) {
+      return `${(count / 1_000).toFixed(1)}K`
+  } else {
+      return count
+  }
+}
+
 async function getMangaRatingAndFollows(id: any) {
   const resp = await axios.get(
     `https://api.mangadex.org/statistics/manga/${id}`
@@ -177,7 +187,7 @@ const MangaPage = (props: Props) => {
         <p className="ml-1">{results.rating}</p></span>
 
           <span className="flex items-center text-orange-400"><BsBookmark />
-          <p className="ml-1">{results.saved_count}</p></span>
+          <p className="ml-1">{BeautifiedCount(results.saved_count)}</p></span>
 
         </div>
         <div className="resume">
