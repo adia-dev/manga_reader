@@ -48,7 +48,7 @@ const FeaturedMangas = (props: Props) => {
         );
         const data = res.data.data;
 
-        const mappedResults = await Promise.all(data.map( async(manga: any, key) => {
+        const mappedResults = await Promise.all(data.map( async(manga: any) => {
                 
 
             let cover = manga.relationships.find((rel: any) => rel.type === 'cover_art')
@@ -62,10 +62,10 @@ const FeaturedMangas = (props: Props) => {
             const themes= manga.attributes.tags
             .filter((tag:any) => tag.attributes.group === "theme")
             .map((tag:any) => tag.attributes.name.en);
-            
+            const link = `/manga/${manga.id}`;
 
             return {
-                    id: manga.id,
+                    link,
                     title: manga.attributes.title.en,
                     cover,
                     description: description,
@@ -131,7 +131,7 @@ const FeaturedMangas = (props: Props) => {
                 }}></div>
             <div className='static p-10'>
             
-                <p className='text-gray-300'>Chapter:  | tes</p>
+                {/* <p className='text-gray-300'>Chapter:  | tes</p> */}
                 <p className='text-4xl font-bold text-white py-3'>{results.length > 0 ? results[currentMangaIndex].title: ''}</p>
                 <p className='text-white text-sm w-2/3 h-[125px]'>{results.length > 0 ? results[currentMangaIndex].description : ''}</p>
                 
@@ -154,18 +154,20 @@ const FeaturedMangas = (props: Props) => {
                 </div>
                 
                 <div draggable="true" className="absolute right-10 top-10 w-40 h-60 hover:animate-pulse hover:transform hover:-skew-y-3 hover:scale-110 transition-all duration-500 cursor-pointer">
+                    <Link to={results.length ? results[currentMangaIndex].link : "/"}>
                     <div className="absolute top-2 left-2 w-[170px] h-60 bg-gray-100 rounded-xl shadow-2xl "></div>
                     <div className="absolute top-1 left-1 w-[170px] h-60 bg-gray-100 rounded-xl shadow-2xl "></div>
                     <div className="absolute top-0 left-0 w-40 h-60 bg-gray-100 rounded-xl shadow-2xl  overflow-hidden">
                         <img src={results.length > 0 ? results[currentMangaIndex].cover : ''} alt="" className="w-full h-full object-cover" />
                     </div>
+                    </Link>
                 </div>
             
                 <div className="flex items-center space-x-2 mt-10">
-                    <Link to={`/manga/ab8cbb82-d0ed-45a7-8ffe-4bfa6d43d79c`}>
+                    <Link to={results.length ? results[currentMangaIndex].link : "/"}>
                         <button className="rounded-xl bg-dark-tertiary text-dark-primary px-4 py-2 w-24 hover:scale-105 transition duration-500">Read</button>
                     </Link>
-                    <Link to={`/manga/ab8cbb82-d0ed-45a7-8ffe-4bfa6d43d79c`}>
+                    <Link to={results.length ? results[currentMangaIndex].link : "/"}>
                         <button className="rounded-xl text-dark-primary bg-white px-4 py-2 min-w-24 whitespace-nowrap hover:scale-105 transition duration-500">View Info</button>
                     </Link>
                 </div>
