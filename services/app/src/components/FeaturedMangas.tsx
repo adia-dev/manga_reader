@@ -126,7 +126,7 @@ const FeaturedMangas = (props: Props) => {
                     backgroundRepeat: 'no-repeat',
                     filter: 'blur(2px) brightness(0.6)'
                 }}></div>
-            <div className='absolute p-10'>
+            <div className='static p-10'>
             
                 <p className='text-gray-300'>Chapter:  | tes</p>
                 <p className='text-4xl font-bold text-white py-3'>{results.length > 0 ? results[currentMangaIndex].title: ''}</p>
