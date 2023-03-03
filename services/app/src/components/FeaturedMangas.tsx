@@ -3,6 +3,7 @@ import mangas from '../data/mangas.json'
 import { BiChevronLeft } from 'react-icons/bi'
 import { ThemesColor } from "../data/chipsColor";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 type Props = {}
 
 const FeaturedMangas = (props: Props) => {
@@ -61,8 +62,10 @@ const FeaturedMangas = (props: Props) => {
             const themes= manga.attributes.tags
             .filter((tag:any) => tag.attributes.group === "theme")
             .map((tag:any) => tag.attributes.name.en);
-        
+            
+
             return {
+                    id: manga.id,
                     title: manga.attributes.title.en,
                     cover,
                     description: description,
@@ -134,18 +137,19 @@ const FeaturedMangas = (props: Props) => {
                 
                 <div className="flex items-center space-x-2 py-3">
                     
-
-                                <div className="flex items-center space-x-2 px-2 py-1
+                         {results.length > 0 ? results[currentMangaIndex].themes.map((theme: any, key: any) => (
+                                <div key={key} className="flex items-center space-x-2 px-2 py-1
                             bg-black bg-opacity-40 rounded-full
                             hover:scale-105 transition-all duration-200
                             cursor-pointer hover:bg-dark-quaternary hover:text-dark-primary text-gray-300 text-xs">
                                     <div className="w-2 h-2 rounded-full"
-                                        style={{ backgroundColor: "grey" }}
+                                        style={{ backgroundColor: ThemesColor[theme] }}
                                     ></div>
-                                    <p className=''>'r'</p>
+                                    <p className=''>{theme}</p>
                                 </div>
-                
-                    
+                         )
+                         ) : ''
+            }
                     
                 </div>
                 
@@ -158,8 +162,12 @@ const FeaturedMangas = (props: Props) => {
                 </div>
             
                 <div className="flex items-center space-x-2 mt-10">
-                    <button className="rounded-xl bg-dark-tertiary text-dark-primary px-4 py-2 w-24 hover:scale-105 transition duration-500">Read</button>
-                    <button className="rounded-xl text-dark-primary bg-white px-4 py-2 min-w-24 whitespace-nowrap hover:scale-105 transition duration-500">View Info</button>
+                    <Link to={`/manga/ab8cbb82-d0ed-45a7-8ffe-4bfa6d43d79c`}>
+                        <button className="rounded-xl bg-dark-tertiary text-dark-primary px-4 py-2 w-24 hover:scale-105 transition duration-500">Read</button>
+                    </Link>
+                    <Link to={`/manga/ab8cbb82-d0ed-45a7-8ffe-4bfa6d43d79c`}>
+                        <button className="rounded-xl text-dark-primary bg-white px-4 py-2 min-w-24 whitespace-nowrap hover:scale-105 transition duration-500">View Info</button>
+                    </Link>
                 </div>
             </div>
             
