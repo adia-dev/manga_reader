@@ -94,10 +94,7 @@ const Searchbar = () => {
     }
 
 
-    // useEffect( ()=>{
-    //     let mangaStats = getMangaStatistics("504cb09b-6f5d-4a2c-a363-6de16f8d96cc");
-    //     console.log(mangaStats)
-    // })
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent<HTMLElement>) => {
             if ((event.target as HTMLElement).id === 'searchbar-background') {

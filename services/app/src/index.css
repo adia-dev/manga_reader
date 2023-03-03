@@ -56,3 +56,112 @@ body::-webkit-scrollbar-thumb:hover {
     }
   }
   
+.background-image{
+  background-repeat: no-repeat;
+  background-size: 100%;
+  opacity: 0.6;
+  /* filter: blur(8px); */
+
+  background-position: center 25%;
+}
+
+.container {
+  margin: auto;
+  display: grid;
+  grid-template-columns:  0.1fr 0.5fr 3.3fr 0.1fr; 
+  grid-template-rows: 0fr 0fr 0fr 0fr 0fr 0fr 2fr;
+  gap: 1em 1em;
+  grid-auto-flow: row;
+  align-items: start;
+
+  color: white;
+  grid-template-areas:
+    ". manga-cover titles-author ."
+    ". manga-cover buttons ."
+    ". . theme-chips ."
+    ". . stats ."
+    ". . . ."
+    ". resume resume ."
+    ". chapter-list chapter-list .";
+}
+
+.titles-author {
+  display: flex;
+  min-height: 210px;
+  height: auto;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    ". . ."
+    ". . ."
+    ". . .";
+  justify-self:inherit;
+  align-self: stretch;
+  flex-direction: column;
+  grid-area: titles-author;
+
+}
+
+.buttons {
+  justify-self: stretch;
+  grid-area: buttons;
+}
+
+.buttons button{
+  margin-right: 1.4em;
+}
+
+.theme-chips {
+  display: flex;
+  grid-area: theme-chips;
+}
+
+.theme-chips span{
+  margin-right: 1.5em;
+}
+
+.manga-cover {
+  grid-area: manga-cover;
+  margin-left: 3em;
+  margin-right: 2.5em;
+
+}
+
+.stats {
+  display: flex;
+  grid-area: stats;
+}
+
+.stats span{
+  margin-right: 1em;
+}
+
+.resume {
+  grid-area: resume;
+  margin-top: 2.8em;
+}
+
+.chapter-list {
+  grid-area: chapter-list;
+}
+
+/* For presentation only, no need to copy the code below */
+
+/* .container * {
+  border: 1px solid red;
+  position: relative;
+} */
+
+.main-title p{
+  line-height: 1.1em; 
+  text-shadow: rgba(0, 0, 0, 0.3) 1px 2px 4px; 
+  font-size: 3rem; 
+
+}
+
+.manga-cover img{
+  max-width: 270px;
+  max-height: 385px;
+}

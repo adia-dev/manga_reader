@@ -7,7 +7,7 @@ RUN chmod +x /entrypoint.sh
 
 ADD . .
 
-RUN npm ci
+RUN npm install
 
 EXPOSE 5173
 
