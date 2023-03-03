@@ -5,7 +5,6 @@ import HelpBox from "./HelpBox";
 import Searchbar from "./Searchbar";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
-import FeaturedMangas from "./FeaturedMangas";
 import Row from "./Row";
 import { BiStar } from 'react-icons/bi'
 import { BsBookmark } from 'react-icons/bs'
@@ -89,17 +88,8 @@ async function getMangaInformation(id: any) {
 
 
 
-  const description=removeStringAfterDelimiter(data.attributes.description.en ?? getRandomProperty(data.attributes.description)?? '', "**Links:**")
-  // console.log(description);
-  // console.log("title en : ", data.attributes.title.en);
-  // console.log("title random : ", data.attributes.altTitles[randomIndex]);
-  // console.log("author : ", data.relationships[0].attributes.name);
-  // console.log("artist : ", data.relationships[1].attributes.name);
-  // console.log("Category : ", data.attributes.publicationDemographic);
-  // console.log("tags", data.attributes.tags);
-  console.log("themes", themes); 
-  // console.log("cover : ", cover);
-  //  console.log("rating : ", Math.round(( mangaRatingAndFollows.rating.bayesian + Number.EPSILON) * 100) / 100);
+  const description=removeStringAfterDelimiter(data.attributes.description.en ?? getRandomProperty(data.attributes.description)?? '', "**")
+ 
   return {
     title: data.attributes.title.en,
     altTitle: altTitle,
