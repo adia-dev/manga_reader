@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Carousel from "./components/Carousel";
-import Manga from "./components/Manga";
+import MangaPage from "./components/MangaPage";
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import Profile from "./components/Profile";
@@ -27,6 +27,10 @@ export default createBrowserRouter([
                 path: "/profile",
                 element: <Profile />,
             },
+            {
+                path: "/manga/:id",
+                element: <MangaPage />,
+            },
         ],
     },
     {
@@ -37,8 +41,5 @@ export default createBrowserRouter([
         path: "/signup",
         element: <Signup />,
     },
-    {
-        path: "/manga/:id",
-        element: <Manga/>,
-    },
+
 ])

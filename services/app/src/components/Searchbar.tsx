@@ -1,13 +1,12 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { MouseEvent, useEffect, useState } from 'react'
 import { BiSearch, BiStar, BiTrash } from 'react-icons/bi'
 import { BsBookmark, BsBookmarkDashFill, BsBookmarkFill, BsBookmarkPlus, BsEyeFill } from 'react-icons/bs'
 import { IoCloseOutline } from 'react-icons/io5'
-import mangas from '../data/mangas.json'
-import { MouseEvent, MouseEventHandler } from 'react';
-import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { deactivated } from '../features/quickSearch/quickSearchSlice'
 import { Link } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import mangas from '../data/mangas.json'
+import { deactivated } from '../features/quickSearch/quickSearchSlice'
 
 const Searchbar = () => {
 
@@ -44,7 +43,7 @@ const Searchbar = () => {
         }
     ])
 
-    const [results, setResults] = useState([])
+    const [results, setResults] = useState<any[]>([])
     const quickSearchBarOpened = useAppSelector(state => state.quickSearch.active)
 
 
@@ -95,10 +94,7 @@ const Searchbar = () => {
     }
 
 
-    // useEffect( ()=>{
-    //     let mangaStats = getMangaStatistics("504cb09b-6f5d-4a2c-a363-6de16f8d96cc");
-    //     console.log(mangaStats)
-    // })
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent<HTMLElement>) => {
             if ((event.target as HTMLElement).id === 'searchbar-background') {
@@ -248,12 +244,9 @@ const Searchbar = () => {
                     }
                     {
                         results.map((result: any) => (
-
-
-
-                            <Link to={`/manga/${result.id}`}>
+                            <Link to={`/manga/${result.id}`}
+                                key={`result-${result.id}`}>
                                 <div
-                                    key={`result-${result.id}`}
                                     className="flex items-center justify-between px-5 py-3 border-b hover:bg-gray-100 transition duration-200 cursor-pointer">
                                     <div className="flex items-start space-x-2">
                                         <img src={result.cover} alt="" className="w-12 aspect-[1/1.5] brightness-75 hover:brightness-105 transition-all duration-500 delay-200 cursor-pointer hover:w-16 object-cover rounded-md border border-black" />

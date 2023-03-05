@@ -1,6 +1,8 @@
 import FeaturedMangas from '../components/FeaturedMangas'
 import Row from '../components/Row'
 
+import { AuthContext } from '../context/AuthContext'
+
 type Props = {}
 
 const Homepage = (props: Props) => {
@@ -18,10 +20,6 @@ const Homepage = (props: Props) => {
             name: "Recently Updated Mangas",
             order: 'updatedAt'
         },
-        {
-            name: "Recently Published Mangas",
-            order: 'publishAt'
-        }
     ]
 
 
