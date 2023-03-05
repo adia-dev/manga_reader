@@ -43,7 +43,7 @@ services:
       - redis
     environment:
       - MANGADEX_API_BASE_URL=https://api.mangadex.org
-      - REDIS_ADDR=http://redis:6379
+      - REDIS_ADDR=redis://redis:6379
       - PORT=5172
   app:
    build:
