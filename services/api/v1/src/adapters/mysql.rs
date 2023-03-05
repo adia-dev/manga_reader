@@ -6,6 +6,8 @@ use serde::{Deserialize, Serialize};
 struct User {
     firebase_id: String,
     email: String,
+    gender: String,
+    username: Option<String>,
     firstname: Option<String>,
     lastname: Option<String>,
 }

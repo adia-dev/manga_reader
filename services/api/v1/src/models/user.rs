@@ -4,4 +4,6 @@ use serde::{Deserialize, Serialize};
 pub struct User {
     pub firebase_id: String,
     pub email: String,
+    pub gender: String,
+    pub username: Opton<String>,
 }

@@ -7,6 +7,8 @@ use serde::{Deserialize, Serialize};
 pub struct NewUser {
     pub firebase_id: String,
     pub email: String,
+    pub gender: String,
+    pub username: Option<String>,
 }
 
 #[get("/list")]
@@ -15,8 +17,8 @@ pub async fn get_users() -> impl Responder {
         Ok(mut conn) => {
             let users = conn
                 .query_map(
-                    "SELECT firebase_id, email from users",
-                    |(firebase_id, email)| User { firebase_id, email },
+                    "SELECT firebase_id, email, gender, username from users",
+                    |(firebase_id, email, gender, username)| User { firebase_id, email, gender, username },
                 )
                 .unwrap();
             println!("{:#?}", users);
@@ -50,7 +52,7 @@ pub async fn get_user(firebase_id: web::Path<String>) -> impl Responder {
         Ok(mut conn) => {
             let user: Option<(String, String)> = conn
                 .exec_first(
-                    "SELECT firebase_id, email from users WHERE firebase_id = ?",
+                    "SELECT firebase_id, email, gender FROM users WHERE firebase_id = ?",
                     (firebase_id.into_inner(),),
                 )
                 .unwrap();

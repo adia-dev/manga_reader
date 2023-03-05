@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react'
+import axios from 'axios'
+import React, { useContext, useEffect, useState } from 'react'
 import { AiOutlineCheck } from 'react-icons/ai'
 import { AuthContext } from '../context/AuthContext'
 import InputTag from './InputTag'
@@ -20,20 +21,34 @@ const profile = (props: Props) => {
   const [userName, setUserName] = useState<string>("")
   const [email, setEmail] = useState<any>(user?.email)
   const [like, setLike] = useState<string[]>([])
+  const [userdb, setUserdb] = useState<any[]>([])
   
   const [activeSection, setActiveSection] = useState(listSection[0])
+
+  const getUserbyFirebaseId = async (path: string) => {
+    const response = await axios.get(`http://localhost:5172${path}`);
+    return response.data;
+  };
+
+  useEffect(() => {
+      const fetchMangaList = async () => {
+          const url = `/users/13`;
+          const data = await getUserbyFirebaseId(url);
+          setUserdb(data)
+      };
+      fetchMangaList();
+  }, []);
 
   const handleAddTag = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (tag){
       setTags([...tags, tag])
-      setTag("");
+      setTag("")
     }
   };
 
-
-
+  console.log(userdb)
   
   return (
     <div className='w-full h-fit pt-[90px]'>
