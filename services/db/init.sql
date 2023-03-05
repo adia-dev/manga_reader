@@ -1,0 +1,1 @@
+CREATE TABLE `manga-reader`.`users` (`id` INT NOT NULL AUTO_INCREMENT , `firebase_id` INT NOT NULL , `email` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

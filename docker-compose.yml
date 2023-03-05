@@ -13,6 +13,7 @@ services:
       MYSQL_PASSWORD: "root"
     volumes:
       - db-data:/var/lib/mysql
+      - "./services/db/init.sql:/docker-entrypoint-initdb.d/1.sql"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
