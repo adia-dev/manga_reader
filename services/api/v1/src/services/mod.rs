@@ -1,11 +1,10 @@
-use chrono::offset::Utc;
-
-use actix_web::{get, web, HttpResponse, Responder};
-use std::sync::Mutex;
-
 pub mod manga;
+pub mod user;
 
 use crate::{cache, models::app_data::ApplicationData};
+use actix_web::{get, web, HttpResponse, Responder};
+use chrono::offset::Utc;
+use std::sync::Mutex;
 
 pub fn recover_previous_session() -> ApplicationData {
     let recovered_request_count = cache::redis_cache::get_value("request_count").unwrap_or(0);

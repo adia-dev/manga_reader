@@ -1,4 +1,6 @@
-import React, { useContext, useState } from 'react'
+import { async } from '@firebase/util'
+import axios from 'axios'
+import React, { useContext, useEffect, useState } from 'react'
 import { AiOutlineCheck } from 'react-icons/ai'
 import { AuthContext } from '../context/AuthContext'
 import InputTag from './InputTag'
@@ -20,20 +22,56 @@ const profile = (props: Props) => {
   const [userName, setUserName] = useState<string>("")
   const [email, setEmail] = useState<any>(user?.email)
   const [like, setLike] = useState<string[]>([])
+  const [userdb, setUserdb] = useState<any[]>([])
   
   const [activeSection, setActiveSection] = useState(listSection[0])
+
+  const getUserbyFirebaseId = async (path: string) => {
+    const response = await axios.get(`http://localhost:5172${path}`);
+    return response.data;
+  };
+
+  useEffect(() => {
+      const fetchMangaList = async () => {
+          const url = `/users/`.concat(user?.uid);
+          const data = await getUserbyFirebaseId(url);
+          setUserdb(data)
+          if (data[3]){setUserName(data[3])}
+          if (data[4]){setBio(data[4])}
+      };
+      fetchMangaList();
+  }, []);
 
   const handleAddTag = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (tag){
       setTags([...tags, tag])
-      setTag("");
+      setTag("")
     }
   };
 
+  const saveBio = async () => {
+    setBioEdit(false);
+    await axios.post(`http://localhost:5172/users/updatebio`, {
+      "firebase_id": user?.uid,
+      "bio": bio,
+      "email": "",
+      "gender": ""
+  });
+  }
 
+  const saveUsername = async (e: any) => {
+    setUserName(e)
+    await axios.post(`http://localhost:5172/users/updateusername`, {
+      "firebase_id": user?.uid,
+      "username": userName,
+      "email": "",
+      "gender": ""
+    });
+  }
 
+  console.log(userdb)
   
   return (
     <div className='w-full h-fit pt-[90px]'>
@@ -50,7 +88,7 @@ const profile = (props: Props) => {
         {bioEdit ? (
           <div className='flex space-x-2'>
             <input className='ml-44 text-sm font-thin text-gray-300 border-2 rounded-lg bg-dark-primary h-7 w-9/12 p-2' type="text" value={bio} onChange={(e) => setBio(e.target.value)} />
-            <button className='bg-dark-tertiary rounded-lg px-2 ' onClick={() => setBioEdit(false)}><AiOutlineCheck /></button>
+            <button className='bg-dark-tertiary rounded-lg px-2 ' onClick={() => saveBio()}><AiOutlineCheck /></button>
           </div>
         ):(
           <p className='ml-44 text-sm font-thin text-gray-300 cursor-pointer' onClick={() => setBioEdit(true)}>{bio}</p>
@@ -63,7 +101,7 @@ const profile = (props: Props) => {
           <div className='m-5 p-4'>
             <div className='flex justify-between items-center border-b p-5 space-x-2 border-gray-700'>
               <label className='text-white'>Username</label>
-              <input type="text" value={userName} onChange={(e) => setUserName(e.target.value) } className='border-2 border-gray-700 rounded-lg bg-dark-primary text-white outline-dark-tertiary w-3/4 h-9 placeholder:italic placeholder:text-slate-600 p-2' placeholder='Your Username' />
+              <input type="text" value={userName} onChange={(e) => saveUsername(e.target.value) } className='border-2 border-gray-700 rounded-lg bg-dark-primary text-white outline-dark-tertiary w-3/4 h-9 placeholder:italic placeholder:text-slate-600 p-2' placeholder='Your Username' />
             </div>
             <div className='flex justify-between items-center border-b p-5 space-x-2 border-gray-700'>
               <label className='text-white'>Email</label>
@@ -94,7 +132,6 @@ const profile = (props: Props) => {
         {activeSection === listSection[1] &&
           <div>
             {like.length > 0 ? (
-              // TODO: add list of likes
               <p className='text-gray-600 text-center mt-5 text-xl pb-52'>C'est pas vide </p>
             ):(
               <p className='text-gray-600 text-center mt-5 text-xl pb-52'>The list of likes is empty</p>

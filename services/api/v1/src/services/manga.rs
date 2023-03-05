@@ -1,7 +1,16 @@
+// manga related services inside of a /manga scope
 use actix_web::{get, web, HttpResponse};
 use serde::{Deserialize, Serialize};
 
-// manga related services inside of a /manga scope
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct MangaQueryParams {
+    limit: Option<i32>,
+    offset: Option<i32>,
+    content_rating: Option<Vec<String>>,
+    includes: Option<Vec<String>>,
+    order: Option<Vec<String>>,
+}
+
 #[get("/{title}")]
 pub async fn get_manga_by_title(
     title: web::Path<String>,
@@ -101,15 +110,6 @@ pub async fn get_manga_stats_by_title(title: web::Path<String>) -> HttpResponse 
     }
 
     HttpResponse::Ok().json(manga)
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct MangaQueryParams {
-    limit: Option<i32>,
-    offset: Option<i32>,
-    content_rating: Option<Vec<String>>,
-    includes: Option<Vec<String>>,
-    order: Option<Vec<String>>,
 }
 
 fn get_mangadex_base_url() -> String {

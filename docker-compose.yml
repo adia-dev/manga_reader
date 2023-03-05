@@ -13,6 +13,7 @@ services:
       MYSQL_PASSWORD: "root"
     volumes:
       - db-data:/var/lib/mysql
+      - "./services/db/init.sql:/docker-entrypoint-initdb.d/1.sql"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
@@ -42,8 +43,9 @@ services:
       - redis
     environment:
       - MANGADEX_API_BASE_URL=https://api.mangadex.org
-      - REDIS_ADDR=http://redis:6379
+      - REDIS_ADDR=redis://redis:6379
       - PORT=5172
+      - MYSQL_URI=mysql://root:root@mysql:3306/manga-reader
   app:
    build:
       context: ./services/app
