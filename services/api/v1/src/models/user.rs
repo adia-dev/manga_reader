@@ -5,5 +5,6 @@ pub struct User {
     pub firebase_id: String,
     pub email: String,
     pub gender: String,
-    pub username: Opton<String>,
+    pub username: Option<String>,
+    pub bio: Option<String>,
 }

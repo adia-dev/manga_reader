@@ -8,6 +8,7 @@ struct User {
     email: String,
     gender: String,
     username: Option<String>,
+    bio: Option<String>,
     firstname: Option<String>,
     lastname: Option<String>,
 }

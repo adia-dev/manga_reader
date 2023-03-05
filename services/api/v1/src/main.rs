@@ -48,6 +48,8 @@ async fn main() -> std::io::Result<()> {
                 web::scope("/users")
                     .service(services::user::get_users)
                     .service(services::user::create_user)
+                    .service(services::user::update_bio)
+                    .service(services::user::update_username)
                     .service(services::user::get_user),
             )
     })

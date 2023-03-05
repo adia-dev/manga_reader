@@ -45,6 +45,7 @@ services:
       - MANGADEX_API_BASE_URL=https://api.mangadex.org
       - REDIS_ADDR=redis://redis:6379
       - PORT=5172
+      - MYSQL_URI=mysql://root:root@mysql:3306/manga-reader
   app:
    build:
       context: ./services/app
