@@ -117,16 +117,17 @@ const Header = (props: Props) => {
           >
             <BsSearch className="" />
             <p className="text-xs">Quick Search</p>
-            <div className="flex items-center text-xs space-x-1">
-              {/* if on mac FiCommand, else Ctrl */}
-              {navigator.platform.indexOf("Mac") > -1 ? (
+            <p></p>
+            {/* <div className="flex items-center text-xs space-x-1"> */}
+            {/* if on mac FiCommand, else Ctrl */}
+            {/* {navigator.platform.indexOf("Mac") > -1 ? (
                 <FiCommand className="" />
               ) : (
                 <span className="lowercase">Ctrl</span>
-              )}
-              <span>+</span>
+              )} */}
+            {/* <span>+</span>
               <span>K</span>
-            </div>
+            </div> */}
           </div>
         </div>
 
