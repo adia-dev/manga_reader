@@ -30,34 +30,34 @@ services:
     restart: always
     ports:
       - "6379:6379"
-  api_v1:
-    build:
-      context: ./services/api/v1
-      dockerfile: Dockerfile
-    container_name: api_v1
-    restart: always
-    ports:
-      - "5172:5172"
-    depends_on:
-      - mysql
-      - redis
-    environment:
-      - MANGADEX_API_BASE_URL=https://api.mangadex.org
-      - REDIS_ADDR=redis://redis:6379
-      - PORT=5172
-      - MYSQL_URI=mysql://root:root@mysql:3306/manga-reader
-  app:
-   build:
-      context: ./services/app
-      dockerfile: Dockerfile
-   container_name: app
-   volumes:
-     - ./services/app:/app
-   restart: always
-   ports:
-      - "5173:5173"
-   env_file:
-      - ./services/app/.env
-   
+  # api_v1:
+  #   build:
+  #     context: ./services/api/v1
+  #     dockerfile: Dockerfile
+  #   container_name: api_v1
+  #   restart: always
+  #   ports:
+  #     - "5172:5172"
+  #   depends_on:
+  #     - mysql
+  #     - redis
+  #   environment:
+  #     - MANGADEX_API_BASE_URL=https://api.mangadex.org
+  #     - REDIS_ADDR=redis://redis:6379
+  #     - PORT=5172
+  #     - MYSQL_URI=mysql://root:root@mysql:3306/manga-reader
+  # app:
+  #   build:
+  #     context: ./services/app
+  #     dockerfile: Dockerfile
+  #   container_name: app
+  #   volumes:
+  #     - ./services/app:/app
+  #   restart: always
+  #   ports:
+  #     - "5173:5173"
+  #   env_file:
+  #     - ./services/app/.env
+
 volumes:
   db-data:
