@@ -13,6 +13,10 @@
 
 Manga Reader est une application de lecture de manga qui utilise Vitejs, React, et Typescript. Elle est constituée de plusieurs services qui sont gérés via Docker Compose. Les services sont les suivants : Redis, MySQL, PhpMyAdmin, API_V1 (Rust), et APP (React, Typescript, Vitejs).
 
+### Demo
+
+![Demo](./assets/demo.gif)
+
 [introduction]: #introduction
 
 ## Comment lancer l'application
